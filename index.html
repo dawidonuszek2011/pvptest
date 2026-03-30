@@ -2,11 +2,12 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PvP Ranking</title>
 
 <style>
 body{
-    background:#0f172a;
+    background:#0b1020;
     font-family: Arial, Helvetica, sans-serif;
     color:white;
     margin:0;
@@ -14,39 +15,45 @@ body{
 
 header{
     background:#111827;
-    padding:20px;
-    font-size:28px;
+    padding:25px;
+    font-size:32px;
     font-weight:bold;
     text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
 
 .container{
     max-width:900px;
     margin:auto;
-    padding:20px;
+    padding:25px;
 }
 
 .player-card{
     background:#1f2937;
-    border-radius:14px;
-    padding:15px;
-    margin-bottom:20px;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:18px;
     display:flex;
     align-items:center;
-    gap:15px;
-    box-shadow:0 0 15px rgba(0,0,0,0.3);
+    gap:18px;
+    box-shadow:0 0 15px rgba(0,0,0,0.4);
+    transition:0.2s;
+}
+.player-card:hover{
+    transform:scale(1.02);
 }
 
 .rank{
-    font-size:32px;
+    font-size:34px;
     font-weight:bold;
     color:#facc15;
+    width:60px;
 }
 
 .avatar{
-    width:70px;
-    height:70px;
-    border-radius:10px;
+    width:75px;
+    height:75px;
+    border-radius:12px;
 }
 
 .player-info{
@@ -67,45 +74,43 @@ header{
 }
 
 .tiers{
-    margin-top:10px;
+    margin-top:12px;
 }
 
 .tier{
     display:inline-block;
-    background:#111827;
-    padding:6px 10px;
+    padding:6px 11px;
     border-radius:8px;
     margin:3px;
     font-size:13px;
+    font-weight:bold;
 }
 
 .ht{ background:#f59e0b; }
 .lt{ background:#6b7280; }
+
+footer{
+    text-align:center;
+    padding:20px;
+    opacity:0.6;
+    font-size:14px;
+}
 </style>
 </head>
 
 <body>
 
-<header>PvP Ranking</header>
-
+<header>🏆 PvP Ranking</header>
 <div class="container" id="ranking"></div>
+<footer>Unofficial PvP Leaderboard</footer>
 
 <script>
 const players = [
-  {
-    rank:1,
-    nick:"ItzReal",
-    region:"NA",
-    avatar:"https://mc-heads.net/avatar/ItzReal",
-    tiers:["HT3","HT1","HT1","HT1","LT2"]
-  },
-  {
-    rank:2,
-    nick:"coldified",
-    region:"EU",
-    avatar:"https://mc-heads.net/avatar/coldified",
-    tiers:["LT1","LT1","LT1","HT2","LT3","HT1"]
-  }
+  {rank:1,nick:"Invite",region:"EU",avatar:"https://mc-heads.net/avatar/Invite",tiers:["HT1","HT2","HT3","HT1"]},
+  {rank:2,nick:"ItzReal",region:"NA",avatar:"https://mc-heads.net/avatar/ItzReal",tiers:["HT3","HT1","HT1","LT2"]%7D,
+  {rank:3,nick:"coldified",region:"EU",avatar:"https://mc-heads.net/avatar/coldified",tiers:["LT1","LT1","HT2","LT3"]%7D,
+  {rank:4,nick:"Miedziu",region:"EU",avatar:"https://mc-heads.net/avatar/Miedziu",tiers:["LT2","LT2","HT1"]%7D,
+  {rank:5,nick:"Medo",region:"EU",avatar:"https://mc-heads.net/avatar/Medo",tiers:["LT3","LT2","LT1"]%7D
 ];
 
 const container = document.getElementById("ranking");
