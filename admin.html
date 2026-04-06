@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin PvP Ranking</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color:#fff;
+    background: linear-gradient(180deg,#07111f 0%, #0b1628 100%);
+    min-height:100vh;
+    padding:24px;
+  }
+
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+  }
+
+  .title{
+    font-size:32px;
+    font-weight:900;
+    margin-bottom:18px;
+  }
+
+  .panel{
+    background:linear-gradient(180deg, rgba(12,24,43,.95), rgba(8,19,35,.95));
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.22);
+    margin-bottom:18px;
+  }
+
+  .hidden{ display:none; }
+
+  .muted{
+    color:#94a3b8;
+    font-size:13px;
+    margin-bottom:12px;
+  }
+
+  .input, .select, .textarea{
+    width:100%;
+    padding:12px 14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.08);
+    background:#0b1220;
+    color:#fff;
+    outline:none;
+    margin-bottom:10px;
+  }
+
+  .textarea{
+    min-height:160px;
+    resize:vertical;
+    font-family: monospace;
+  }
+
+  .row{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+
+  .col{
+    flex:1;
+    min-width:260px;
+  }
+
+  .btn{
+    border:none;
+    border-radius:12px;
+    padding:12px 14px;
+    font-weight:800;
+    cursor:pointer;
+    color:white;
+    margin-right:8px;
+    margin-bottom:8px;
+  }
+
+  .btn-primary{ background:#2563eb; }
+  .btn-green{ background:#16a34a; }
+  .btn-red{ background:#dc2626; }
+  .btn-gray{ background:#334155; }
+
+  .status{
+    margin-top:8px;
+    color:#93c5fd;
+    font-weight:700;
+  }
+
+  .list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    max-height:420px;
+    overflow:auto;
+  }
+
+  .item{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:14px;
+    padding:12px;
+  }
+
+  .item-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+
+  .name{
+    font-weight:800;
+    font-size:18px;
+  }
+
+  .small{
+    color:#94a3b8;
+    font-size:12px;
+  }
+
+  .tiers{
+    margin-top:8px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .tier{
+    padding:6px 10px;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:800;
+    background:#1b2637;
+    border:1px solid rgba(255,255,255,.06);
+  }
+
+  .ht{ color:#f9b54a; }
+  .lt{ color:#bac4d3; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Panel admina PvP Ranking</div>
+
+  <div class="panel" id="loginPanel">
+    <div class="muted">Tutaj logujesz się do lokalnego panelu admina. Ta strona nie zapisze zmian automatycznie na GitHubie — wygeneruje nowy players.json do pobrania.</div>
+    <input class="input" id="loginInput" placeholder="LOGIN">
+    <input class="input" id="passwordInput" type="password" placeholder="HASŁO">
+    <button class="btn btn-primary" id="loginBtn">Zaloguj</button>
+    <div class="status" id="loginStatus"></div>
+  </div>
+
+  <div class="hidden" id="adminContent">
+    <div class="panel">
+      <div class="muted">1. Wczytaj aktualny `players.json` z repo. 2. Zmień dane. 3. Pobierz nowy plik. 4. Podmień go na GitHub.</div>
+      <button class="btn btn-primary" id="loadBtn">Wczytaj players.json</button>
+      <button class="btn btn-green" id="downloadBtn">Pobierz nowy players.json</button>
+      <button class="btn btn-gray" id="logoutBtn">Wyloguj</button>
+      <div class="status" id="mainStatus"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Dodaj gracza</h3>
+      <div class="row">
+        <div class="col">
+          <input class="input" id="newNick" placeholder="Nick">
+        </div>
+        <div class="col">
+          <input class="input" id="newAvatar" placeholder="Avatar URL albo zostaw puste">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <select class="select" id="newRegion">
+            <option value="EU">EU</option>
+            <option value="NA">NA</option>
+            <option value="AS">AS</option>
+            <option value="SA">SA</option>
+          </select>
+        </div>
+        <div class="col">
+          <input class="input" id="newPoints" type="number" min="0" placeholder="Punkty startowe">
+        </div>
+      </div>
+      <input class="input" id="newTiers" placeholder="Tiery, np. HT1,LT2,HT3">
+      <button class="btn btn-green" id="addPlayerBtn">Dodaj gracza</button>
+    </div>
+
+    <div class="panel">
+      <h3>Edytuj gracza</h3>
+      <select class="select" id="playerSelect"></select>
+      <input class="input" id="pointsChange" type="number" placeholder="Ile punktów">
+      <div class="row">
+        <div class="col"><button class="btn btn-green" id="addPointsBtn" style="width:100%;">Dodaj punkty</button></div>
+        <div class="col"><button class="btn btn-red" id="removePointsBtn" style="width:100%;">Odejmij punkty</button></div>
+      </div>
+
+      <input class="input" id="tierInput" placeholder="Np. HT1 lub LT2">
+      <div class="row">
+        <div class="col"><button class="btn btn-green" id="addTierBtn" style="width:100%;">Dodaj tier</button></div>
+        <div class="col"><button class="btn btn-red" id="removeTierBtn" style="width:100%;">Usuń tier</button></div>
+      </div>
+
+      <button class="btn btn-red" id="removePlayerBtn">Usuń gracza</button>
+    </div>
+
+    <div class="panel">
+      <h3>Podgląd danych</h3>
+      <div class="list" id="playersList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CONFIG = {
+    ADMIN_LOGIN: "admin",
+    ADMIN_PASSWORD: "admin123"
+  };
+
+  let players = [];
+
+  const loginPanel = document.getElementById("loginPanel");
+  const adminContent = document.getElementById("adminContent");
+  const loginStatus = document.getElementById("loginStatus");
+  const mainStatus = document.getElementById("mainStatus");
+  const playerSelect = document.getElementById("playerSelect");
+  const playersList = document.getElementById("playersList");
+
+  function isLoggedIn() {
+    return sessionStorage.getItem("pvp_admin_logged") === "1";
+  }
+
+  function setLoggedIn(value) {
+    if (value) {
+      sessionStorage.setItem("pvp_admin_logged", "1");
+    } else {
+      sessionStorage.removeItem("pvp_admin_logged");
+    }
+    updateAuthView();
+  }
+
+  function updateAuthView() {
+    if (isLoggedIn()) {
+      loginPanel.classList.add("hidden");
+      adminContent.classList.remove("hidden");
+    } else {
+      loginPanel.classList.remove("hidden");
+      adminContent.classList.add("hidden");
+    }
+  }
+
+  function getTitle(points) {
+    if (points >= 400) return "Combat Grandmaster";
+    if (points >= 250) return "Combat Master";
+    if (points >= 100) return "Combat Ace";
+    if (points >= 50) return "Combat Specialist";
+    if (points >= 20) return "Combat Cadet";
+    if (points >= 10) return "Combat Novice";
+    return "Rookie";
+  }
+
+  function sortPlayers() {
+    players.sort((a, b) => {
+      if ((b.points || 0) !== (a.points || 0)) return (b.points || 0) - (a.points || 0);
+      return String(a.nick || "").localeCompare(String(b.nick || ""));
+    });
+  }
+
+  function renderSelect() {
+    sortPlayers();
+    playerSelect.innerHTML = players.map((p, i) =>
+      `<option value="${p.nick}">${i + 1}. ${p.nick} (${p.points || 0} pts)</option>`
+    ).join("");
+  }
+
+  function renderList() {
+    sortPlayers();
+    playersList.innerHTML = players.map((p, i) => {
+      const tiersHTML = (p.tiers || []).map(t => {
+        const cls = String(t).includes("HT") ? "ht" : "lt";
+        return `<span class="tier ${cls}">${t}</span>`;
+      }).join("");
+
+      return `
+        <div class="item">
+          <div class="item-top">
+            <div>
+              <div class="name">${i + 1}. ${p.nick}</div>
+              <div class="small">${p.region || "EU"} • ${p.points || 0} pts • ${getTitle(p.points || 0)}</div>
+            </div>
+          </div>
+          <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function refreshUI() {
+    renderSelect();
+    renderList();
+  }
+
+  async function loadPlayers() {
+    try {
+      const response = await fetch("./players.json?v=" + Date.now(), { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error("Nie udało się wczytać players.json");
+      }
+
+      const data = await response.json();
+      if (!Array.isArray(data)) {
+        throw new Error("players.json ma zły format");
+      }
+
+      players = data;
+      refreshUI();
+      mainStatus.textContent = "Wczytano players.json";
+    } catch (err) {
+      mainStatus.textContent = "Błąd: " + err.message;
+    }
+  }
+
+  function downloadPlayersJson() {
+    const blob = new Blob([JSON.stringify(players, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "players.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    mainStatus.textContent = "Pobrano nowy players.json";
+  }
+
+  document.getElementById("loginBtn").addEventListener("click", () => {
+    const login = document.getElementById("loginInput").value;
+    const password = document.getElementById("passwordInput").value;
+
+    if (login === CONFIG.ADMIN_LOGIN && password === CONFIG.ADMIN_PASSWORD) {
+      setLoggedIn(true);
+      loginStatus.textContent = "";
+    } else {
+      loginStatus.textContent = "Niepoprawny login lub hasło.";
+    }
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    setLoggedIn(false);
+  });
+
+  document.getElementById("loadBtn").addEventListener("click", loadPlayers);
+  document.getElementById("downloadBtn").addEventListener("click", downloadPlayersJson);
+
+  document.getElementById("addPlayerBtn").addEventListener("click", () => {
+    const nick = document.getElementById("newNick").value.trim();
+    const avatar = document.getElementById("newAvatar").value.trim();
+    const region = document.getElementById("newRegion").value;
+    const points = Number(document.getElementById("newPoints").value || 0);
+    const tiersRaw = document.getElementById("newTiers").value.trim();
+
+    if (!nick) {
+      mainStatus.textContent = "Podaj nick.";
+      return;
+    }
+
+    if (players.some(p => String(p.nick).toLowerCase() === nick.toLowerCase())) {
+      mainStatus.textContent = "Taki gracz już istnieje.";
+      return;
+    }
+
+    const tiers = tiersRaw
+      ? tiersRaw.split(",").map(x => x.trim().toUpperCase()).filter(Boolean)
+      : [];
+
+    players.push({
+      nick,
+      avatar: avatar || `https://mc-heads.net/avatar/${encodeURIComponent(nick)}`,
+      region,
+      points: Math.max(0, points),
+      tiers
+    });
+
+    refreshUI();
+    mainStatus.textContent = "Dodano gracza.";
+
+    document.getElementById("newNick").value = "";
+    document.getElementById("newAvatar").value = "";
+    document.getElementById("newPoints").value = "";
+    document.getElementById("newTiers").value = "";
+  });
+
+  document.getElementById("addPointsBtn").addEventListener("click", () => {
+    const nick = playerSelect.value;
+    const delta = Number(document.getElementById("pointsChange").value || 0);
+
+    if (!nick || !delta) {
+      mainStatus.textContent = "Wybierz gracza i liczbę punktów.";
+      return;
+    }
+
+    const player = players.find(p => p.nick === nick);
+    if (!player) return;
+
+    player.points = Number(player.points || 0) + delta;
+    refreshUI();
+    mainStatus.textContent = "Dodano punkty.";
+    document.getElementById("pointsChange").value = "";
+  });
+
+  document.getElementById("removePointsBtn").addEventListener("click", () => {
+    const nick = playerSelect.value;
+    const delta = Number(document.getElementById("pointsChange").value || 0);
+
+    if (!nick || !delta) {
+      mainStatus.textContent = "Wybierz gracza i liczbę punktów.";
+      return;
+    }
+
+    const player = players.find(p => p.nick === nick);
+    if (!player) return;
+
+    player.points = Math.max(0, Number(player.points || 0) - delta);
+    refreshUI();
+    mainStatus.textContent = "Odjęto punkty.";
+    document.getElementById("pointsChange").value = "";
+  });
+
+  document.getElementById("addTierBtn").addEventListener("click", () => {
+    const nick = playerSelect.value;
+    const tier = document.getElementById("tierInput").value.trim().toUpperCase();
+
+    if (!nick || !tier) {
+      mainStatus.textContent = "Wybierz gracza i wpisz tier.";
+      return;
+    }
+
+    const player = players.find(p => p.nick === nick);
+    if (!player) return;
+
+    if (!Array.isArray(player.tiers)) player.tiers = [];
+    player.tiers.push(tier);
+
+    refreshUI();
+    mainStatus.textContent = "Dodano tier.";
+    document.getElementById("tierInput").value = "";
+  });
+
+  document.getElementById("removeTierBtn").addEventListener("click", () => {
+    const nick = playerSelect.value;
+    const tier = document.getElementById("tierInput").value.trim().toUpperCase();
+
+    if (!nick || !tier) {
+      mainStatus.textContent = "Wybierz gracza i wpisz tier.";
+      return;
+    }
+
+    const player = players.find(p => p.nick === nick);
+    if (!player || !Array.isArray(player.tiers)) return;
+
+    const idx = player.tiers.indexOf(tier);
+    if (idx === -1) {
+      mainStatus.textContent = "Ten tier nie istnieje.";
+      return;
+    }
+
+    player.tiers.splice(idx, 1);
+    refreshUI();
+    mainStatus.textContent = "Usunięto tier.";
+    document.getElementById("tierInput").value = "";
+  });
+
+  document.getElementById("removePlayerBtn").addEventListener("click", () => {
+    const nick = playerSelect.value;
+    if (!nick) {
+      mainStatus.textContent = "Wybierz gracza.";
+      return;
+    }
+
+    players = players.filter(p => p.nick !== nick);
+    refreshUI();
+    mainStatus.textContent = "Usunięto gracza.";
+  });
+
+  updateAuthView();
+</script>
+</body>
+</html>
