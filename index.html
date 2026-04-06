@@ -2,206 +2,647 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>PvP Ranking</title>
-
 <style>
-body{
+  * { box-sizing: border-box; }
+
+  body{
     margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(180deg,#0b1220,#0f172a);
-    color:white;
-}
+    font-family: Arial, Helvetica, sans-serif;
+    color:#fff;
+    background: linear-gradient(180deg,#07111f 0%, #0b1628 100%);
+    overflow:hidden;
+  }
 
-.container{
-    max-width:1100px;
-    margin:40px auto;
-    padding:10px;
-}
-
-/* ===== PLAYER CARD ===== */
-.player{
+  .topbar{
+    height:72px;
     display:flex;
     align-items:center;
-    background:rgba(20,30,50,0.8);
-    border-radius:18px;
-    padding:14px;
-    margin-bottom:14px;
-    backdrop-filter: blur(6px);
-    border:1px solid rgba(255,255,255,0.05);
-    transition:0.2s;
-}
+    justify-content:space-between;
+    padding:0 22px;
+    background:rgba(8,15,28,.75);
+    border-bottom:1px solid rgba(255,255,255,.05);
+  }
 
-.player:hover{
-    transform:scale(1.01);
-    background:rgba(30,45,70,0.9);
-}
+  .topbar h1{
+    margin:0;
+    font-size:28px;
+    letter-spacing:.5px;
+  }
 
-.rank{
-    font-size:36px;
-    font-weight:bold;
-    width:70px;
-    text-align:center;
-    color:#facc15;
-}
-
-.avatar{
-    width:60px;
-    height:60px;
-    border-radius:10px;
-    margin-right:15px;
-}
-
-.info{
-    flex:1;
-}
-
-.name{
-    font-size:20px;
-    font-weight:bold;
-}
-
-.points{
+  .legend{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
     font-size:13px;
-    color:#94a3b8;
-}
+    color:#cbd5e1;
+  }
 
-/* ===== REGION ===== */
-.region{
-    padding:6px 12px;
+  .legend span{
+    background:rgba(255,255,255,.06);
+    padding:8px 10px;
     border-radius:10px;
+  }
+
+  .main{
+    height:calc(100vh - 72px);
+    overflow-y:auto;
+    padding:18px 18px 110px;
+  }
+
+  .table-head{
+    max-width:1320px;
+    margin:0 auto 10px auto;
+    display:grid;
+    grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
+    gap:14px;
+    color:#64748b;
     font-weight:bold;
-    margin-right:20px;
-}
+    padding:0 10px;
+  }
 
-.eu{ background:#14532d; }
-.na{ background:#7f1d1d; }
-
-/* ===== TIERS ===== */
-.tiers{
+  .ranking{
+    max-width:1320px;
+    margin:0 auto;
     display:flex;
-    gap:6px;
-}
+    flex-direction:column;
+    gap:12px;
+  }
 
-.tier{
-    background:#1e293b;
-    padding:6px 10px;
-    border-radius:10px;
-    font-size:12px;
+  .player-card{
+    display:grid;
+    grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
+    gap:14px;
+    align-items:center;
+    background:linear-gradient(180deg, rgba(12,24,43,.95), rgba(8,19,35,.95));
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:18px;
+    min-height:92px;
+    padding:12px 14px;
+    box-shadow:0 10px 30px rgba(0,0,0,.22);
+  }
+
+  .rank-box{
     display:flex;
     align-items:center;
-    gap:5px;
-}
-
-.ht{ color:#f59e0b; }
-.lt{ color:#9ca3af; }
-
-/* ===== LEGEND ===== */
-.legend{
-    margin-top:40px;
-    background:#111827;
-    padding:20px;
+    gap:12px;
+    height:68px;
     border-radius:14px;
-}
+    overflow:hidden;
+    padding-left:12px;
+    position:relative;
+    background:linear-gradient(135deg,#2d3748,#1f2937);
+  }
 
-.legend-row{
+  .rank-box.rank-1{ background:linear-gradient(135deg,#f5c451,#b8861d); }
+  .rank-box.rank-2{ background:linear-gradient(135deg,#d9e1e8,#8e9aa5); }
+  .rank-box.rank-3{ background:linear-gradient(135deg,#d48a4c,#8f5323); }
+
+  .rank-num{
+    font-size:28px;
+    font-weight:900;
+    color:white;
+    min-width:34px;
+    text-shadow:0 2px 6px rgba(0,0,0,.35);
+  }
+
+  .mini-avatar{
+    width:42px;
+    height:42px;
+    border-radius:8px;
+    object-fit:cover;
+    border:1px solid rgba(255,255,255,.18);
+  }
+
+  .player-main{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .player-name{
+    font-size:22px;
+    font-weight:800;
+    color:#f8fafc;
+  }
+
+  .player-sub{
     display:flex;
     align-items:center;
     gap:10px;
-    margin:10px 0;
-}
+    flex-wrap:wrap;
+    color:#93a4ba;
+    font-size:13px;
+  }
 
-.badge{
-    background:#1f2937;
-    padding:6px 12px;
-    border-radius:10px;
-}
+  .title-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.06);
+    color:#f8d36a;
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+  }
+
+  .region{
+    justify-self:center;
+    font-weight:800;
+    font-size:20px;
+    padding:12px 14px;
+    border-radius:14px;
+    min-width:60px;
+    text-align:center;
+  }
+
+  .region.eu{ background:rgba(64,145,63,.28); color:#9df68b; }
+  .region.na{ background:rgba(156,57,57,.28); color:#ff8b8b; }
+  .region.as{ background:rgba(61,101,170,.28); color:#8fc2ff; }
+  .region.sa{ background:rgba(152,98,39,.28); color:#ffc882; }
+
+  .tiers{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+
+  .tier{
+    padding:7px 10px;
+    border-radius:12px;
+    font-size:12px;
+    font-weight:800;
+    min-width:52px;
+    text-align:center;
+    background:#1b2637;
+    border:1px solid rgba(255,255,255,.06);
+  }
+
+  .ht{ color:#f9b54a; }
+  .lt{ color:#bac4d3; }
+
+  .points-box{
+    justify-self:end;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:6px;
+  }
+
+  .points-value{
+    font-size:28px;
+    font-weight:900;
+    color:#ffffff;
+  }
+
+  .points-label{
+    font-size:12px;
+    color:#7f90a8;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+
+  .admin-toggle{
+    position:fixed;
+    left:18px;
+    bottom:18px;
+    z-index:50;
+    background:linear-gradient(180deg,#1f2937,#111827);
+    border:1px solid rgba(255,255,255,.08);
+    color:#fff;
+    padding:12px 16px;
+    border-radius:14px;
+    cursor:pointer;
+    font-weight:800;
+    box-shadow:0 12px 30px rgba(0,0,0,.35);
+  }
+
+  .admin-panel{
+    position:fixed;
+    left:18px;
+    bottom:72px;
+    width:340px;
+    max-height:75vh;
+    overflow-y:auto;
+    z-index:60;
+    background:linear-gradient(180deg,#0f172a,#111827);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
+    display:none;
+    padding:16px;
+  }
+
+  .admin-panel.open{ display:block; }
+
+  .admin-panel h3{
+    margin:0 0 12px 0;
+    font-size:20px;
+  }
+
+  .muted{
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:12px;
+  }
+
+  .input, .select{
+    width:100%;
+    padding:11px 12px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.08);
+    background:#0b1220;
+    color:#fff;
+    outline:none;
+    margin-bottom:10px;
+  }
+
+  .row{
+    display:flex;
+    gap:10px;
+  }
+
+  .btn{
+    border:none;
+    border-radius:12px;
+    padding:11px 12px;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+  .btn-primary{ background:#2563eb; color:#fff; }
+  .btn-green{ background:#16a34a; color:#fff; }
+  .btn-red{ background:#dc2626; color:#fff; }
+  .btn-gray{ background:#334155; color:#fff; }
+  .btn-full{ width:100%; }
+
+  .section{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid rgba(255,255,255,.07);
+  }
+
+  .admin-status{
+    margin:6px 0 10px;
+    font-size:13px;
+    color:#93c5fd;
+    font-weight:700;
+  }
+
+  .small{
+    font-size:12px;
+    color:#94a3b8;
+  }
+
+  @media (max-width: 1100px){
+    .table-head{ display:none; }
+    .player-card{
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .region, .points-box{ justify-self:start; align-items:flex-start; }
+  }
 </style>
 </head>
-
 <body>
+  <div class="topbar">
+    <h1>PvP Ranking</h1>
+    <div class="legend">
+      <span>Grandmaster: 400+</span>
+      <span>Master: 250+</span>
+      <span>Ace: 100+</span>
+      <span>Specialist: 50+</span>
+      <span>Cadet: 20+</span>
+      <span>Novice: 10+</span>
+      <span>Rookie: &lt;10</span>
+    </div>
+  </div>
 
-<div class="container" id="ranking"></div>
+  <div class="main">
+    <div class="table-head">
+      <div>#</div>
+      <div>PLAYER</div>
+      <div>REGION</div>
+      <div>TIERS</div>
+      <div style="text-align:right;">POINTS</div>
+    </div>
 
-<div class="container legend">
-    <div class="legend-row"><b>🏆 Tier 1</b> <span class="badge">↑ 60 Points</span> <span class="badge">↑ 45 Points</span></div>
-    <div class="legend-row"><b>🥈 Tier 2</b> <span class="badge">↑ 30 Points</span> <span class="badge">↑ 20 Points</span></div>
-    <div class="legend-row"><b>🥉 Tier 3</b> <span class="badge">↑ 10 Points</span> <span class="badge">↑ 6 Points</span></div>
-    <div class="legend-row"><b>Tier 4</b> <span class="badge">↑ 4 Points</span> <span class="badge">↑ 3 Points</span></div>
-    <div class="legend-row"><b>Tier 5</b> <span class="badge">↑ 2 Points</span> <span class="badge">↑ 1 Point</span></div>
-</div>
+    <div class="ranking" id="ranking"></div>
+  </div>
+
+  <button class="admin-toggle" id="adminToggle">Kliknięcie admin</button>
+
+  <div class="admin-panel" id="adminPanel">
+    <h3>Panel admina</h3>
+    <div class="muted">Wersja lokalna. Dane zapisują się w przeglądarce.</div>
+
+    <div id="loginBox">
+      <input class="input" id="loginInput" placeholder="LOGIN">
+      <input class="input" id="passwordInput" type="password" placeholder="HASŁO">
+      <button class="btn btn-primary btn-full" id="loginBtn">Zaloguj</button>
+      <div class="small" style="margin-top:8px;">Login i hasło ustawiasz w CONFIG w kodzie.</div>
+    </div>
+
+    <div id="adminBox" style="display:none;">
+      <div class="admin-status">Zalogowano jako admin</div>
+      <button class="btn btn-gray btn-full" id="logoutBtn">Wyloguj</button>
+
+      <div class="section">
+        <h3 style="font-size:16px; margin:0 0 10px;">Dodaj gracza</h3>
+        <input class="input" id="newNick" placeholder="Nick">
+        <input class="input" id="newAvatar" placeholder="Avatar URL lub zostaw puste">
+        <select class="select" id="newRegion">
+          <option value="EU">EU</option>
+          <option value="NA">NA</option>
+          <option value="AS">AS</option>
+          <option value="SA">SA</option>
+        </select>
+        <input class="input" id="newPoints" type="number" min="0" placeholder="Punkty startowe">
+        <input class="input" id="newTiers" placeholder="Tiery, np. HT1,LT2,HT3">
+        <button class="btn btn-green btn-full" id="addPlayerBtn">Dodaj gracza</button>
+      </div>
+
+      <div class="section">
+        <h3 style="font-size:16px; margin:0 0 10px;">Edytuj punkty</h3>
+        <select class="select" id="playerSelect"></select>
+        <input class="input" id="pointsChange" type="number" placeholder="Ile punktów">
+        <div class="row">
+          <button class="btn btn-green" style="flex:1;" id="addPointsBtn">Dodaj</button>
+          <button class="btn btn-red" style="flex:1;" id="removePointsBtn">Odejmij</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script>
-const players = [
-  {
-    rank:1,
-    nick:"xKapa_",
-    points:-100,
-    region:"EU",
-    avatar:"https://mc-heads.net/avatar/xKapa_",
-    tiers:["HT5","HT5","HT5","HT5","LT5"]
-  },
-  {
-    rank:2,
-    nick:"Invite__",
-    points:311,
-    region:"EU",
-    avatar:"https://mc-heads.net/avatar/Invite__",
-    tiers:["LT1","LT1","LT1","HT2","LT3","HT1"]
-  },
-  {
-    rank:3,
-    nick:"Just_Melon",
-    points:290,
-    region:"EU",
-    avatar:"https://mc-heads.net/avatar/Just_Melon",
-    tiers:["HT1","HT1","LT2","HT3","LT3"]
-  },
-  {
-    rank:4,
-    nick:"Miauek_",
-    points:245,
-    region:"EU",
-    avatar:"https://mc-heads.net/avatar/Miauek_",
-    tiers:["LT1","LT2","HT3","HT1"]
+  // =========================
+  // CONFIG
+  // =========================
+  const CONFIG = {
+    ADMIN_LOGIN: "admin",
+    ADMIN_PASSWORD: "admin123",
+    STORAGE_KEY: "pvp_ranking_players_v1",
+    SESSION_KEY: "pvp_admin_logged_v1"
+  };
+
+  // =========================
+  // START DATA
+  // =========================
+  const defaultPlayers = [
+    {
+      nick:"ItzRealMe",
+      region:"NA",
+      avatar:"https://mc-heads.net/avatar/ItzRealMe",
+      points:330,
+      tiers:["HT3","HT1","HT1","HT1","LT2"]
+    },
+    {
+      nick:"coldified",
+      region:"EU",
+      avatar:"https://mc-heads.net/avatar/coldified",
+      points:311,
+      tiers:["LT1","LT1","LT1","HT2","LT3","HT1"]
+    },
+    {
+      nick:"Swight",
+      region:"NA",
+      avatar:"https://mc-heads.net/avatar/Swight",
+      points:290,
+      tiers:["HT1","HT1","LT2","LT2","HT3","LT3","HT1","LT2"]
+    },
+    {
+      nick:"janekv",
+      region:"EU",
+      avatar:"https://mc-heads.net/avatar/janekv",
+      points:245,
+      tiers:["LT1","LT2","LT2","HT3","LT3","HT4","HT1","HT1"]
+    },
+    {
+      nick:"BlvckWlf",
+      region:"EU",
+      avatar:"https://mc-heads.net/avatar/BlvckWlf",
+      points:226,
+      tiers:["HT2","LT2","HT3","LT3","LT3","HT1","HT1","LT2"]
+    }
+  ];
+
+  const rankingEl = document.getElementById("ranking");
+  const playerSelect = document.getElementById("playerSelect");
+  const adminPanel = document.getElementById("adminPanel");
+  const adminToggle = document.getElementById("adminToggle");
+  const loginBox = document.getElementById("loginBox");
+  const adminBox = document.getElementById("adminBox");
+
+  function loadPlayers() {
+    const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
+    if (raw) {
+      try { return JSON.parse(raw); } catch(e) {}
+    }
+    localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(defaultPlayers));
+    return [...defaultPlayers];
   }
-   {
-    rank:5,
-    nick:"cusiq",
-    points:121,
-    region:"EU",
-    avatar:"https://mc-heads.net/avatar/cusiq",
-    tiers:["LT1","LT1","LT1","HT2","LT3","HT1"]
-   },
+
+  function savePlayers(players) {
+    localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(players));
   }
-];
 
-const container = document.getElementById("ranking");
+  function getTitle(points) {
+    if (points >= 400) return "Combat Grandmaster";
+    if (points >= 250) return "Combat Master";
+    if (points >= 100) return "Combat Ace";
+    if (points >= 50) return "Combat Specialist";
+    if (points >= 20) return "Combat Cadet";
+    if (points >= 10) return "Combat Novice";
+    return "Rookie";
+  }
 
-players.forEach(p=>{
-    let tiersHTML = "";
+  function sortPlayers(players) {
+    return players.sort((a, b) => {
+      if (b.points !== a.points) return b.points - a.points;
+      return a.nick.localeCompare(b.nick);
+    });
+  }
 
-    p.tiers.forEach(t=>{
-        let type = t.includes("HT") ? "ht" : "lt";
-        tiersHTML += `<div class="tier ${type}">${t}</div>`;
+  function regionClass(region) {
+    return String(region || "EU").toLowerCase();
+  }
+
+  function renderRanking() {
+    let players = loadPlayers();
+    players = sortPlayers(players);
+
+    rankingEl.innerHTML = "";
+
+    players.forEach((p, index) => {
+      const rank = index + 1;
+      const title = getTitle(Number(p.points) || 0);
+      const tiersHTML = (p.tiers || []).map(t => {
+        const type = String(t).includes("HT") ? "ht" : "lt";
+        return `<span class="tier ${type}">${t}</span>`;
+      }).join("");
+
+      rankingEl.innerHTML += `
+        <div class="player-card">
+          <div class="rank-box ${rank <= 3 ? `rank-${rank}` : ""}">
+            <div class="rank-num">${rank}.</div>
+            <img class="mini-avatar" src="${p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick)}`}" alt="${p.nick}">
+          </div>
+
+          <div class="player-main">
+            <div class="player-name">${p.nick}</div>
+            <div class="player-sub">
+              <span class="title-badge">✦ ${title}</span>
+              <span>(${p.points} points)</span>
+            </div>
+          </div>
+
+          <div class="region ${regionClass(p.region)}">${p.region}</div>
+
+          <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
+
+          <div class="points-box">
+            <div class="points-value">${p.points}</div>
+            <div class="points-label">Combat Points</div>
+          </div>
+        </div>
+      `;
     });
 
-    let regionClass = p.region.toLowerCase();
+    renderPlayerSelect(players);
+  }
 
-    container.innerHTML += `
-        <div class="player">
-            <div class="rank">#${p.rank}</div>
-            <img class="avatar" src="${p.avatar}">
-            <div class="info">
-                <div class="name">${p.nick}</div>
-                <div class="points">Combat Master (${p.points} points)</div>
-            </div>
-            <div class="region ${regionClass}">${p.region}</div>
-            <div class="tiers">${tiersHTML}</div>
-        </div>
-    `;
-});
+  function renderPlayerSelect(players) {
+    playerSelect.innerHTML = players.map((p, i) =>
+      `<option value="${p.nick}">${i + 1}. ${p.nick} (${p.points} pts)</option>`
+    ).join("");
+  }
+
+  function isAdminLogged() {
+    return localStorage.getItem(CONFIG.SESSION_KEY) === "1";
+  }
+
+  function updateAdminView() {
+    if (isAdminLogged()) {
+      loginBox.style.display = "none";
+      adminBox.style.display = "block";
+    } else {
+      loginBox.style.display = "block";
+      adminBox.style.display = "none";
+    }
+  }
+
+  adminToggle.addEventListener("click", () => {
+    adminPanel.classList.toggle("open");
+  });
+
+  document.getElementById("loginBtn").addEventListener("click", () => {
+    const login = document.getElementById("loginInput").value;
+    const password = document.getElementById("passwordInput").value;
+
+    if (login === CONFIG.ADMIN_LOGIN && password === CONFIG.ADMIN_PASSWORD) {
+      localStorage.setItem(CONFIG.SESSION_KEY, "1");
+      updateAdminView();
+      alert("Zalogowano.");
+    } else {
+      alert("Niepoprawny login lub hasło.");
+    }
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem(CONFIG.SESSION_KEY);
+    updateAdminView();
+  });
+
+  document.getElementById("addPlayerBtn").addEventListener("click", () => {
+    if (!isAdminLogged()) return;
+
+    const nick = document.getElementById("newNick").value.trim();
+    const avatar = document.getElementById("newAvatar").value.trim();
+    const region = document.getElementById("newRegion").value;
+    const points = Number(document.getElementById("newPoints").value || 0);
+    const tiersRaw = document.getElementById("newTiers").value.trim();
+
+    if (!nick) {
+      alert("Podaj nick.");
+      return;
+    }
+
+    let players = loadPlayers();
+    if (players.some(p => p.nick.toLowerCase() === nick.toLowerCase())) {
+      alert("Taki gracz już istnieje.");
+      return;
+    }
+
+    const tiers = tiersRaw
+      ? tiersRaw.split(",").map(x => x.trim()).filter(Boolean)
+      : [];
+
+    players.push({
+      nick,
+      avatar: avatar || `https://mc-heads.net/avatar/${encodeURIComponent(nick)}`,
+      region,
+      points: Math.max(0, points),
+      tiers
+    });
+
+    savePlayers(players);
+    renderRanking();
+
+    document.getElementById("newNick").value = "";
+    document.getElementById("newAvatar").value = "";
+    document.getElementById("newPoints").value = "";
+    document.getElementById("newTiers").value = "";
+  });
+
+  document.getElementById("addPointsBtn").addEventListener("click", () => {
+    if (!isAdminLogged()) return;
+
+    const nick = playerSelect.value;
+    const delta = Number(document.getElementById("pointsChange").value || 0);
+
+    if (!nick || !delta) {
+      alert("Wybierz gracza i wpisz liczbę punktów.");
+      return;
+    }
+
+    const players = loadPlayers();
+    const player = players.find(p => p.nick === nick);
+    if (!player) return;
+
+    player.points = Number(player.points || 0) + delta;
+    savePlayers(players);
+    renderRanking();
+    document.getElementById("pointsChange").value = "";
+  });
+
+  document.getElementById("removePointsBtn").addEventListener("click", () => {
+    if (!isAdminLogged()) return;
+
+    const nick = playerSelect.value;
+    const delta = Number(document.getElementById("pointsChange").value || 0);
+
+    if (!nick || !delta) {
+      alert("Wybierz gracza i wpisz liczbę punktów.");
+      return;
+    }
+
+    const players = loadPlayers();
+    const player = players.find(p => p.nick === nick);
+    if (!player) return;
+
+    player.points = Math.max(0, Number(player.points || 0) - delta);
+    savePlayers(players);
+    renderRanking();
+    document.getElementById("pointsChange").value = "";
+  });
+
+  updateAdminView();
+  renderRanking();
 </script>
-
 </body>
 </html>
