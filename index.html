@@ -376,13 +376,20 @@
           <button class="btn btn-red" style="flex:1;" id="removePointsBtn">Odejmij</button>
         </div>
       </div>
+
+      <div class="section">
+        <h3 style="font-size:16px; margin:0 0 10px;">Zarządzanie tierami</h3>
+        <select class="select" id="tierPlayerSelect"></select>
+        <input class="input" id="tierInput" placeholder="Np. HT1 lub LT2">
+        <div class="row">
+          <button class="btn btn-green" style="flex:1;" id="addTierBtn">Dodaj Tier</button>
+          <button class="btn btn-red" style="flex:1;" id="removeTierBtn">Usuń Tier</button>
+        </div>
+      </div>
     </div>
   </div>
 
 <script>
-  // =========================
-  // CONFIG
-  // =========================
   const CONFIG = {
     ADMIN_LOGIN: "admin",
     ADMIN_PASSWORD: "admin123",
@@ -390,16 +397,13 @@
     SESSION_KEY: "pvp_admin_logged_v1"
   };
 
-  // =========================
-  // START DATA
-  // =========================
   const defaultPlayers = [
     {
-      nick:"ItzRealMe",
-      region:"NA",
-      avatar:"https://mc-heads.net/avatar/ItzRealMe",
-      points:330,
-      tiers:["HT3","HT1","HT1","HT1","LT2"]
+      nick:"Miauek_",
+      region:"EU",
+      avatar:"https://mc-heads.net/avatar/miauek_",
+      points:400,
+      tiers:["HT1","HT1","HT1","HT1","H1","SIGMAMIAUEK"]
     },
     {
       nick:"coldified",
@@ -433,6 +437,7 @@
 
   const rankingEl = document.getElementById("ranking");
   const playerSelect = document.getElementById("playerSelect");
+  const tierPlayerSelect = document.getElementById("tierPlayerSelect");
   const adminPanel = document.getElementById("adminPanel");
   const adminToggle = document.getElementById("adminToggle");
   const loginBox = document.getElementById("loginBox");
@@ -517,9 +522,12 @@
   }
 
   function renderPlayerSelect(players) {
-    playerSelect.innerHTML = players.map((p, i) =>
+    const options = players.map((p, i) =>
       `<option value="${p.nick}">${i + 1}. ${p.nick} (${p.points} pts)</option>`
     ).join("");
+
+    playerSelect.innerHTML = options;
+    tierPlayerSelect.innerHTML = options;
   }
 
   function isAdminLogged() {
@@ -579,7 +587,7 @@
     }
 
     const tiers = tiersRaw
-      ? tiersRaw.split(",").map(x => x.trim()).filter(Boolean)
+      ? tiersRaw.split(",").map(x => x.trim().toUpperCase()).filter(Boolean)
       : [];
 
     players.push({
@@ -639,6 +647,59 @@
     savePlayers(players);
     renderRanking();
     document.getElementById("pointsChange").value = "";
+  });
+
+  document.getElementById("addTierBtn").addEventListener("click", () => {
+    if (!isAdminLogged()) return;
+
+    const nick = tierPlayerSelect.value;
+    const tier = document.getElementById("tierInput").value.trim().toUpperCase();
+
+    if (!nick || !tier) {
+      alert("Podaj gracza i tier.");
+      return;
+    }
+
+    const players = loadPlayers();
+    const player = players.find(p => p.nick === nick);
+
+    if (!player) return;
+    if (!player.tiers) player.tiers = [];
+
+    player.tiers.push(tier);
+
+    savePlayers(players);
+    renderRanking();
+    document.getElementById("tierInput").value = "";
+  });
+
+  document.getElementById("removeTierBtn").addEventListener("click", () => {
+    if (!isAdminLogged()) return;
+
+    const nick = tierPlayerSelect.value;
+    const tier = document.getElementById("tierInput").value.trim().toUpperCase();
+
+    if (!nick || !tier) {
+      alert("Podaj gracza i tier do usunięcia.");
+      return;
+    }
+
+    const players = loadPlayers();
+    const player = players.find(p => p.nick === nick);
+
+    if (!player || !player.tiers) return;
+
+    const tierIndex = player.tiers.indexOf(tier);
+    if (tierIndex === -1) {
+      alert("Ten tier nie istnieje u tego gracza.");
+      return;
+    }
+
+    player.tiers.splice(tierIndex, 1);
+
+    savePlayers(players);
+    renderRanking();
+    document.getElementById("tierInput").value = "";
   });
 
   updateAdminView();
