@@ -3,14 +3,14 @@
     "nick": "Miauek_",
     "region": "EU",
     "avatar": "https://mc-heads.net/avatar/Miauek_",
-    "points": 500,
-    "tiers": ["HT1", "HT1", "HT1", "HT1", "HT1", "HT1", "HT1", "HT1"]
+    "points": 0,
+    "tiers": ["", "", "", "", "", "", "", ""]
   },
   {
     "nick": "Invite__",
     "region": "EU",
     "avatar": "https://mc-heads.net/avatar/Invite__",
-    "points": 499,
-    "tiers": ["HT1 Mace", "HT1 Axe"]
+    "points": 0,
+    "tiers": ["", ""]
   }
 ]
