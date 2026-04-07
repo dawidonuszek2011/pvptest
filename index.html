@@ -8,11 +8,29 @@
 <style>
   * { box-sizing: border-box; }
 
+:root{
+    --bg1:#0f172a;
+    --bg2:#020617;
+    --card1:rgba(12,24,43,.95);
+    --card2:rgba(8,19,35,.95);
+    --border:rgba(255,255,255,.06);
+    --text:#fff;
+    --muted:#93a4ba;
+    --accent:#4da3ff;
+    --accent2:#1e40af;
+    --success:#9df68b;
+    --danger:#fca5a5;
+    --gold1:#f5c451;
+    --gold2:#b8861d;
+  }
+
   body{
     margin:0;
     font-family: Arial, Helvetica, sans-serif;
-    color:#fff;
-    background: linear-gradient(180deg,#07111f 0%, #0b1628 100%);
+    color:var(--text);
+    background:
+      radial-gradient(circle at top, rgba(77,163,255,.12), transparent 30%),
+      linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
     overflow:hidden;
   }
 
@@ -23,9 +41,10 @@
     justify-content:space-between;
     gap:16px;
     padding:16px 22px;
-    background:rgba(8,15,28,.82);
+    background:rgba(8,15,28,.88);
     border-bottom:1px solid rgba(255,255,255,.05);
     flex-wrap:wrap;
+    backdrop-filter: blur(10px);
   }
 
   .topbar h1{
@@ -46,6 +65,7 @@
     background:rgba(255,255,255,.06);
     padding:8px 10px;
     border-radius:10px;
+    border:1px solid rgba(255,255,255,.05);
   }
 
   .main{
@@ -53,6 +73,150 @@
     overflow-y:auto;
     padding:18px 18px 40px;
   }
+
+  .search-panel{
+    max-width:1320px;
+    margin:0 auto 18px auto;
+    background:linear-gradient(180deg, rgba(15,27,48,.95), rgba(10,20,36,.95));
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:18px;
+    box-shadow:0 12px 32px rgba(0,0,0,.22);
+  }
+
+  .search-title{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:14px;
+    color:#f8fafc;
+  }
+
+  .search-bar{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+
+  .search-bar input{
+    flex:1;
+    min-width:240px;
+    background:#0d1728;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    padding:14px 16px;
+    font-size:15px;
+    outline:none;
+    transition:.2s ease;
+  }
+
+  .search-bar input:focus{
+    border-color:rgba(77,163,255,.8);
+    box-shadow:0 0 0 4px rgba(77,163,255,.12);
+  }
+
+  .search-bar button{
+    border:none;
+    border-radius:14px;
+    padding:14px 18px;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s ease;
+  }
+
+  .btn-search{
+    background:linear-gradient(135deg, var(--accent), var(--accent2));
+    color:#fff;
+  }
+
+  .btn-search:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 24px rgba(30,64,175,.25);
+  }
+
+  .btn-clear{
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.06) !important;
+  }
+
+  .btn-clear:hover{
+    background:rgba(255,255,255,.12);
+  }
+
+  .search-result{
+    display:none;
+    background:linear-gradient(180deg, rgba(10,22,39,.96), rgba(7,18,33,.96));
+    border:1px solid rgba(77,163,255,.22);
+    border-radius:18px;
+    padding:18px;
+  }
+
+  .search-result.show{
+    display:block;
+    animation:fadeIn .25s ease;
+  }
+
+  .search-result.not-found{
+    border-color:rgba(252,165,165,.22);
+  }
+
+  .result-grid{
+    display:grid;
+    grid-template-columns:110px 1fr;
+    gap:16px;
+    align-items:center;
+  }
+
+  .result-avatar{
+    width:90px;
+    height:90px;
+    border-radius:16px;
+    object-fit:cover;
+    border:1px solid rgba(255,255,255,.12);
+    background:#0f172a;
+  }
+
+  .result-name{
+    font-size:28px;
+    font-weight:900;
+    color:#fff;
+    margin-bottom:10px;
+  }
+
+  .result-lines{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .result-line{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    color:#d7e2f0;
+    font-size:15px;
+  }
+
+  .info-chip{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:38px;
+    padding:8px 12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.06);
+    font-weight:700;
+  }
+
+  .info-chip.region.eu{ background:rgba(64,145,63,.22); color:#9df68b; }
+  .info-chip.region.na{ background:rgba(156,57,57,.22); color:#ff8b8b; }
+  .info-chip.region.as{ background:rgba(61,101,170,.22); color:#8fc2ff; }
+  .info-chip.region.sa{ background:rgba(152,98,39,.22); color:#ffc882; }
 
   .table-head{
     max-width:1320px;
@@ -78,12 +242,23 @@
     grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
     gap:14px;
     align-items:center;
-    background:linear-gradient(180deg, rgba(12,24,43,.95), rgba(8,19,35,.95));
+    background:linear-gradient(180deg, var(--card1), var(--card2));
     border:1px solid rgba(255,255,255,.05);
     border-radius:18px;
     min-height:92px;
     padding:12px 14px;
     box-shadow:0 10px 30px rgba(0,0,0,.22);
+    transition:.2s ease;
+  }
+
+  .player-card:hover{
+    transform:translateY(-1px);
+    border-color:rgba(255,255,255,.09);
+  }
+
+  .player-card.highlighted{
+    border-color:rgba(77,163,255,.8);
+    box-shadow:0 0 0 3px rgba(77,163,255,.14), 0 14px 34px rgba(0,0,0,.28);
   }
 
   .rank-box{
@@ -221,6 +396,11 @@
     color:#fca5a5;
   }
 
+  @keyframes fadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
   @media (max-width: 1100px){
     .table-head{ display:none; }
     .player-card{
@@ -230,6 +410,26 @@
     .region, .points-box{ justify-self:start; align-items:flex-start; }
     .main{ height:auto; overflow:visible; }
     body{ overflow:auto; }
+  }
+
+  @media (max-width: 700px){
+    .result-grid{
+      grid-template-columns:1fr;
+    }
+    .result-avatar{
+      width:76px;
+      height:76px;
+    }
+    .result-name{
+      font-size:24px;
+    }
+    .search-bar{
+      flex-direction:column;
+    }
+    .search-bar button,
+    .search-bar input{
+      width:100%;
+    }
   }
 </style>
 </head>
@@ -248,6 +448,24 @@
   </div>
 
   <div class="main">
+
+    <div class="search-panel">
+      <div class="search-title">Wyszukaj gracza</div>
+
+      <div class="search-bar">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Wpisz nick gracza z listy..."
+          autocomplete="off"
+        />
+        <button class="btn-search" id="searchBtn">Wyszukaj gracza</button>
+        <button class="btn-clear" id="clearBtn">Wyczyść</button>
+      </div>
+
+      <div class="search-result" id="searchResult"></div>
+    </div>
+
     <div class="status" id="status">Ładowanie rankingu...</div>
 
     <div class="table-head">
@@ -262,6 +480,8 @@
   </div>
 
 <script>
+  let allPlayers = [];
+
   function getTitle(points) {
     if (points >= 400) return "Combat Grandmaster";
     if (points >= 250) return "Combat Master";
@@ -276,6 +496,15 @@
     return String(region || "EU").toLowerCase();
   }
 
+  function escapeHtml(text) {
+    return String(text ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
   function sortPlayers(players) {
     return [...players].sort((a, b) => {
       if ((b.points || 0) !== (a.points || 0)) return (b.points || 0) - (a.points || 0);
@@ -283,7 +512,12 @@
     });
   }
 
-  function renderRanking(players) {
+  function getPlayerRank(players, nick) {
+    const sorted = sortPlayers(players);
+    return sorted.findIndex(p => String(p.nick).toLowerCase() === String(nick).toLowerCase()) + 1;
+  }
+
+  function renderRanking(players, highlightedNick = "") {
     const rankingEl = document.getElementById("ranking");
     rankingEl.innerHTML = "";
 
@@ -292,37 +526,132 @@
     sorted.forEach((p, index) => {
       const rank = index + 1;
       const title = getTitle(Number(p.points) || 0);
-      const tiersHTML = (p.tiers || []).map(t => {
+      const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
+
+      const tiersHTML = (Array.isArray(p.tiers) ? p.tiers : []).map(t => {
         const type = String(t).includes("HT") ? "ht" : "lt";
-        return `<span class="tier ${type}">${t}</span>`;
+        return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
       }).join("");
 
       rankingEl.innerHTML += `
-        <div class="player-card">
+        <div class="player-card ${isHighlighted ? "highlighted" : ""}" id="player-${encodeURIComponent(p.nick || "")}">
           <div class="rank-box ${rank <= 3 ? `rank-${rank}` : ""}">
             <div class="rank-num">${rank}.</div>
-            <img class="mini-avatar" src="${p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick)}`}" alt="${p.nick}">
+            <img class="mini-avatar" src="${escapeHtml(p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick)}`)}" alt="${escapeHtml(p.nick)}">
           </div>
 
           <div class="player-main">
-            <div class="player-name">${p.nick}</div>
+            <div class="player-name">${escapeHtml(p.nick)}</div>
             <div class="player-sub">
-              <span class="title-badge">✦ ${title}</span>
-              <span>(${p.points || 0} points)</span>
+              <span class="title-badge">✦ ${escapeHtml(title)}</span>
+              <span>(${Number(p.points) || 0} points)</span>
             </div>
           </div>
 
-          <div class="region ${regionClass(p.region)}">${p.region || "EU"}</div>
+          <div class="region ${regionClass(p.region)}">${escapeHtml(p.region || "EU")}</div>
 
           <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
 
           <div class="points-box">
-            <div class="points-value">${p.points || 0}</div>
+            <div class="points-value">${Number(p.points) || 0}</div>
             <div class="points-label">Combat Points</div>
           </div>
         </div>
       `;
     });
+  }
+
+  function showSearchResult(player) {
+    const result = document.getElementById("searchResult");
+    const rank = getPlayerRank(allPlayers, player.nick);
+    const title = getTitle(Number(player.points) || 0);
+
+    const tiersHTML = (Array.isArray(player.tiers) ? player.tiers : []).length
+      ? player.tiers.map(t => {
+          const type = String(t).includes("HT") ? "ht" : "lt";
+          return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
+        }).join("")
+      : '<span class="tier lt">BRAK</span>';
+
+    result.className = "search-result show";
+    result.innerHTML = `
+      <div class="result-grid">
+        <img class="result-avatar" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick)}`)}" alt="${escapeHtml(player.nick)}">
+
+        <div>
+          <div class="result-name">${escapeHtml(player.nick)}</div>
+
+          <div class="result-lines">
+            <div class="result-line">
+              <span class="info-chip">Nick: ${escapeHtml(player.nick)}</span>
+            </div>
+
+            <div class="result-line">
+              <span class="info-chip region ${regionClass(player.region)}">Region: ${escapeHtml(player.region || "EU")}</span>
+            </div>
+
+            <div class="result-line">
+              <span class="info-chip">Punkty: ${Number(player.points) || 0}</span>
+              <span class="info-chip">Ranking: #${rank}</span>
+              <span class="info-chip">Tytuł: ${escapeHtml(title)}</span>
+            </div>
+
+            <div class="result-line">
+              <span class="info-chip">Tiery:</span>
+              <div class="tiers">${tiersHTML}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    renderRanking(allPlayers, player.nick);
+
+    const card = document.getElementById("player-" + encodeURIComponent(player.nick || ""));
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
+  function showNotFound(nick) {
+    const result = document.getElementById("searchResult");
+    result.className = "search-result show not-found";
+    result.innerHTML = `
+      <div class="result-name" style="font-size:22px; margin-bottom:8px;">Nie znaleziono gracza</div>
+      <div style="color:#cbd5e1; font-size:15px;">
+        Nick <b>${escapeHtml(nick)}</b> nie istnieje w aktualnej liście graczy.
+      </div>
+    `;
+    renderRanking(allPlayers);
+  }
+
+  function searchPlayer() {
+    const input = document.getElementById("searchInput");
+    const nick = input.value.trim();
+
+    if (!nick) {
+      document.getElementById("searchResult").className = "search-result";
+      document.getElementById("searchResult").innerHTML = "";
+      renderRanking(allPlayers);
+      return;
+    }
+
+    const found = allPlayers.find(p =>
+      String(p.nick || "").toLowerCase() === nick.toLowerCase()
+    );
+
+    if (found) {
+      showSearchResult(found);
+    } else {
+      showNotFound(nick);
+    }
+  }
+
+  function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("searchResult").className = "search-result";
+    document.getElementById("searchResult").innerHTML = "";
+    renderRanking(allPlayers);
   }
 
   async function loadPlayers() {
@@ -339,6 +668,7 @@
         throw new Error("players.json ma zły format");
       }
 
+      allPlayers = players;
       renderRanking(players);
       status.textContent = `Załadowano ${players.length} graczy.`;
     } catch (err) {
@@ -346,6 +676,14 @@
       status.textContent = "Błąd: " + err.message;
     }
   }
+
+  document.getElementById("searchBtn").addEventListener("click", searchPlayer);
+  document.getElementById("clearBtn").addEventListener("click", clearSearch);
+  document.getElementById("searchInput").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      searchPlayer();
+    }
+  });
 
   loadPlayers();
 </script>
