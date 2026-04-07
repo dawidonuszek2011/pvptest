@@ -1,258 +1,36 @@
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
 <title>PvP Ranking</title>
-
 <style>
-* { box-sizing: border-box; }
-
-body{
-  margin:0;
-  font-family: Arial, Helvetica, sans-serif;
-  color:#fff;
-  background: linear-gradient(180deg,#0f172a 0%, #020617 100%);
-  overflow:hidden;
-}
-
-/* TOPBAR */
-.topbar{
-  min-height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:16px 22px;
-  background:rgba(2,6,23,.9);
-  border-bottom:1px solid rgba(255,255,255,.05);
-  flex-wrap:wrap;
-}
-
-.topbar h1{
-  margin:0;
-  font-size:28px;
-}
-
-.legend{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  font-size:13px;
-  color:#cbd5e1;
-}
-
-.legend span{
-  background:rgba(255,255,255,.06);
-  padding:8px 10px;
-  border-radius:10px;
-}
-
-/* MAIN */
-.main{
-  height:calc(100vh - 90px);
-  overflow-y:auto;
-  padding:18px;
-}
-
-/* SEARCH */
-.search-box{
-  max-width:1320px;
-  margin:0 auto 20px auto;
-  display:flex;
-  gap:10px;
-}
-
-.search-box input{
-  flex:1;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  background:#111827;
-  color:#fff;
-}
-
-.search-box button{
-  padding:12px 18px;
-  border:none;
-  border-radius:10px;
-  background:#2563eb;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.search-result{
-  max-width:1320px;
-  margin:0 auto 20px auto;
-  padding:16px;
-  border-radius:14px;
-  background:#020617;
-  border:1px solid rgba(255,255,255,.08);
-  display:none;
-}
-
-/* TABLE */
-.table-head{
-  max-width:1320px;
-  margin:0 auto 10px auto;
-  display:grid;
-  grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
-  gap:14px;
-  color:#64748b;
-  font-weight:bold;
-}
-
-/* PLAYER */
-.ranking{
-  max-width:1320px;
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.player-card{
-  display:grid;
-  grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
-  gap:14px;
-  align-items:center;
-  background:linear-gradient(180deg,#111827,#020617);
-  border-radius:16px;
-  padding:12px;
-}
-
-.player-name{
-  font-size:20px;
-  font-weight:bold;
-}
-
-.region{
-  text-align:center;
-}
-
-.tiers{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.tier{
-  background:#1f2937;
-  padding:6px 8px;
-  border-radius:8px;
-}
-
-.points{
-  text-align:right;
-  font-weight:bold;
-}
-
-/* MOBILE */
-@media (max-width: 900px){
-  .player-card{
-    grid-template-columns:1fr;
-  }
-}
+body{font-family:Arial;background:#0b1220;color:white;margin:0;padding:20px}
+.player{background:#1e293b;margin:10px 0;padding:10px;border-radius:10px}
 </style>
 </head>
-
 <body>
-
-<div class="topbar">
-  <h1>PvP Ranking</h1>
-  <div class="legend">
-    <span>400+ GM</span>
-    <span>250+ Master</span>
-    <span>100+ Ace</span>
-    <span>50+ Specialist</span>
-  </div>
-</div>
-
-<div class="main">
-
-  <!-- SEARCH -->
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Wpisz nick gracza..." />
-    <button onclick="searchPlayer()">Wyszukaj</button>
-  </div>
-
-  <div id="searchResult" class="search-result"></div>
-
-  <div class="table-head">
-    <div>#</div>
-    <div>PLAYER</div>
-    <div>REGION</div>
-    <div>TIERS</div>
-    <div>POINTS</div>
-  </div>
-
-  <div id="ranking" class="ranking"></div>
-
-</div>
+<h1>PvP Ranking</h1>
+<div id="ranking"></div>
 
 <script>
-let playersData = [];
-
-function getTitle(points){
-  if(points>=400) return "Grandmaster";
-  if(points>=250) return "Master";
-  if(points>=100) return "Ace";
-  if(points>=50) return "Specialist";
-  return "Rookie";
-}
-
-function render(players){
-  const el = document.getElementById("ranking");
-  el.innerHTML = "";
+async function loadPlayers(){
+  const res = await fetch("/.netlify/functions/players");
+  const players = await res.json();
 
   players.sort((a,b)=>b.points-a.points);
 
+  const el = document.getElementById("ranking");
+  el.innerHTML = "";
+
   players.forEach((p,i)=>{
-    el.innerHTML += `
-      <div class="player-card">
-        <div>${i+1}</div>
-        <div class="player-name">${p.nick}</div>
-        <div class="region">${p.region}</div>
-        <div class="tiers">${(p.tiers||[]).map(t=>`<span class="tier">${t}</span>`).join("")}</div>
-        <div class="points">${p.points}</div>
-      </div>
-    `;
+    el.innerHTML += `<div class="player">
+      <b>#${i+1} ${p.nick}</b> (${p.points} pkt)
+    </div>`;
   });
 }
 
-function searchPlayer(){
-  const nick = document.getElementById("searchInput").value.toLowerCase();
-  const result = document.getElementById("searchResult");
-
-  const player = playersData.find(p=>p.nick.toLowerCase()===nick);
-
-  if(player){
-    const rank = [...playersData].sort((a,b)=>b.points-a.points)
-      .findIndex(p=>p.nick===player.nick)+1;
-
-    result.style.display="block";
-    result.innerHTML = `
-      <b>${player.nick}</b><br>
-      Region: ${player.region}<br>
-      Punkty: ${player.points} (#${rank})<br>
-      Tytuł: ${getTitle(player.points)}<br>
-      Tiery: ${(player.tiers||[]).join(", ") || "BRAK"}
-    `;
-  } else {
-    result.style.display="block";
-    result.innerHTML = "❌ Nie znaleziono gracza";
-  }
-}
-
-async function load(){
-  const res = await fetch("./players.json");
-  playersData = await res.json();
-  render(playersData);
-}
-
-load();
+loadPlayers();
 </script>
-
 </body>
 </html>
