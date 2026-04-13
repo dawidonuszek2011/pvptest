@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -433,37 +434,8 @@
       width:100%;
     }
   }
-
-  /* ===== NEON TOP 3 (DODANE, NIC WIĘCEJ) ===== */
-
-  .top-1 .player-name{
-    color:#ffd700;
-    text-shadow:
-      0 0 6px #ffd700,
-      0 0 12px #ffd700,
-      0 0 22px #ffb700,
-      0 0 40px #ff9900;
-  }
-
-  .top-2 .player-name{
-    color:#e5e7eb;
-    text-shadow:
-      0 0 6px #e5e7eb,
-      0 0 12px #cbd5e1,
-      0 0 22px #9ca3af;
-  }
-
-  .top-3 .player-name{
-    color:#ffb86b;
-    text-shadow:
-      0 0 6px #ffb86b,
-      0 0 12px #fb923c,
-      0 0 22px #ea580c;
-  }
-
 </style>
 </head>
-
 <body>
   <div class="topbar">
     <h1>PvP Tiers</h1>
@@ -479,60 +451,244 @@
   </div>
 
   <div class="main">
+
+    <div class="search-panel">
+      <div class="search-title">Wyszukaj gracza</div>
+
+      <div class="search-bar">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Wpisz nick gracza z listy..."
+          autocomplete="off"
+        />
+        <button class="btn-search" id="searchBtn">Wyszukaj gracza</button>
+        <button class="btn-clear" id="clearBtn">Wyczyść</button>
+      </div>
+
+      <div class="search-result" id="searchResult"></div>
+    </div>
+
+    <div class="status" id="status">Ładowanie rankingu...</div>
+
+    <div class="table-head">
+      <div>#</div>
+      <div>PLAYER</div>
+      <div>REGION</div>
+      <div>TIERS</div>
+      <div style="text-align:right;">POINTS</div>
+    </div>
+
     <div class="ranking" id="ranking"></div>
   </div>
 
 <script>
-let allPlayers = [];
+  let allPlayers = [];
 
-function sortPlayers(players){
-  return [...players].sort((a,b)=>
-    (b.points||0)-(a.points||0)
-  );
-}
+  function getTitle(points) {
+    if (points >= 400) return "Combat Grandmaster";
+    if (points >= 250) return "Combat Master";
+    if (points >= 100) return "Combat Ace";
+    if (points >= 50) return "Combat Specialist";
+    if (points >= 20) return "Combat Cadet";
+    if (points >= 10) return "Combat Novice";
+    return "Rookie";
+  }
 
-function renderRanking(players){
-  const el = document.getElementById("ranking");
-  el.innerHTML = "";
+  function regionClass(region) {
+    return String(region || "EU").toLowerCase();
+  }
 
-  const sorted = sortPlayers(players);
+  function escapeHtml(text) {
+    return String(text ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-  sorted.forEach((p,index)=>{
-    const rank = index + 1;
+  function sortPlayers(players) {
+    return [...players].sort((a, b) => {
+      if ((b.points || 0) !== (a.points || 0)) return (b.points || 0) - (a.points || 0);
+      return String(a.nick || "").localeCompare(String(b.nick || ""));
+    });
+  }
 
-    const tiersHTML = (p.tiers||[]).map(t=>{
-      const type = t.includes("HT") ? "ht" : "lt";
-      return `<span class="tier ${type}">${t}</span>`;
-    }).join("");
+  function getPlayerRank(players, nick) {
+    const sorted = sortPlayers(players);
+    return sorted.findIndex(p => String(p.nick).toLowerCase() === String(nick).toLowerCase()) + 1;
+  }
 
-    el.innerHTML += `
-      <div class="player-card ${rank<=3 ? "top-"+rank : ""}">
+  function renderRanking(players, highlightedNick = "") {
+    const rankingEl = document.getElementById("ranking");
+    rankingEl.innerHTML = "";
 
-        <div class="rank-box">
-          <div class="rank-num">${rank}</div>
-          <img class="mini-avatar" src="https://mc-heads.net/avatar/${p.nick}">
+    const sorted = sortPlayers(players);
+
+    sorted.forEach((p, index) => {
+      const rank = index + 1;
+      const title = getTitle(Number(p.points) || 0);
+      const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
+
+      const tiersHTML = (Array.isArray(p.tiers) ? p.tiers : []).map(t => {
+        const type = String(t).includes("HT") ? "ht" : "lt";
+        return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
+      }).join("");
+
+      rankingEl.innerHTML += `
+        <div class="player-card ${isHighlighted ? "highlighted" : ""}" id="player-${encodeURIComponent(p.nick || "")}">
+          <div class="rank-box ${rank <= 3 ? `rank-${rank}` : ""}">
+            <div class="rank-num">${rank}.</div>
+            <img class="mini-avatar" src="${escapeHtml(p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick)}`)}" alt="${escapeHtml(p.nick)}">
+          </div>
+
+          <div class="player-main">
+            <div class="player-name">${escapeHtml(p.nick)}</div>
+            <div class="player-sub">
+              <span class="title-badge">✦ ${escapeHtml(title)}</span>
+              <span>(${Number(p.points) || 0} points)</span>
+            </div>
+          </div>
+
+          <div class="region ${regionClass(p.region)}">${escapeHtml(p.region || "EU")}</div>
+
+          <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
+
+          <div class="points-box">
+            <div class="points-value">${Number(p.points) || 0}</div>
+            <div class="points-label">Combat Points</div>
+          </div>
         </div>
+      `;
+    });
+  }
 
-        <div class="player-name">${p.nick}</div>
+  function showSearchResult(player) {
+    const result = document.getElementById("searchResult");
+    const rank = getPlayerRank(allPlayers, player.nick);
+    const title = getTitle(Number(player.points) || 0);
 
-        <div>${p.region || "EU"}</div>
+    const tiersHTML = (Array.isArray(player.tiers) ? player.tiers : []).length
+      ? player.tiers.map(t => {
+          const type = String(t).includes("HT") ? "ht" : "lt";
+          return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
+        }).join("")
+      : '<span class="tier lt">BRAK</span>';
 
-        <div>${tiersHTML || "<span class='tier lt'>BRAK</span>"}</div>
+    result.className = "search-result show";
+    result.innerHTML = `
+      <div class="result-grid">
+        <img class="result-avatar" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick)}`)}" alt="${escapeHtml(player.nick)}">
 
-        <div>${p.points} pkt</div>
+        <div>
+          <div class="result-name">${escapeHtml(player.nick)}</div>
+
+          <div class="result-lines">
+            <div class="result-line">
+              <span class="info-chip">Nick: ${escapeHtml(player.nick)}</span>
+            </div>
+
+            <div class="result-line">
+              <span class="info-chip region ${regionClass(player.region)}">Region: ${escapeHtml(player.region || "EU")}</span>
+            </div>
+
+            <div class="result-line">
+              <span class="info-chip">Punkty: ${Number(player.points) || 0}</span>
+              <span class="info-chip">Ranking: #${rank}</span>
+              <span class="info-chip">Tytuł: ${escapeHtml(title)}</span>
+            </div>
+
+            <div class="result-line">
+              <span class="info-chip">Tiery:</span>
+              <div class="tiers">${tiersHTML}</div>
+            </div>
+          </div>
+        </div>
       </div>
     `;
+
+    renderRanking(allPlayers, player.nick);
+
+    const card = document.getElementById("player-" + encodeURIComponent(player.nick || ""));
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
+
+  function showNotFound(nick) {
+    const result = document.getElementById("searchResult");
+    result.className = "search-result show not-found";
+    result.innerHTML = `
+      <div class="result-name" style="font-size:22px; margin-bottom:8px;">Nie znaleziono gracza</div>
+      <div style="color:#cbd5e1; font-size:15px;">
+        Nick <b>${escapeHtml(nick)}</b> nie istnieje w aktualnej liście graczy.
+      </div>
+    `;
+    renderRanking(allPlayers);
+  }
+
+  function searchPlayer() {
+    const input = document.getElementById("searchInput");
+    const nick = input.value.trim();
+
+    if (!nick) {
+      document.getElementById("searchResult").className = "search-result";
+      document.getElementById("searchResult").innerHTML = "";
+      renderRanking(allPlayers);
+      return;
+    }
+
+    const found = allPlayers.find(p =>
+      String(p.nick || "").toLowerCase() === nick.toLowerCase()
+    );
+
+    if (found) {
+      showSearchResult(found);
+    } else {
+      showNotFound(nick);
+    }
+  }
+
+  function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("searchResult").className = "search-result";
+    document.getElementById("searchResult").innerHTML = "";
+    renderRanking(allPlayers);
+  }
+
+  async function loadPlayers() {
+    const status = document.getElementById("status");
+    try {
+      const response = await fetch("./players.json?v=" + Date.now(), { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error("Nie udało się wczytać players.json");
+      }
+
+      const players = await response.json();
+
+      if (!Array.isArray(players)) {
+        throw new Error("players.json ma zły format");
+      }
+
+      allPlayers = players;
+      renderRanking(players);
+      status.textContent = `Załadowano ${players.length} graczy.`;
+    } catch (err) {
+      status.classList.add("error");
+      status.textContent = "Błąd: " + err.message;
+    }
+  }
+
+  document.getElementById("searchBtn").addEventListener("click", searchPlayer);
+  document.getElementById("clearBtn").addEventListener("click", clearSearch);
+  document.getElementById("searchInput").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      searchPlayer();
+    }
   });
-}
 
-async function load(){
-  const res = await fetch("./players.json");
-  allPlayers = await res.json();
-  renderRanking(allPlayers);
-}
-
-load();
+  loadPlayers();
 </script>
-
 </body>
 </html>
