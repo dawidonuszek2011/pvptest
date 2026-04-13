@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="pl">
 <head>
 <meta charset="UTF-8" />
@@ -18,40 +18,20 @@
     --card2:rgba(8,19,35,.95);
     --border:rgba(255,255,255,.06);
     --text:#fff;
-    --muted:#93a4ba;
-    --accent:#4da3ff;
-    --accent2:#1e40af;
   }
 
   body{
     margin:0;
     font-family: Arial, Helvetica, sans-serif;
     color:var(--text);
-    background:
-      radial-gradient(circle at top, rgba(77,163,255,.12), transparent 30%),
-      linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
+    background: linear-gradient(180deg,var(--bg1),var(--bg2));
     overflow:hidden;
   }
 
-  .topbar{
-    min-height:72px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    padding:16px 22px;
-    background:rgba(8,15,28,.88);
-    border-bottom:1px solid rgba(255,255,255,.05);
-    flex-wrap:wrap;
-    backdrop-filter: blur(10px);
-  }
-
-  .topbar h1{ margin:0; font-size:28px; }
-
   .main{
-    height:calc(100vh - 90px);
-    overflow-y:auto;
-    padding:18px;
+    height:100vh;
+    overflow:auto;
+    padding:20px;
   }
 
   .player-card{
@@ -59,70 +39,58 @@
     grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
     gap:14px;
     align-items:center;
-    background:linear-gradient(180deg, var(--card1), var(--card2));
-    border:1px solid rgba(255,255,255,.05);
-    border-radius:18px;
-    min-height:92px;
-    padding:12px 14px;
-    transition:.2s;
+    background:linear-gradient(180deg,var(--card1),var(--card2));
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:12px;
+    margin-bottom:10px;
   }
 
   .player-name{
     font-size:22px;
     font-weight:800;
-    color:#f8fafc;
+    color:#fff;
   }
 
-  .rank-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    height:68px;
-    border-radius:14px;
-    padding-left:12px;
+  .mini-avatar{
+    width:42px;
+    height:42px;
+    border-radius:8px;
   }
 
-  .rank-num{ font-size:28px; font-weight:900; }
+  .tier{
+    padding:6px 10px;
+    border-radius:10px;
+    font-size:12px;
+    background:#1b2637;
+    margin-right:4px;
+    display:inline-block;
+  }
 
-  /* =========================
-     NEON TOP 3
-  ========================= */
+  .ht{ color:#f9b54a; }
+  .lt{ color:#bac4d3; }
+
+  /* ===== NEON TOP 3 ===== */
 
   .top-1 .player-name{
     color:#ffd700;
-    text-shadow:
-      0 0 6px #ffd700,
-      0 0 12px #ffd700,
-      0 0 22px #ffb700,
-      0 0 40px #ff9900;
+    text-shadow:0 0 6px #ffd700,0 0 12px #ffd700,0 0 25px #ffb700;
   }
 
   .top-2 .player-name{
     color:#e5e7eb;
-    text-shadow:
-      0 0 6px #e5e7eb,
-      0 0 12px #cbd5e1,
-      0 0 22px #9ca3af,
-      0 0 38px #9ca3af;
+    text-shadow:0 0 6px #e5e7eb,0 0 12px #cbd5e1;
   }
 
   .top-3 .player-name{
     color:#ffb86b;
-    text-shadow:
-      0 0 6px #ffb86b,
-      0 0 12px #fb923c,
-      0 0 22px #ea580c,
-      0 0 40px #c2410c;
+    text-shadow:0 0 6px #ffb86b,0 0 12px #fb923c;
   }
 
 </style>
 </head>
 
 <body>
-
-<div class="topbar">
-  <h1>PvP Tiers</h1>
-</div>
 
 <div class="main">
   <div id="ranking"></div>
@@ -132,9 +100,7 @@
 let allPlayers = [];
 
 function sortPlayers(players){
-  return [...players].sort((a,b)=>
-    (b.points||0)-(a.points||0)
-  );
+  return [...players].sort((a,b)=> (b.points||0)-(a.points||0));
 }
 
 function renderRanking(players){
@@ -146,13 +112,24 @@ function renderRanking(players){
   sorted.forEach((p,index)=>{
     const rank = index + 1;
 
+    const tiersHTML = (p.tiers||[]).map(t=>{
+      const type = t.includes("HT") ? "ht" : "lt";
+      return `<span class="tier ${type}">${t}</span>`;
+    }).join("");
+
     el.innerHTML += `
       <div class="player-card ${rank<=3 ? "top-"+rank : ""}">
-        <div class="rank-box">
-          <div class="rank-num">${rank}</div>
+        
+        <div>
+          ${rank}.
+          <img class="mini-avatar" src="https://mc-heads.net/avatar/${p.nick}">
         </div>
 
         <div class="player-name">${p.nick}</div>
+
+        <div>${p.region || "EU"}</div>
+
+        <div>${tiersHTML || "<span class='tier lt'>BRAK</span>"}</div>
 
         <div>${p.points} pkt</div>
       </div>
@@ -162,8 +139,7 @@ function renderRanking(players){
 
 async function load(){
   const res = await fetch("./players.json");
-  const data = await res.json();
-  allPlayers = data;
+  allPlayers = await res.json();
   renderRanking(allPlayers);
 }
 
