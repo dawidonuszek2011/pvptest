@@ -7,6 +7,7 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 <title>PvP Ranking</title>
+
 <style>
   * { box-sizing: border-box; }
 
@@ -133,92 +134,15 @@
     color:#fff;
   }
 
-  .btn-search:hover{
-    transform:translateY(-1px);
-    box-shadow:0 10px 24px rgba(30,64,175,.25);
-  }
-
   .btn-clear{
     background:rgba(255,255,255,.08);
     color:#fff;
     border:1px solid rgba(255,255,255,.06) !important;
   }
 
-  .btn-clear:hover{
-    background:rgba(255,255,255,.12);
-  }
-
   .search-result{
     display:none;
-    background:linear-gradient(180deg, rgba(10,22,39,.96), rgba(7,18,33,.96));
-    border:1px solid rgba(77,163,255,.22);
-    border-radius:18px;
-    padding:18px;
   }
-
-  .search-result.show{
-    display:block;
-    animation:fadeIn .25s ease;
-  }
-
-  .search-result.not-found{
-    border-color:rgba(252,165,165,.22);
-  }
-
-  .result-grid{
-    display:grid;
-    grid-template-columns:110px 1fr;
-    gap:16px;
-    align-items:center;
-  }
-
-  .result-avatar{
-    width:90px;
-    height:90px;
-    border-radius:16px;
-    object-fit:cover;
-    border:1px solid rgba(255,255,255,.12);
-    background:#0f172a;
-  }
-
-  .result-name{
-    font-size:28px;
-    font-weight:900;
-    color:#fff;
-    margin-bottom:10px;
-  }
-
-  .result-lines{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-
-  .result-line{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    align-items:center;
-    color:#d7e2f0;
-    font-size:15px;
-  }
-
-  .info-chip{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:38px;
-    padding:8px 12px;
-    border-radius:12px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.06);
-    font-weight:700;
-  }
-
-  .info-chip.region.eu{ background:rgba(64,145,63,.22); color:#9df68b; }
-  .info-chip.region.na{ background:rgba(156,57,57,.22); color:#ff8b8b; }
-  .info-chip.region.as{ background:rgba(61,101,170,.22); color:#8fc2ff; }
-  .info-chip.region.sa{ background:rgba(152,98,39,.22); color:#ffc882; }
 
   .table-head{
     max-width:1320px;
@@ -249,18 +173,6 @@
     border-radius:18px;
     min-height:92px;
     padding:12px 14px;
-    box-shadow:0 10px 30px rgba(0,0,0,.22);
-    transition:.2s ease;
-  }
-
-  .player-card:hover{
-    transform:translateY(-1px);
-    border-color:rgba(255,255,255,.09);
-  }
-
-  .player-card.highlighted{
-    border-color:rgba(77,163,255,.8);
-    box-shadow:0 0 0 3px rgba(77,163,255,.14), 0 14px 34px rgba(0,0,0,.28);
   }
 
   .rank-box{
@@ -271,35 +183,16 @@
     border-radius:14px;
     overflow:hidden;
     padding-left:12px;
-    position:relative;
     background:linear-gradient(135deg,#2d3748,#1f2937);
   }
 
-  .rank-box.rank-1{ background:linear-gradient(135deg,#f5c451,#b8861d); }
-  .rank-box.rank-2{ background:linear-gradient(135deg,#d9e1e8,#8e9aa5); }
-  .rank-box.rank-3{ background:linear-gradient(135deg,#d48a4c,#8f5323); }
+  .rank-box.rank-1{background:linear-gradient(135deg,#f5c451,#b8861d);}
+  .rank-box.rank-2{background:linear-gradient(135deg,#d9e1e8,#8e9aa5);}
+  .rank-box.rank-3{background:linear-gradient(135deg,#d48a4c,#8f5323);}
 
-  .rank-num{
-    font-size:28px;
-    font-weight:900;
-    color:white;
-    min-width:34px;
-    text-shadow:0 2px 6px rgba(0,0,0,.35);
-  }
+  .rank-num{font-size:28px;font-weight:900;color:white;}
 
-  .mini-avatar{
-    width:42px;
-    height:42px;
-    border-radius:8px;
-    object-fit:cover;
-    border:1px solid rgba(255,255,255,.18);
-  }
-
-  .player-main{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-  }
+  .player-main{display:flex;flex-direction:column;gap:6px;}
 
   .player-name{
     font-size:22px;
@@ -307,137 +200,75 @@
     color:#f8fafc;
   }
 
-  .player-sub{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-    color:#93a4ba;
-    font-size:13px;
+  /* 🔥 NEON TOP 3 */
+  .player-name.neon-1{
+    color:#ffd700;
+    text-shadow:0 0 5px #ffd700,0 0 10px #ffd700,0 0 20px #ffae00,0 0 40px #ffae00;
   }
 
-  .title-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.06);
-    color:#f8d36a;
-    padding:6px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
+  .player-name.neon-2{
+    color:#cfd9ff;
+    text-shadow:0 0 5px #cfd9ff,0 0 10px #9db4ff,0 0 20px #7aa2ff,0 0 40px #7aa2ff;
   }
 
-  .region{
-    justify-self:center;
-    font-weight:800;
-    font-size:20px;
-    padding:12px 14px;
-    border-radius:14px;
-    min-width:60px;
-    text-align:center;
+  .player-name.neon-3{
+    color:#ffb37a;
+    text-shadow:0 0 5px #ffb37a,0 0 10px #ff914d,0 0 20px #ff7a1a,0 0 40px #ff7a1a;
   }
 
-  .region.eu{ background:rgba(64,145,63,.22); color:#9df68b; }
-  .region.na{ background:rgba(156,57,57,.22); color:#ff8b8b; }
-  .region.as{ background:rgba(61,101,170,.22); color:#8fc2ff; }
-  .region.sa{ background:rgba(152,98,39,.22); color:#ffc882; }
-
-  .tiers{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    align-items:center;
-  }
-
-  .tier{
-    padding:7px 10px;
-    border-radius:12px;
-    font-size:12px;
-    font-weight:800;
-    min-width:52px;
-    text-align:center;
-    background:#1b2637;
-    border:1px solid rgba(255,255,255,.06);
-  }
-
-  .ht{ color:#f9b54a; }
-  .lt{ color:#bac4d3; }
-
-  .points-box{
-    justify-self:end;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-end;
-    gap:6px;
-  }
-
-  .points-value{
-    font-size:28px;
-    font-weight:900;
-    color:#ffffff;
-  }
-
-  .points-label{
-    font-size:12px;
-    color:#7f90a8;
-    text-transform:uppercase;
-    letter-spacing:1px;
-  }
-
-  .status{
-    max-width:1320px;
-    margin:0 auto 14px auto;
-    color:#93a4ba;
-    font-size:14px;
-    padding:0 10px;
-  }
-
-  .error{
-    color:#fca5a5;
-  }
-
-  @keyframes fadeIn{
-    from{ opacity:0; transform:translateY(8px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
-
-  @media (max-width: 1100px){
-    .table-head{ display:none; }
-    .player-card{
-      grid-template-columns:1fr;
-      gap:10px;
-    }
-    .region, .points-box{ justify-self:start; align-items:flex-start; }
-    .main{ height:auto; overflow:visible; }
-    body{ overflow:auto; }
-  }
-
-  @media (max-width: 700px){
-    .result-grid{
-      grid-template-columns:1fr;
-    }
-    .result-avatar{
-      width:76px;
-      height:76px;
-    }
-    .result-name{
-      font-size:24px;
-    }
-    .search-bar{
-      flex-direction:column;
-    }
-    .search-bar button,
-    .search-bar input{
-      width:100%;
-    }
-  }
-
-  /* DODANO TYLKO TO: */
-  .rank-1 + .player-main .player-name { text-shadow: 0 0 10px #f5c451, 0 0 20px #f5c451; }
-  .rank-2 + .player-main .player-name { text-shadow: 0 0 10px #d9e1e8, 0 0 20px #d9e1e8; }
-  .rank-3 + .player-main .player-name { text-shadow: 0 0 10px #d48a4c, 0 0 20px #d48a4c; }
 </style>
 </head>
+
 <body>
+
+<div class="topbar">
+  <h1>PvP Tiers</h1>
+</div>
+
+<div class="main">
+  <div class="ranking" id="ranking"></div>
+</div>
+
+<script>
+let allPlayers = [];
+
+function sortPlayers(players){
+  return [...players].sort((a,b)=>(b.points||0)-(a.points||0));
+}
+
+function renderRanking(players){
+  const el = document.getElementById("ranking");
+  el.innerHTML = "";
+
+  const sorted = sortPlayers(players);
+
+  sorted.forEach((p,index)=>{
+    const rank = index + 1;
+
+    el.innerHTML += `
+      <div class="player-card">
+        <div class="rank-box ${rank<=3?`rank-${rank}`:""}">
+          <div class="rank-num">${rank}.</div>
+        </div>
+
+        <div class="player-main">
+          <div class="player-name ${rank<=3?`neon-${rank}`:""}">
+            ${p.nick}
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+async function load(){
+  const res = await fetch("./players.json");
+  allPlayers = await res.json();
+  renderRanking(allPlayers);
+}
+
+load();
+</script>
+
+</body>
+</html>
