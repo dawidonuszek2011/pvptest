@@ -279,11 +279,6 @@
   .rank-box.rank-2{ background:linear-gradient(135deg,#d9e1e8,#8e9aa5); }
   .rank-box.rank-3{ background:linear-gradient(135deg,#d48a4c,#8f5323); }
 
-  /* NEONOWE NICKI - TYLKO TO DODANE */
-  .rank-1 ~ .player-main .player-name { text-shadow: 0 0 15px var(--gold1); }
-  .rank-2 ~ .player-main .player-name { text-shadow: 0 0 15px #d9e1e8; }
-  .rank-3 ~ .player-main .player-name { text-shadow: 0 0 15px #d48a4c; }
-
   .rank-num{
     font-size:28px;
     font-weight:900;
@@ -438,6 +433,11 @@
       width:100%;
     }
   }
+
+  /* DODANO TYLKO TO: */
+  .rank-1 + .player-main .player-name { text-shadow: 0 0 10px #f5c451, 0 0 20px #f5c451; }
+  .rank-2 + .player-main .player-name { text-shadow: 0 0 10px #d9e1e8, 0 0 20px #d9e1e8; }
+  .rank-3 + .player-main .player-name { text-shadow: 0 0 10px #d48a4c, 0 0 20px #d48a4c; }
 </style>
 </head>
 <body>
