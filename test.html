@@ -10,7 +10,7 @@
 <style>
   * { box-sizing: border-box; }
 
-  :root {
+:root{
     --bg1:#0f172a;
     --bg2:#020617;
     --card1:rgba(12,24,43,.95);
@@ -26,7 +26,7 @@
     --gold2:#b8861d;
   }
 
-  body {
+  body{
     margin:0;
     font-family: Arial, Helvetica, sans-serif;
     color:var(--text);
@@ -36,7 +36,7 @@
     overflow:hidden;
   }
 
-  .topbar {
+  .topbar{
     min-height:72px;
     display:flex;
     align-items:center;
@@ -49,13 +49,13 @@
     backdrop-filter: blur(10px);
   }
 
-  .topbar h1 {
+  .topbar h1{
     margin:0;
     font-size:28px;
     letter-spacing:.5px;
   }
 
-  .legend {
+  .legend{
     display:flex;
     gap:10px;
     flex-wrap:wrap;
@@ -63,20 +63,20 @@
     color:#cbd5e1;
   }
 
-  .legend span {
+  .legend span{
     background:rgba(255,255,255,.06);
     padding:8px 10px;
     border-radius:10px;
     border:1px solid rgba(255,255,255,.05);
   }
 
-  .main {
+  .main{
     height:calc(100vh - 90px);
     overflow-y:auto;
     padding:18px 18px 40px;
   }
 
-  .search-panel {
+  .search-panel{
     max-width:1320px;
     margin:0 auto 18px auto;
     background:linear-gradient(180deg, rgba(15,27,48,.95), rgba(10,20,36,.95));
@@ -86,21 +86,21 @@
     box-shadow:0 12px 32px rgba(0,0,0,.22);
   }
 
-  .search-title {
+  .search-title{
     font-size:18px;
     font-weight:800;
     margin-bottom:14px;
     color:#f8fafc;
   }
 
-  .search-bar {
+  .search-bar{
     display:flex;
     gap:12px;
     flex-wrap:wrap;
     margin-bottom:16px;
   }
 
-  .search-bar input {
+  .search-bar input{
     flex:1;
     min-width:240px;
     background:#0d1728;
@@ -113,12 +113,12 @@
     transition:.2s ease;
   }
 
-  .search-bar input:focus {
+  .search-bar input:focus{
     border-color:rgba(77,163,255,.8);
     box-shadow:0 0 0 4px rgba(77,163,255,.12);
   }
 
-  .search-bar button {
+  .search-bar button{
     border:none;
     border-radius:14px;
     padding:14px 18px;
@@ -128,27 +128,27 @@
     transition:.2s ease;
   }
 
-  .btn-search {
+  .btn-search{
     background:linear-gradient(135deg, var(--accent), var(--accent2));
     color:#fff;
   }
 
-  .btn-search:hover {
+  .btn-search:hover{
     transform:translateY(-1px);
     box-shadow:0 10px 24px rgba(30,64,175,.25);
   }
 
-  .btn-clear {
+  .btn-clear{
     background:rgba(255,255,255,.08);
     color:#fff;
     border:1px solid rgba(255,255,255,.06) !important;
   }
 
-  .btn-clear:hover {
+  .btn-clear:hover{
     background:rgba(255,255,255,.12);
   }
 
-  .search-result {
+  .search-result{
     display:none;
     background:linear-gradient(180deg, rgba(10,22,39,.96), rgba(7,18,33,.96));
     border:1px solid rgba(77,163,255,.22);
@@ -156,23 +156,23 @@
     padding:18px;
   }
 
-  .search-result.show {
+  .search-result.show{
     display:block;
     animation:fadeIn .25s ease;
   }
 
-  .search-result.not-found {
+  .search-result.not-found{
     border-color:rgba(252,165,165,.22);
   }
 
-  .result-grid {
+  .result-grid{
     display:grid;
     grid-template-columns:110px 1fr;
     gap:16px;
     align-items:center;
   }
 
-  .result-avatar {
+  .result-avatar{
     width:90px;
     height:90px;
     border-radius:16px;
@@ -181,20 +181,20 @@
     background:#0f172a;
   }
 
-  .result-name {
+  .result-name{
     font-size:28px;
     font-weight:900;
     color:#fff;
     margin-bottom:10px;
   }
 
-  .result-lines {
+  .result-lines{
     display:flex;
     flex-direction:column;
     gap:10px;
   }
 
-  .result-line {
+  .result-line{
     display:flex;
     flex-wrap:wrap;
     gap:10px;
@@ -203,7 +203,7 @@
     font-size:15px;
   }
 
-  .info-chip {
+  .info-chip{
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -215,12 +215,12 @@
     font-weight:700;
   }
 
-  .info-chip.region.eu { background:rgba(64,145,63,.22); color:#9df68b; }
-  .info-chip.region.na { background:rgba(156,57,57,.22); color:#ff8b8b; }
-  .info-chip.region.as { background:rgba(61,101,170,.22); color:#8fc2ff; }
-  .info-chip.region.sa { background:rgba(152,98,39,.22); color:#ffc882; }
+  .info-chip.region.eu{ background:rgba(64,145,63,.22); color:#9df68b; }
+  .info-chip.region.na{ background:rgba(156,57,57,.22); color:#ff8b8b; }
+  .info-chip.region.as{ background:rgba(61,101,170,.22); color:#8fc2ff; }
+  .info-chip.region.sa{ background:rgba(152,98,39,.22); color:#ffc882; }
 
-  .table-head {
+  .table-head{
     max-width:1320px;
     margin:0 auto 10px auto;
     display:grid;
@@ -231,7 +231,7 @@
     padding:0 10px;
   }
 
-  .ranking {
+  .ranking{
     max-width:1320px;
     margin:0 auto;
     display:flex;
@@ -239,7 +239,7 @@
     gap:12px;
   }
 
-  .player-card {
+  .player-card{
     display:grid;
     grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
     gap:14px;
@@ -253,17 +253,17 @@
     transition:.2s ease;
   }
 
-  .player-card:hover {
+  .player-card:hover{
     transform:translateY(-1px);
     border-color:rgba(255,255,255,.09);
   }
 
-  .player-card.highlighted {
+  .player-card.highlighted{
     border-color:rgba(77,163,255,.8);
     box-shadow:0 0 0 3px rgba(77,163,255,.14), 0 14px 34px rgba(0,0,0,.28);
   }
 
-  .rank-box {
+  .rank-box{
     display:flex;
     align-items:center;
     gap:12px;
@@ -275,25 +275,22 @@
     background:linear-gradient(135deg,#2d3748,#1f2937);
   }
 
-  .rank-box.rank-1 { background:linear-gradient(135deg,#f5c451,#b8861d); }
-  .rank-box.rank-2 { background:linear-gradient(135deg,#d9e1e8,#8e9aa5); }
-  .rank-box.rank-3 { background:linear-gradient(135deg,#d48a4c,#8f5323); }
+  .rank-box.rank-1{ background:linear-gradient(135deg,#f5c451,#b8861d); }
+  .rank-box.rank-2{ background:linear-gradient(135deg,#d9e1e8,#8e9aa5); }
+  .rank-box.rank-3{ background:linear-gradient(135deg,#d48a4c,#8f5323); }
 
-  /* Neonowe nicki dla TOP 3 */
+  /* NEONOWE NICKI TOP 1, 2, 3 */
   .rank-1 + .player-main .player-name {
-    text-shadow: 0 0 10px rgba(245, 196, 81, 0.8), 0 0 20px rgba(245, 196, 81, 0.4);
-    color: #fff;
+    text-shadow: 0 0 10px #f5c451, 0 0 20px #f5c451;
   }
   .rank-2 + .player-main .player-name {
-    text-shadow: 0 0 10px rgba(217, 225, 232, 0.8), 0 0 20px rgba(217, 225, 232, 0.4);
-    color: #fff;
+    text-shadow: 0 0 10px #d9e1e8, 0 0 20px #d9e1e8;
   }
   .rank-3 + .player-main .player-name {
-    text-shadow: 0 0 10px rgba(212, 138, 76, 0.8), 0 0 20px rgba(212, 138, 76, 0.4);
-    color: #fff;
+    text-shadow: 0 0 10px #d48a4c, 0 0 20px #d48a4c;
   }
 
-  .rank-num {
+  .rank-num{
     font-size:28px;
     font-weight:900;
     color:white;
@@ -301,7 +298,7 @@
     text-shadow:0 2px 6px rgba(0,0,0,.35);
   }
 
-  .mini-avatar {
+  .mini-avatar{
     width:42px;
     height:42px;
     border-radius:8px;
@@ -309,19 +306,19 @@
     border:1px solid rgba(255,255,255,.18);
   }
 
-  .player-main {
+  .player-main{
     display:flex;
     flex-direction:column;
     gap:6px;
   }
 
-  .player-name {
+  .player-name{
     font-size:22px;
     font-weight:800;
     color:#f8fafc;
   }
 
-  .player-sub {
+  .player-sub{
     display:flex;
     align-items:center;
     gap:10px;
@@ -330,7 +327,7 @@
     font-size:13px;
   }
 
-  .title-badge {
+  .title-badge{
     display:inline-flex;
     align-items:center;
     gap:6px;
@@ -343,7 +340,7 @@
     font-weight:700;
   }
 
-  .region {
+  .region{
     justify-self:center;
     font-weight:800;
     font-size:20px;
@@ -353,19 +350,19 @@
     text-align:center;
   }
 
-  .region.eu { background:rgba(64,145,63,.28); color:#9df68b; }
-  .region.na { background:rgba(156,57,57,.28); color:#ff8b8b; }
-  .region.as { background:rgba(61,101,170,.28); color:#8fc2ff; }
-  .region.sa { background:rgba(152,98,39,.28); color:#ffc882; }
+  .region.eu{ background:rgba(64,145,63,.22); color:#9df68b; }
+  .region.na{ background:rgba(156,57,57,.22); color:#ff8b8b; }
+  .region.as{ background:rgba(61,101,170,.22); color:#8fc2ff; }
+  .region.sa{ background:rgba(152,98,39,.22); color:#ffc882; }
 
-  .tiers {
+  .tiers{
     display:flex;
     gap:8px;
     flex-wrap:wrap;
     align-items:center;
   }
 
-  .tier {
+  .tier{
     padding:7px 10px;
     border-radius:12px;
     font-size:12px;
@@ -376,10 +373,10 @@
     border:1px solid rgba(255,255,255,.06);
   }
 
-  .ht { color:#f9b54a; }
-  .lt { color:#bac4d3; }
+  .ht{ color:#f9b54a; }
+  .lt{ color:#bac4d3; }
 
-  .points-box {
+  .points-box{
     justify-self:end;
     display:flex;
     flex-direction:column;
@@ -387,20 +384,20 @@
     gap:6px;
   }
 
-  .points-value {
+  .points-value{
     font-size:28px;
     font-weight:900;
     color:#ffffff;
   }
 
-  .points-label {
+  .points-label{
     font-size:12px;
     color:#7f90a8;
     text-transform:uppercase;
     letter-spacing:1px;
   }
 
-  .status {
+  .status{
     max-width:1320px;
     margin:0 auto 14px auto;
     color:#93a4ba;
@@ -408,153 +405,58 @@
     padding:0 10px;
   }
 
-  @keyframes fadeIn {
-    from { opacity:0; transform:translateY(8px); }
-    to { opacity:1; transform:translateY(0); }
+  .error{
+    color:#fca5a5;
   }
 
-  @media (max-width: 1100px) {
-    .table-head { display:none; }
-    .player-card {
+  @keyframes fadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  @media (max-width: 1100px){
+    .table-head{ display:none; }
+    .player-card{
       grid-template-columns:1fr;
       gap:10px;
     }
-    .region, .points-box { justify-self:start; align-items:flex-start; }
-    .main { height:auto; overflow:visible; }
-    body { overflow:auto; }
+    .region, .points-box{ justify-self:start; align-items:flex-start; }
+    .main{ height:auto; overflow:visible; }
+    body{ overflow:auto; }
   }
 
-  @media (max-width: 700px) {
-    .result-grid { grid-template-columns:1fr; }
-    .result-avatar { width:76px; height:76px; }
-    .result-name { font-size:24px; }
-    .search-bar { flex-direction:column; }
-    .search-bar button, .search-bar input { width:100%; }
+  @media (max-width: 700px){
+    .result-grid{
+      grid-template-columns:1fr;
+    }
+    .result-avatar{
+      width:76px;
+      height:76px;
+    }
+    .result-name{
+      font-size:24px;
+    }
+    .search-bar{
+      flex-direction:column;
+    }
+    .search-bar button,
+    .search-bar input{
+      width:100%;
+    }
   }
 </style>
 </head>
 <body>
-
   <div class="topbar">
     <h1>PvP Ranking</h1>
     <div class="legend">
       <span>HT = High Tier</span>
       <span>LT = Low Tier</span>
-      <span>EU / NA / AS / SA = Regiony</span>
     </div>
   </div>
 
   <div class="main">
-    <section class="search-panel">
-      <div class="search-title">Wyszukaj wojownika</div>
-      <div class="search-bar">
-        <input type="text" id="playerSearch" placeholder="Wpisz nazwę gracza..." />
-        <button class="btn-search" onclick="handleSearch()">Szukaj</button>
-        <button class="btn-clear" onclick="clearSearch()">Wyczyść</button>
-      </div>
-      <div id="searchResult" class="search-result"></div>
-    </section>
-
-    <div class="status">Wyświetlanie najlepszych graczy sezonu</div>
-
-    <div class="table-head">
-      <div>Ranga</div>
-      <div>Gracz</div>
-      <div style="text-align:center">Region</div>
-      <div>Tiers</div>
-      <div style="text-align:right">Punkty</div>
-    </div>
-
-    <div class="ranking" id="rankingList">
-      <!-- Top 1 -->
-      <div class="player-card" data-name="Vaelin">
-        <div class="rank-box rank-1">
-          <span class="rank-num">1</span>
-          <img src="https://pravatar.cc" class="mini-avatar" alt="">
-        </div>
-        <div class="player-main">
-          <div class="player-name">Vaelin</div>
-          <div class="player-sub">🏆 Grandmaster • Gildia: Nightfall</div>
-        </div>
-        <div class="region eu">EU</div>
-        <div class="tiers"><span class="tier ht">HT1</span></div>
-        <div class="points-box">
-          <div class="points-value">2,850</div>
-          <div class="points-label">ELO</div>
-        </div>
-      </div>
-
-      <!-- Top 2 -->
-      <div class="player-card" data-name="ShadowStep">
-        <div class="rank-box rank-2">
-          <span class="rank-num">2</span>
-          <img src="https://pravatar.cc" class="mini-avatar" alt="">
-        </div>
-        <div class="player-main">
-          <div class="player-name">ShadowStep</div>
-          <div class="player-sub">⚔️ Gladiator • Gildia: Rogue</div>
-        </div>
-        <div class="region na">NA</div>
-        <div class="tiers"><span class="tier ht">HT2</span></div>
-        <div class="points-box">
-          <div class="points-value">2,710</div>
-          <div class="points-label">ELO</div>
-        </div>
-      </div>
-
-      <!-- Top 3 -->
-      <div class="player-card" data-name="Xenon">
-        <div class="rank-box rank-3">
-          <span class="rank-num">3</span>
-          <img src="https://pravatar.cc" class="mini-avatar" alt="">
-        </div>
-        <div class="player-main">
-          <div class="player-name">Xenon</div>
-          <div class="player-sub">🔥 Warlord • Gildia: Ember</div>
-        </div>
-        <div class="region as">AS</div>
-        <div class="tiers"><span class="tier lt">LT1</span></div>
-        <div class="points-box">
-          <div class="points-value">2,645</div>
-          <div class="points-label">ELO</div>
-        </div>
-      </div>
-    </div>
+    <!-- Tutaj zamknij tagi zgodnie z Twoją logiką struktury -->
   </div>
-
-  <script>
-    function handleSearch() {
-      const input = document.getElementById('playerSearch').value.toLowerCase().trim();
-      const cards = document.querySelectorAll('.player-card');
-      const resultDiv = document.getElementById('searchResult');
-      let found = false;
-
-      if (!input) return;
-
-      cards.forEach(card => {
-        const name = card.getAttribute('data-name').toLowerCase();
-        if (name.includes(input)) {
-          card.classList.add('highlighted');
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          found = true;
-        } else {
-          card.classList.remove('highlighted');
-        }
-      });
-
-      if (!found) {
-        resultDiv.innerHTML = `<div style="color:var(--danger)">Nie znaleziono gracza "${input}"</div>`;
-        resultDiv.classList.add('show', 'not-found');
-      } else {
-        resultDiv.classList.remove('show');
-      }
-    }
-
-    function clearSearch() {
-      document.getElementById('playerSearch').value = "";
-      document.getElementById('searchResult').classList.remove('show');
-      document.querySelectorAll('.player-card').forEach(c => c.classList.remove('highlighted'));
-    }
-  </script>
 </body>
 </html>
