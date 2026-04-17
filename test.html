@@ -1,13 +1,14 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pl">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PvP Ranking - Neon Edition</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<title>PvP Ranking</title>
 <style>
   * { box-sizing: border-box; }
 
-  :root {
+  :root{
     --bg1:#0f172a;
     --bg2:#020617;
     --card1:rgba(12,24,43,.95);
@@ -18,118 +19,110 @@
     --accent:#4da3ff;
     --accent2:#1e40af;
     --gold1:#f5c451;
-    --silver:#d9e1e8;
-    --bronze:#d48a4c;
+    --gold2:#b8861d;
   }
 
-  body {
+  body{
     margin:0;
-    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     color:var(--text);
     background:
       radial-gradient(circle at top, rgba(77,163,255,.12), transparent 30%),
       linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
-    min-height: 100vh;
+    overflow-x:hidden;
   }
 
-  /* Animacja Neonu */
-  @keyframes neonGlow {
+  /* --- EFEKT NEONU DLA TOP 3 --- */
+  @keyframes neonPulse {
     from { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
-    to { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor; }
+    to { text-shadow: 0 0 15px currentColor, 0 0 25px currentColor; }
   }
 
-  .neon-1 { color: var(--gold1) !important; animation: neonGlow 1.5s ease-in-out infinite alternate; }
-  .neon-2 { color: var(--silver) !important; animation: neonGlow 1.5s ease-in-out infinite alternate; }
-  .neon-3 { color: var(--bronze) !important; animation: neonGlow 1.5s ease-in-out infinite alternate; }
+  .neon-1 { color: #f5c451 !important; animation: neonPulse 1.5s infinite alternate; font-weight: 900; }
+  .neon-2 { color: #cbd5e1 !important; animation: neonPulse 1.5s infinite alternate; font-weight: 900; }
+  .neon-3 { color: #cd7f32 !important; animation: neonPulse 1.5s infinite alternate; font-weight: 900; }
 
-  /* Specjalne karty dla TOP 3 */
-  .card-rank-1 { border: 1px solid rgba(245, 196, 81, 0.3) !important; box-shadow: 0 0 15px rgba(245, 196, 81, 0.1); }
-  .card-rank-2 { border: 1px solid rgba(217, 225, 232, 0.2) !important; }
-  .card-rank-3 { border: 1px solid rgba(212, 138, 76, 0.2) !important; }
-
-  .topbar {
+  .topbar{
     min-height:72px;
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:16px;
     padding:16px 22px;
     background:rgba(8,15,28,.88);
-    border-bottom:1px solid var(--border);
+    border-bottom:1px solid rgba(255,255,255,.05);
+    flex-wrap:wrap;
     backdrop-filter: blur(10px);
   }
 
-  .legend { display:flex; gap:8px; flex-wrap:wrap; font-size:12px; }
-  .legend span { background:rgba(255,255,255,.06); padding:6px 10px; border-radius:8px; }
+  .topbar h1{ margin:0; font-size:28px; letter-spacing:.5px; }
 
-  .main { padding: 20px; max-width: 1320px; margin: 0 auto; }
+  .legend{ display:flex; gap:10px; flex-wrap:wrap; font-size:13px; color:#cbd5e1; }
+  .legend span{ background:rgba(255,255,255,.06); padding:8px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.05); }
 
-  .search-panel {
-    background: linear-gradient(180deg, rgba(15,27,48,.95), rgba(10,20,36,.95));
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 30px;
+  .main{ padding:18px 18px 40px; }
+
+  .search-panel{
+    max-width:1320px;
+    margin:0 auto 18px auto;
+    background:linear-gradient(180deg, rgba(15,27,48,.95), rgba(10,20,36,.95));
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:18px;
+    box-shadow:0 12px 32px rgba(0,0,0,.22);
   }
 
-  .search-bar { display: flex; gap: 10px; margin-top: 15px; }
-  .search-bar input {
-    flex: 1; background: #0d1728; border: 1px solid var(--border);
-    padding: 12px; border-radius: 12px; color: white; outline: none;
-  }
-  .search-bar input:focus { border-color: var(--accent); }
-
-  .btn-search { background: var(--accent); border: none; padding: 12px 24px; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
-  .btn-clear { background: rgba(255,255,255,0.1); border: none; padding: 12px 24px; border-radius: 12px; color: white; cursor: pointer; }
-
-  .table-head {
-    display: grid;
-    grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
-    gap: 14px; padding: 0 15px; margin-bottom: 10px;
-    color: var(--muted); font-size: 14px; font-weight: bold;
+  .search-bar{ display:flex; gap:12px; flex-wrap:wrap; }
+  .search-bar input{
+    flex:1; min-width:240px; background:#0d1728; color:#fff; border:1px solid rgba(255,255,255,.08);
+    border-radius:14px; padding:14px 16px; font-size:15px; outline:none;
   }
 
-  .ranking { display: flex; flex-direction: column; gap: 12px; }
-
-  .player-card {
-    display: grid;
-    grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
-    gap: 14px; align-items: center;
-    background: linear-gradient(180deg, var(--card1), var(--card2));
-    border: 1px solid var(--border);
-    border-radius: 18px; padding: 12px 15px;
-    transition: 0.3s;
+  .btn-search{
+    background:linear-gradient(135deg, var(--accent), var(--accent2));
+    color:#fff; border:none; border-radius:14px; padding:14px 18px; cursor:pointer; font-weight:800;
   }
 
-  .rank-box {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px; border-radius: 12px; background: #1e293b;
+  .table-head{
+    max-width:1320px; margin:0 auto 10px auto;
+    display:grid; grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
+    gap:14px; color:#64748b; font-weight:bold; padding:0 10px;
   }
-  .rank-1 { background: linear-gradient(135deg, #f5c451, #b8861d); }
-  .rank-2 { background: linear-gradient(135deg, #d9e1e8, #8e9aa5); }
-  .rank-3 { background: linear-gradient(135deg, #d48a4c, #8f5323); }
 
-  .rank-num { font-size: 22px; font-weight: 900; width: 30px; text-align: center; }
-  .mini-avatar { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
+  .ranking{ max-width:1320px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
 
-  .player-name { font-size: 20px; font-weight: 800; }
-  
-  .region { text-align: center; font-weight: bold; padding: 8px; border-radius: 10px; width: 60px; justify-self: center; }
-  .eu { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
-  .na { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+  .player-card{
+    display:grid; grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
+    gap:14px; align-items:center;
+    background:linear-gradient(180deg, var(--card1), var(--card2));
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:18px; min-height:92px; padding:12px 14px;
+  }
 
-  .tier { background: #1e293b; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: bold; color: var(--accent); }
+  .rank-box{
+    display:flex; align-items:center; gap:12px; height:68px; border-radius:14px;
+    padding-left:12px; background:linear-gradient(135deg,#2d3748,#1f2937);
+  }
+  .rank-box.rank-1{ background:linear-gradient(135deg,#f5c451,#b8861d); }
+  .rank-box.rank-2{ background:linear-gradient(135deg,#d9e1e8,#8e9aa5); }
+  .rank-box.rank-3{ background:linear-gradient(135deg,#d48a4c,#8f5323); }
 
-  .points-value { font-size: 24px; font-weight: 900; text-align: right; }
+  .rank-num{ font-size:28px; font-weight:900; color:white; }
+  .mini-avatar{ width:42px; height:42px; border-radius:8px; object-fit:cover; border:1px solid rgba(255,255,255,.18); }
+  .player-name{ font-size:22px; font-weight:800; color:#f8fafc; }
 
-  .search-result { display: none; margin-top: 15px; padding: 15px; border-radius: 12px; border: 1px solid var(--accent); }
-  .search-result.show { display: block; animation: fadeIn 0.3s; }
+  .region{ text-align:center; font-weight:800; font-size:20px; padding:12px 14px; border-radius:14px; }
+  .region.eu{ background:rgba(64,145,63,.28); color:#9df68b; }
+  .region.na{ background:rgba(156,57,57,.28); color:#ff8b8b; }
 
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  .tier{ padding:7px 10px; border-radius:12px; font-size:12px; font-weight:800; background:#1b2637; border:1px solid rgba(255,255,255,.06); color:#f9b54a; }
+  .points-value{ font-size:28px; font-weight:900; color:#ffffff; text-align:right;}
 
-  @media (max-width: 1000px) {
-    .table-head { display: none; }
-    .player-card { grid-template-columns: 1fr 1fr; }
-    .points-value { text-align: left; }
+  @media (max-width: 1100px){
+    .table-head{ display:none; }
+    .player-card{ grid-template-columns: 1fr; text-align: center; }
+    .points-value { text-align: center; }
+    .rank-box { justify-content: center; padding-left: 0; }
   }
 </style>
 </head>
@@ -141,52 +134,65 @@
     <span>Grandmaster: 400+</span>
     <span>Master: 250+</span>
     <span>Ace: 100+</span>
+    <span>Specialist: 50+</span>
+    <span>Cadet: 20+</span>
+    <span>Novice: 10+</span>
   </div>
 </div>
 
 <div class="main">
   <div class="search-panel">
-    <div style="font-weight: bold;">Szukaj Wojownika</div>
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Wpisz nick...">
+      <input type="text" id="searchInput" placeholder="Wpisz nick gracza...">
       <button class="btn-search" onclick="searchPlayer()">Szukaj</button>
-      <button class="btn-clear" onclick="clearSearch()">Reset</button>
     </div>
-    <div id="searchResult" class="search-result"></div>
   </div>
 
   <div class="table-head">
     <div>Ranga</div>
     <div>Gracz</div>
     <div style="text-align:center">Region</div>
-    <div>Tiers</div>
+    <div>Tier</div>
     <div style="text-align:right">Punkty</div>
   </div>
 
-  <div class="ranking" id="rankingContainer"></div>
+  <div class="ranking" id="rankingContainer">
+    <!-- Dane z players.json trafią tutaj -->
+  </div>
 </div>
 
 <script>
-  const players = [
-    { rank: 1, name: "Nightshade", region: "EU", tier: "HT1", points: 520, avatar: "https://pravatar.cc" },
-    { rank: 2, name: "Vortex", region: "NA", tier: "HT1", points: 485, avatar: "https://pravatar.cc" },
-    { rank: 3, name: "Kyuubi", region: "EU", tier: "HT2", points: 310, avatar: "https://pravatar.cc" },
-    { rank: 4, name: "Shadow", region: "EU", tier: "HT3", points: 125, avatar: "https://pravatar.cc" },
-    { rank: 5, name: "Ghost", region: "NA", tier: "LT1", points: 95, avatar: "https://pravatar.cc" }
-  ];
+  let playersData = [];
+
+  // Funkcja pobierająca dane z pliku JSON
+  async function loadPlayers() {
+    try {
+      const response = await fetch('players.json');
+      playersData = await response.json();
+      // Sortowanie po punktach (na wypadek gdyby JSON nie był posortowany)
+      playersData.sort((a, b) => b.points - a.points);
+      renderRanking(playersData);
+    } catch (error) {
+      console.error("Błąd podczas wczytywania players.json:", error);
+      document.getElementById('rankingContainer').innerHTML = "<p style='color:red'>Nie udało się wczytać danych z players.json</p>";
+    }
+  }
 
   function renderRanking(data) {
     const container = document.getElementById('rankingContainer');
-    container.innerHTML = data.map(p => {
-      const isTop3 = p.rank <= 3;
-      const neonClass = isTop3 ? `neon-${p.rank}` : '';
-      const cardClass = isTop3 ? `card-rank-${p.rank}` : '';
-      
+    container.innerHTML = data.map((p, index) => {
+      const rank = index + 1;
+      // Dodawanie klasy neonowej tylko dla top 1, 2, 3
+      let neonClass = "";
+      if (rank === 1) neonClass = "neon-1";
+      else if (rank === 2) neonClass = "neon-2";
+      else if (rank === 3) neonClass = "neon-3";
+
       return `
-        <div class="player-card ${cardClass}">
-          <div class="rank-box rank-${isTop3 ? p.rank : 'default'}">
-            <span class="rank-num">#${p.rank}</span>
-            <img src="${p.avatar}" class="mini-avatar">
+        <div class="player-card">
+          <div class="rank-box rank-${rank <= 3 ? rank : 'default'}">
+            <span class="rank-num">#${rank}</span>
+            <img src="${p.avatar || 'https://placeholder.com'}" class="mini-avatar">
           </div>
           <div class="player-name ${neonClass}">${p.name}</div>
           <div class="region ${p.region.toLowerCase()}">${p.region}</div>
@@ -199,24 +205,12 @@
 
   function searchPlayer() {
     const val = document.getElementById('searchInput').value.toLowerCase();
-    const res = document.getElementById('searchResult');
-    const p = players.find(x => x.name.toLowerCase() === val);
-    
-    if(p) {
-      res.innerHTML = `Znaleziono: <strong>${p.name}</strong> - Pozycja #${p.rank} (${p.points} pkt)`;
-      res.className = "search-result show";
-    } else {
-      res.innerHTML = "Nie znaleziono gracza.";
-      res.className = "search-result show";
-    }
+    const filtered = playersData.filter(p => p.name.toLowerCase().includes(val));
+    renderRanking(filtered);
   }
 
-  function clearSearch() {
-    document.getElementById('searchInput').value = "";
-    document.getElementById('searchResult').className = "search-result";
-  }
-
-  renderRanking(players);
+  // Uruchomienie wczytywania na starcie
+  loadPlayers();
 </script>
 
 </body>
