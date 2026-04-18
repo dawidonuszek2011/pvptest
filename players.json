@@ -24,8 +24,8 @@
     "nick": "Just_Melon",
     "region": "EU",
     "avatar": "https://mc-heads.net/avatar/Just_Melon",
-    "points": 100,
-    "tiers": ["Mace: LT1", "Sword: LT1", "Axe: HT3", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "Spear:"]
+    "points": 101,
+    "tiers": ["Mace: LT1", "Sword: LT1", "Axe: HT3", "Crystal: LT5", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "Spear:"]
   },
    {
     "nick": "cusiq",
@@ -94,7 +94,7 @@
     "nick": "Deftis333",
     "region": "EU",
     "avatar": "https://mc-heads.net/avatar/Deftis333",
-    "points": 0,
-    "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "Spear:"]
+    "points": 1,
+    "tiers": ["Mace:", "Sword:", "Axe:", "Crystal: LT5", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "Spear:"]
   }
 ]
