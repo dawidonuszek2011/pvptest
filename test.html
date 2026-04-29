@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<title>PvP Ranking | Invite Tier Test</title>
+<style>
+  * { box-sizing: border-box; }
+
+:root{
+    --bg1:#0f172a;
+    --bg2:#020617;
+    --card1:rgba(12,24,43,.95);
+    --card2:rgba(8,19,35,.95);
+    --border:rgba(255,255,255,.06);
+    --text:#fff;
+    --muted:#93a4ba;
+    --accent:#4da3ff;
+    --accent2:#1e40af;
+    --success:#9df68b;
+    --danger:#fca5a5;
+    --gold1:#f5c451;
+    --gold2:#b8861d;
+  }
+
+  body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(circle at top, rgba(77,163,255,.12), transparent 30%),
+      linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
+    overflow:hidden;
+  }
+
+  .topbar{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:16px 22px;
+    background:rgba(8,15,28,.88);
+    border-bottom:1px solid rgba(255,255,255,.05);
+    flex-wrap:wrap;
+    backdrop-filter: blur(10px);
+  }
+
+  .topbar h1{ margin:0; font-size:28px; }
+
+  .legend{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:#cbd5e1;
+  }
+
+  .legend span{
+    background:rgba(255,255,255,.06);
+    padding:8px 10px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.05);
+  }
+
+  .main{
+    height:calc(100vh - 90px);
+    overflow-y:auto;
+    padding:18px 18px 40px;
+  }
+
+  .search-panel{
+    max-width:1320px;
+    margin:0 auto 18px auto;
+    background:linear-gradient(180deg, rgba(15,27,48,.95), rgba(10,20,36,.95));
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:18px;
+  }
+
+  .search-title{ font-size:18px; font-weight:800; margin-bottom:14px; }
+
+  .search-bar{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+
+  .search-bar input{
+    flex:1;
+    min-width:240px;
+    background:#0d1728;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    padding:14px 16px;
+    font-size:15px;
+  }
+
+  .search-bar button{
+    border:none;
+    border-radius:14px;
+    padding:14px 18px;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+  .btn-search{ background:linear-gradient(135deg, var(--accent), var(--accent2)); color:#fff; }
+  .btn-clear{ background:rgba(255,255,255,.08); color:#fff; }
+
+  .search-result{ display:none; }
+  .search-result.show{ display:block; }
+
+  .info-chip{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    font-weight:700;
+    font-size:13px;
+  }
+
+  .tier{
+    padding:7px 10px;
+    border-radius:12px;
+    font-size:12px;
+    font-weight:900;
+    border:1px solid rgba(255,255,255,.08);
+  }
+
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>PvP Tiers</h1>
+  <div class="legend">
+    <span>Grandmaster: 400+</span>
+    <span>Master: 250+</span>
+    <span>Ace: 100+</span>
+    <span>Specialist: 50+</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="search-panel">
+    <div class="search-title">Wyszukaj gracza</div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Wpisz nick..." />
+      <button class="btn-search" id="searchBtn">Szukaj</button>
+      <button class="btn-clear" id="clearBtn">Wyczyść</button>
+    </div>
+
+    <div class="search-result" id="searchResult"></div>
+  </div>
+
+  <div id="ranking"></div>
+</div>
+
+<script>
+let allPlayers = [];
+
+function getTitle(points){
+  if(points>=400) return "Grandmaster";
+  if(points>=250) return "Master";
+  if(points>=100) return "Ace";
+  if(points>=50) return "Specialist";
+  return "Lowbie";
+}
+
+/* ===== NOWA MAGIA KOLORÓW ===== */
+function tierStyle(t){
+  const match = String(t).toUpperCase().match(/(HT|LT)\s*([1-5])/);
+  if(!match) return "background:rgba(255,255,255,.06);color:#fff;";
+
+  const type = match[1];
+  const level = parseInt(match[2]);
+
+  let color = "#9aa3ad"; // default gray
+
+  if(level >= 4) color = "#9aa3ad"; // szary
+  else if(level == 3) color = "#b07a3a"; // brąz
+  else if(level == 2) color = "#c0c0c0"; // srebro
+  else if(level == 1) color = "#f5c451"; // złoto
+
+  // HT jaśniejszy, LT ciemniejszy (bo życie musi boleć)
+  const opacity = type === "HT" ? "1" : "0.75";
+
+  return `background:${color}; color:#0b0f1a; opacity:${opacity}; font-weight:900;`;
+}
+
+function render(players){
+  const el = document.getElementById("ranking");
+  el.innerHTML = "";
+
+  players.forEach((p,i)=>{
+    const tiers = (p.tiers||[]).map(t=>{
+      return `<span class="tier" style="${tierStyle(t)}">${t}</span>`;
+    }).join("");
+
+    el.innerHTML += `
+      <div class="card">
+        <b>#${i+1}</b> ${p.nick} (${p.points})
+        <div>${tiers}</div>
+      </div>
+    `;
+  });
+}
+
+function search(){
+  const val = document.getElementById("searchInput").value.trim().toLowerCase();
+  const found = allPlayers.find(p=>p.nick.toLowerCase()===val);
+  document.getElementById("searchResult").className="search-result show";
+  document.getElementById("searchResult").innerHTML = found ? "Znaleziono: "+found.nick : "Nie ma takiego gracza";
+}
+
+document.getElementById("searchBtn").onclick=search;
+document.getElementById("clearBtn").onclick=()=>{
+  document.getElementById("searchInput").value="";
+  document.getElementById("searchResult").className="search-result";
+};
+
+allPlayers = [
+  {nick:"Player1", points:420, tiers:["HT1","LT3","HT4"]},
+  {nick:"Player2", points:120, tiers:["LT2","HT5"]},
+  {nick:"Player3", points:60, tiers:["HT3","LT1"]}
+];
+
+render(allPlayers);
+</script>
+
+</body>
+</html>
