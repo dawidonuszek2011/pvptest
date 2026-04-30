@@ -94,14 +94,14 @@
     "nick": "JaneqGG",
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/JaneqGG",
-    "points": 3,
-    "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP: LT4", "Spear:"]
+    "points": 6,
+    "tiers": ["Mace:", "Sword: LT3", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP: LT4", "Spear:"]
   },
   {
     "nick": "frozenshard_",
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/frozenshard_",
-    "points": 0,
-    "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "Spear:"]
+    "points": 2,
+    "tiers": ["Mace:", "Sword: HT5", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "Spear:"]
   }
 ]
