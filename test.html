@@ -3,689 +3,316 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-
 <title>PvP Ranking | Invite Tier Test</title>
+
 <style>
-  * { box-sizing: border-box; }
+* { box-sizing: border-box; }
 
 :root{
-    --bg1:#0f172a;
-    --bg2:#020617;
-    --card1:rgba(12,24,43,.95);
-    --card2:rgba(8,19,35,.95);
-    --border:rgba(255,255,255,.06);
-    --text:#fff;
-    --muted:#93a4ba;
-    --accent:#4da3ff;
-    --accent2:#1e40af;
-    --success:#9df68b;
-    --danger:#fca5a5;
-    --gold1:#f5c451;
-    --gold2:#b8861d;
-  }
+--bg1:#0f172a;
+--bg2:#020617;
+--card1:rgba(12,24,43,.95);
+--card2:rgba(8,19,35,.95);
+--border:rgba(255,255,255,.06);
+--text:#fff;
+--muted:#93a4ba;
+--accent:#4da3ff;
+--accent2:#1e40af;
+--success:#9df68b;
+--danger:#fca5a5;
+--gold1:#f5c451;
+--gold2:#b8861d;
+}
 
-  body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    color:var(--text);
-    background:
-      radial-gradient(circle at top, rgba(77,163,255,.12), transparent 30%),
-      linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
-    overflow:hidden;
-  }
+body{
+margin:0;
+font-family: Arial, Helvetica, sans-serif;
+color:var(--text);
+background: radial-gradient(circle at top, rgba(77,163,255,.12), transparent 30%), linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
+overflow:hidden;
+}
 
-  .topbar{
-    min-height:72px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    padding:16px 22px;
-    background:rgba(8,15,28,.88);
-    border-bottom:1px solid rgba(255,255,255,.05);
-    flex-wrap:wrap;
-    backdrop-filter: blur(10px);
-  }
+.topbar{
+min-height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+padding:16px 22px;
+background:rgba(8,15,28,.88);
+border-bottom:1px solid rgba(255,255,255,.05);
+flex-wrap:wrap;
+backdrop-filter: blur(10px);
+}
 
-  .topbar h1{
-    margin:0;
-    font-size:28px;
-    letter-spacing:.5px;
-  }
+.topbar h1{ margin:0; font-size:28px; letter-spacing:.5px; }
 
-  .legend{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    font-size:13px;
-    color:#cbd5e1;
-  }
+.legend{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+font-size:13px;
+color:#cbd5e1;
+}
 
-  .legend span{
-    background:rgba(255,255,255,.06);
-    padding:8px 10px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,.05);
-  }
+.legend span{
+background:rgba(255,255,255,.06);
+padding:8px 10px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,.05);
+}
 
-  .main{
-    height:calc(100vh - 90px);
-    overflow-y:auto;
-    padding:18px 18px 40px;
-  }
+.main{
+height:calc(100vh - 90px);
+overflow-y:auto;
+padding:18px 18px 40px;
+}
 
-  .search-panel{
-    max-width:1320px;
-    margin:0 auto 18px auto;
-    background:linear-gradient(180deg, rgba(15,27,48,.95), rgba(10,20,36,.95));
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:18px;
-    box-shadow:0 12px 32px rgba(0,0,0,.22);
-  }
+.search-panel{
+max-width:1320px;
+margin:0 auto 18px auto;
+background:linear-gradient(180deg, rgba(15,27,48,.95), rgba(10,20,36,.95));
+border:1px solid var(--border);
+border-radius:20px;
+padding:18px;
+box-shadow:0 12px 32px rgba(0,0,0,.22);
+}
 
-  .search-title{
-    font-size:18px;
-    font-weight:800;
-    margin-bottom:14px;
-    color:#f8fafc;
-  }
+.search-title{ font-size:18px; font-weight:800; margin-bottom:14px; }
 
-  .search-bar{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    margin-bottom:16px;
-  }
+.search-bar{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
 
-  .search-bar input{
-    flex:1;
-    min-width:240px;
-    background:#0d1728;
-    color:#fff;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:14px;
-    padding:14px 16px;
-    font-size:15px;
-    outline:none;
-    transition:.2s ease;
-  }
+.search-bar input{
+flex:1;
+min-width:240px;
+background:#0d1728;
+color:#fff;
+border:1px solid rgba(255,255,255,.08);
+border-radius:14px;
+padding:14px 16px;
+font-size:15px;
+}
 
-  .search-bar input:focus{
-    border-color:rgba(77,163,255,.8);
-    box-shadow:0 0 0 4px rgba(77,163,255,.12);
-  }
+.search-bar button{
+border:none;
+border-radius:14px;
+padding:14px 18px;
+font-size:15px;
+font-weight:800;
+cursor:pointer;
+}
 
-  .search-bar button{
-    border:none;
-    border-radius:14px;
-    padding:14px 18px;
-    font-size:15px;
-    font-weight:800;
-    cursor:pointer;
-    transition:.2s ease;
-  }
+.btn-search{ background:linear-gradient(135deg, var(--accent), var(--accent2)); color:#fff; }
 
-  .btn-search{
-    background:linear-gradient(135deg, var(--accent), var(--accent2));
-    color:#fff;
-  }
+.btn-clear{ background:rgba(255,255,255,.08); color:#fff; }
 
-  .btn-search:hover{
-    transform:translateY(-1px);
-    box-shadow:0 10px 24px rgba(30,64,175,.25);
-  }
+.search-result{ display:none; }
 
-  .btn-clear{
-    background:rgba(255,255,255,.08);
-    color:#fff;
-    border:1px solid rgba(255,255,255,.06) !important;
-  }
+.search-result.show{ display:block; }
 
-  .btn-clear:hover{
-    background:rgba(255,255,255,.12);
-  }
+.table-head{
+max-width:1320px;
+margin:0 auto 10px auto;
+display:grid;
+grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
+gap:14px;
+color:#64748b;
+font-weight:bold;
+padding:0 10px;
+}
 
-  .search-result{
-    display:none;
-    background:linear-gradient(180deg, rgba(10,22,39,.96), rgba(7,18,33,.96));
-    border:1px solid rgba(77,163,255,.22);
-    border-radius:18px;
-    padding:18px;
-  }
+.ranking{
+max-width:1320px;
+margin:0 auto;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
 
-  .search-result.show{
-    display:block;
-    animation:fadeIn .25s ease;
-  }
+.player-card{
+display:grid;
+grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
+gap:14px;
+align-items:center;
+background:linear-gradient(180deg, var(--card1), var(--card2));
+border:1px solid rgba(255,255,255,.05);
+border-radius:18px;
+min-height:92px;
+padding:12px 14px;
+}
 
-  .search-result.not-found{
-    border-color:rgba(252,165,165,.22);
-  }
+/* ===== PRZYCISK INFO ===== */
+#infoBtn{
+padding:10px 14px;
+border-radius:12px;
+border:none;
+font-weight:800;
+cursor:pointer;
+background:#4da3ff;
+color:#fff;
+}
 
-  .result-grid{
-    display:grid;
-    grid-template-columns:110px 1fr;
-    gap:16px;
-    align-items:center;
-  }
+/* ===== MODAL ===== */
+.info-modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+backdrop-filter: blur(6px);
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
 
-  .result-avatar{
-    width:90px;
-    height:90px;
-    border-radius:16px;
-    object-fit:cover;
-    border:1px solid rgba(255,255,255,.12);
-    background:#0f172a;
-  }
+.info-modal.show{ display:flex; }
 
-  .result-name{
-    font-size:28px;
-    font-weight:900;
-    color:#fff;
-    margin-bottom:10px;
-  }
+.info-box{
+width:min(520px, 92vw);
+background:linear-gradient(180deg,#0f172a,#0b1220);
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+padding:18px;
+}
 
-  .result-lines{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
+.info-tabs{
+display:flex;
+gap:10px;
+margin-bottom:12px;
+}
 
-  .result-line{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    align-items:center;
-    color:#d7e2f0;
-    font-size:15px;
-  }
+.tab-btn{
+flex:1;
+padding:10px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:800;
+background:rgba(255,255,255,.06);
+color:#fff;
+}
 
-  .info-chip{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:38px;
-    padding:8px 12px;
-    border-radius:12px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.06);
-    font-weight:700;
-  }
+.tab-btn.active{
+background:#4da3ff;
+}
 
-  .info-chip.region.eu{ background:rgba(64,145,63,.22); color:#9df68b; }
-  .info-chip.region.na{ background:rgba(156,57,57,.22); color:#ff8b8b; }
-  .info-chip.region.as{ background:rgba(61,101,170,.22); color:#8fc2ff; }
-  .info-chip.region.sa{ background:rgba(152,98,39,.22); color:#ffc882; }
+.tab-content{ display:none; }
 
-  .table-head{
-    max-width:1320px;
-    margin:0 auto 10px auto;
-    display:grid;
-    grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
-    gap:14px;
-    color:#64748b;
-    font-weight:bold;
-    padding:0 10px;
-  }
+.tab-content.active{ display:block; }
 
-  .ranking{
-    max-width:1320px;
-    margin:0 auto;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
+.info-row{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+border-bottom:1px solid rgba(255,255,255,.06);
+font-size:14px;
+}
 
-  .player-card{
-    display:grid;
-    grid-template-columns:110px 1.9fr 150px 1.2fr 210px;
-    gap:14px;
-    align-items:center;
-    background:linear-gradient(180deg, var(--card1), var(--card2));
-    border:1px solid rgba(255,255,255,.05);
-    border-radius:18px;
-    min-height:92px;
-    padding:12px 14px;
-    box-shadow:0 10px 30px rgba(0,0,0,.22);
-    transition:.2s ease;
-  }
-
-  .player-card:hover{
-    transform:translateY(-1px);
-    border-color:rgba(255,255,255,.09);
-  }
-
-  .player-card.highlighted{
-    border-color:rgba(77,163,255,.8);
-    box-shadow:0 0 0 3px rgba(77,163,255,.14), 0 14px 34px rgba(0,0,0,.28);
-  }
-
-  .player-card.rank-1 .player-name{
-    background:linear-gradient(135deg,#f5c451,#fff3b0,#b8861d);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    text-shadow:0 0 10px rgba(245,196,81,.35);
-  }
-
-  .player-card.rank-2 .player-name{
-    background:linear-gradient(135deg,#e5e7eb,#9ca3af,#f3f4f6);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    text-shadow:0 0 10px rgba(156,163,175,.25);
-  }
-
-  .player-card.rank-3 .player-name{
-    background:linear-gradient(135deg,#d48a4c,#8f5323,#ffb36b);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    text-shadow:0 0 10px rgba(212,138,76,.25);
-  }
-
-  .rank-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    height:68px;
-    border-radius:14px;
-    overflow:hidden;
-    padding-left:12px;
-    position:relative;
-    background:linear-gradient(135deg,#2d3748,#1f2937);
-  }
-
-  .rank-box.rank-1{ background:linear-gradient(135deg,#f5c451,#b8861d); }
-  .rank-box.rank-2{ background:linear-gradient(135deg,#d9e1e8,#8e9aa5); }
-  .rank-box.rank-3{ background:linear-gradient(135deg,#d48a4c,#8f5323); }
-
-  .rank-num{
-    font-size:28px;
-    font-weight:900;
-    color:white;
-    min-width:34px;
-    text-shadow:0 2px 6px rgba(0,0,0,.35);
-  }
-
-  .mini-avatar{
-    width:42px;
-    height:42px;
-    border-radius:8px;
-    object-fit:cover;
-    border:1px solid rgba(255,255,255,.18);
-  }
-
-  .player-main{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-  }
-
-  .player-name{
-    font-size:22px;
-    font-weight:800;
-    color:#f8fafc;
-  }
-
-  .player-sub{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-    color:#93a4ba;
-    font-size:13px;
-  }
-
-  .title-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.06);
-    color:#f8d36a;
-    padding:6px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
-  }
-
-  .region{
-    justify-self:center;
-    font-weight:800;
-    font-size:20px;
-    padding:12px 14px;
-    border-radius:14px;
-    min-width:60px;
-    text-align:center;
-  }
-
-  .region.eu{ background:rgba(64,145,63,.28); color:#9df68b; }
-  .region.na{ background:rgba(156,57,57,.28); color:#ff8b8b; }
-  .region.as{ background:rgba(61,101,170,.28); color:#8fc2ff; }
-  .region.sa{ background:rgba(152,98,39,.28); color:#ffc882; }
-
-  .tiers{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    align-items:center;
-  }
-
-  .tier{
-    padding:7px 10px;
-    border-radius:12px;
-    font-size:12px;
-    font-weight:800;
-    min-width:52px;
-    text-align:center;
-    background:#1b2637;
-    border:1px solid rgba(255,255,255,.06);
-  }
-
-  .ht{ color:#f9b54a; }
-  .lt{ color:#bac4d3; }
-
-  .points-box{
-    justify-self:end;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-end;
-    gap:6px;
-  }
-
-  .points-value{
-    font-size:28px;
-    font-weight:900;
-    color:#ffffff;
-  }
-
-  .points-label{
-    font-size:12px;
-    color:#7f90a8;
-    text-transform:uppercase;
-    letter-spacing:1px;
-  }
-
-  .status{
-    max-width:1320px;
-    margin:0 auto 14px auto;
-    color:#93a4ba;
-    font-size:14px;
-    padding:0 10px;
-  }
-
-  .error{
-    color:#fca5a5;
-  }
-
-  @keyframes fadeIn{
-    from{ opacity:0; transform:translateY(8px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
-
-  /* ===== INFO MODAL + TABS ===== */
-  .info-modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.65);
-    backdrop-filter: blur(6px);
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-  }
-
-  .info-modal.show{ display:flex; }
-
-  .info-box{
-    width:min(520px, 92vw);
-    background:linear-gradient(180deg,#0f172a,#0b1220);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:18px;
-    padding:18px;
-    box-shadow:0 20px 60px rgba(0,0,0,.5);
-  }
-
-  .tabs{
-    display:flex;
-    gap:8px;
-    margin-bottom:12px;
-  }
-
-  .tab-btn{
-    flex:1;
-    padding:10px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(255,255,255,.05);
-    color:#fff;
-    font-weight:800;
-    cursor:pointer;
-  }
-
-  .tab-btn.active{
-    background:#1e40af;
-  }
-
-  .tab{
-    display:none;
-  }
-
-  .tab.active{
-    display:block;
-  }
-
-  .info-row{
-    display:flex;
-    justify-content:space-between;
-    padding:8px 0;
-    border-bottom:1px solid rgba(255,255,255,.06);
-    font-size:14px;
-    color:#d7e2f0;
-  }
-
-  .close-btn{
-    margin-top:14px;
-    width:100%;
-    padding:10px;
-    border:none;
-    border-radius:12px;
-    background:#1e40af;
-    color:#fff;
-    font-weight:800;
-    cursor:pointer;
-  }
+.close-btn{
+margin-top:14px;
+width:100%;
+padding:10px;
+border:none;
+border-radius:12px;
+background:#1e40af;
+color:#fff;
+font-weight:800;
+cursor:pointer;
+}
 </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <h1>PvP Tiers</h1>
 
-    <button id="infoBtn" style="padding:10px 14px;border-radius:12px;border:none;font-weight:800;cursor:pointer;background:#4da3ff;color:#fff;">
-      Informacje
-    </button>
+<div class="topbar">
+<h1>PvP Tiers</h1>
 
-    <div class="legend">
-      <span>Grandmaster: 400+</span>
-      <span>Master: 250+</span>
-      <span>Ace: 100+</span>
-      <span>Specialist: 50+</span>
-      <span>Cadet: 20+</span>
-      <span>Novice: 10+</span>
-      <span>Rookie: &lt;10</span>
-    </div>
-  </div>
+<button id="infoBtn">Informacje</button>
 
-  <div class="main">
-    <div class="search-panel">
-      <div class="search-title">Wyszukaj gracza</div>
+<div class="legend">
+<span>Grandmaster: 400+</span>
+<span>Master: 250+</span>
+<span>Ace: 100+</span>
+<span>Specialist: 50+</span>
+<span>Cadet: 20+</span>
+<span>Novice: 10+</span>
+<span>Rookie: &lt;10</span>
+</div>
+</div>
 
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Wpisz nick gracza z listy..." autocomplete="off" />
-        <button class="btn-search" id="searchBtn">Wyszukaj gracza</button>
-        <button class="btn-clear" id="clearBtn">Wyczyść</button>
-      </div>
+<div class="main">
+<div class="search-panel">
+<div class="search-title">Wyszukaj gracza</div>
+<div class="search-bar">
+<input id="searchInput" placeholder="Nick..." />
+<button class="btn-search" id="searchBtn">Szukaj</button>
+<button class="btn-clear" id="clearBtn">Wyczyść</button>
+</div>
+<div class="search-result" id="searchResult"></div>
+</div>
 
-      <div class="search-result" id="searchResult"></div>
-    </div>
+<div class="table-head">
+<div>#</div><div>PLAYER</div><div>REGION</div><div>TIERS</div><div>POINTS</div>
+</div>
 
-    <div class="status" id="status">Ładowanie rankingu...</div>
+<div class="ranking" id="ranking"></div>
+</div>
 
-    <div class="table-head">
-      <div>#</div>
-      <div>PLAYER</div>
-      <div>REGION</div>
-      <div>TIERS</div>
-      <div style="text-align:right;">POINTS</div>
-    </div>
+<!-- ===== MODAL INFORMACJE ===== -->
+<div class="info-modal" id="infoModal">
+<div class="info-box">
 
-    <div class="ranking" id="ranking"></div>
-  </div>
+<div class="info-tabs">
+<button class="tab-btn active" onclick="openTab('tiers')">Tiery</button>
+<button class="tab-btn" onclick="openTab('titles')">Title</button>
+</div>
 
-  <!-- MODAL -->
-  <div class="info-modal" id="infoModal">
-    <div class="info-box">
+<div id="tiers" class="tab-content active">
+<div class="info-row"><span>HT5</span><span>2 punkty</span></div>
+<div class="info-row"><span>LT5</span><span>1 punkt</span></div>
+<div class="info-row"><span>HT4</span><span>4 punkty</span></div>
+<div class="info-row"><span>LT4</span><span>3 punkty</span></div>
+<div class="info-row"><span>HT3</span><span>10 punktów</span></div>
+<div class="info-row"><span>LT3</span><span>6 punktów</span></div>
+<div class="info-row"><span>HT2</span><span>30 punktów</span></div>
+<div class="info-row"><span>LT2</span><span>20 punktów</span></div>
+<div class="info-row"><span>HT1</span><span>60 punktów</span></div>
+<div class="info-row"><span>LT1</span><span>45 punktów</span></div>
+</div>
 
-      <div class="tabs">
-        <button class="tab-btn active" data-tab="tab1">Tiers</button>
-        <button class="tab-btn" data-tab="tab2">Titles</button>
-      </div>
+<div id="titles" class="tab-content">
+<div class="info-row"><span>400+</span><span>Grandmaster</span></div>
+<div class="info-row"><span>250+</span><span>Master</span></div>
+<div class="info-row"><span>100+</span><span>Ace</span></div>
+<div class="info-row"><span>50+</span><span>Specialist</span></div>
+<div class="info-row"><span>20+</span><span>Cadet</span></div>
+<div class="info-row"><span>10+</span><span>Novice</span></div>
+<div class="info-row"><span>&lt;10</span><span>Rookie</span></div>
+</div>
 
-      <!-- TAB 1 (zachowane twoje dane) -->
-      <div class="tab active" id="tab1">
-        <div class="info-row"><span>HT5</span><span>2 punkty</span></div>
-        <div class="info-row"><span>LT5</span><span>1 punkt</span></div>
-        <div class="info-row"><span>HT4</span><span>4 punkty</span></div>
-        <div class="info-row"><span>LT4</span><span>3 punkty</span></div>
-        <div class="info-row"><span>HT3</span><span>10 punktów</span></div>
-        <div class="info-row"><span>LT3</span><span>6 punktów</span></div>
-        <div class="info-row"><span>HT2</span><span>30 punktów</span></div>
-        <div class="info-row"><span>LT2</span><span>20 punktów</span></div>
-        <div class="info-row"><span>HT1</span><span>60 punktów</span></div>
-        <div class="info-row"><span>LT1</span><span>45 punktów</span></div>
-      </div>
-
-      <!-- TAB 2 (TITLE SYSTEM) -->
-      <div class="tab" id="tab2">
-        <div class="info-row"><span>Rookie</span><span>&lt; 10</span></div>
-        <div class="info-row"><span>Combat Novice</span><span>10+</span></div>
-        <div class="info-row"><span>Combat Cadet</span><span>20+</span></div>
-        <div class="info-row"><span>Combat Specialist</span><span>50+</span></div>
-        <div class="info-row"><span>Combat Ace</span><span>100+</span></div>
-        <div class="info-row"><span>Combat Master</span><span>250+</span></div>
-        <div class="info-row"><span>Combat Grandmaster</span><span>400+</span></div>
-      </div>
-
-      <button class="close-btn" id="closeInfo">Zamknij</button>
-    </div>
-  </div>
+<button class="close-btn" id="closeInfo">Zamknij</button>
+</div>
+</div>
 
 <script>
-  let allPlayers = [];
+const infoBtn = document.getElementById("infoBtn");
+const infoModal = document.getElementById("infoModal");
+const closeInfo = document.getElementById("closeInfo");
 
-  function getTitle(points) {
-    if (points >= 400) return "Combat Grandmaster";
-    if (points >= 250) return "Combat Master";
-    if (points >= 100) return "Combat Ace";
-    if (points >= 50) return "Combat Specialist";
-    if (points >= 20) return "Combat Cadet";
-    if (points >= 10) return "Combat Novice";
-    return "Rookie";
-  }
+infoBtn.onclick = () => infoModal.classList.add("show");
+closeInfo.onclick = () => infoModal.classList.remove("show");
 
-  function regionClass(region) {
-    return String(region || "EU").toLowerCase();
-  }
+infoModal.onclick = (e) => {
+if(e.target === infoModal) infoModal.classList.remove("show");
+};
 
-  function escapeHtml(text) {
-    return String(text ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  function sortPlayers(players) {
-    return [...players].sort((a, b) => (b.points||0) - (a.points||0));
-  }
-
-  function getPlayerRank(players, nick) {
-    const sorted = sortPlayers(players);
-    return sorted.findIndex(p => String(p.nick).toLowerCase() === String(nick).toLowerCase()) + 1;
-  }
-
-  function renderRanking(players, highlightedNick = "") {
-    const rankingEl = document.getElementById("ranking");
-    rankingEl.innerHTML = "";
-
-    const sorted = sortPlayers(players);
-
-    sorted.forEach((p, index) => {
-      const rank = index + 1;
-      const title = getTitle(Number(p.points) || 0);
-
-      const tiersHTML = (p.tiers || []).map(t => `
-        <span class="tier ${String(t).includes("HT") ? "ht":"lt"}">${escapeHtml(t)}</span>
-      `).join("");
-
-      rankingEl.innerHTML += `
-        <div class="player-card">
-          <div class="rank-box">
-            <div class="rank-num">${rank}.</div>
-          </div>
-
-          <div class="player-main">
-            <div class="player-name">${escapeHtml(p.nick)}</div>
-            <div class="player-sub">
-              <span class="title-badge">${title}</span>
-            </div>
-          </div>
-
-          <div class="region">${escapeHtml(p.region)}</div>
-
-          <div class="tiers">${tiersHTML}</div>
-
-          <div class="points-box">
-            <div class="points-value">${p.points}</div>
-          </div>
-        </div>
-      `;
-    });
-  }
-
-  async function loadPlayers() {
-    const res = await fetch("./players.json");
-    allPlayers = await res.json();
-    renderRanking(allPlayers);
-  }
-
-  loadPlayers();
-
-  /* INFO MODAL */
-  const infoBtn = document.getElementById("infoBtn");
-  const modal = document.getElementById("infoModal");
-  const closeBtn = document.getElementById("closeInfo");
-
-  infoBtn.onclick = () => modal.classList.add("show");
-  closeBtn.onclick = () => modal.classList.remove("show");
-
-  modal.onclick = (e) => {
-    if (e.target === modal) modal.classList.remove("show");
-  };
-
-  /* TABS */
-  document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.tab).classList.add("active");
-    };
-  });
+function openTab(tab){
+document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
+document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+document.getElementById(tab).classList.add("active");
+event.target.classList.add("active");
+}
 </script>
+
 </body>
 </html>
