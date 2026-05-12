@@ -53,32 +53,6 @@
       letter-spacing: .5px;
     }
 
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .discord-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 900;
-      color: #fff;
-      background: linear-gradient(135deg,#5865F2,#404EED);
-      border: 1px solid rgba(255,255,255,.12);
-      transition: .2s ease;
-    }
-
-    .discord-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(88,101,242,.25);
-    }
-
     .legend {
       display: flex;
       gap: 10px;
@@ -172,44 +146,609 @@
       background: rgba(255,255,255,.12);
     }
 
-    /* --- reszta CSS BEZ ZMIAN --- */
+    .search-result {
+      display: none;
+      background: linear-gradient(180deg, rgba(10,22,39,.96), rgba(7,18,33,.96));
+      border: 1px solid rgba(77,163,255,.22);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .search-result.show {
+      display: block;
+      animation: fadeIn .25s ease;
+    }
+
+    .search-result.not-found {
+      border-color: rgba(252,165,165,.22);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .result-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.12);
+      background: #0f172a;
+    }
+
+    .result-name {
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .result-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .result-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      color: #d7e2f0;
+      font-size: 15px;
+    }
+
+    .info-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.06);
+      font-weight: 700;
+    }
+
+    .info-chip.region.eu {
+      background: rgba(64,145,63,.22);
+      color: #9df68b;
+    }
+
+    .info-chip.region.na {
+      background: rgba(156,57,57,.22);
+      color: #ff8b8b;
+    }
+
+    .info-chip.region.as {
+      background: rgba(61,101,170,.22);
+      color: #8fc2ff;
+    }
+
+    .info-chip.region.sa {
+      background: rgba(152,98,39,.22);
+      color: #ffc882;
+    }
+
+    .table-head {
+      max-width: 1320px;
+      margin: 0 auto 10px auto;
+      display: grid;
+      grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
+      gap: 14px;
+      color: #64748b;
+      font-weight: bold;
+      padding: 0 10px;
+    }
+
+    .ranking {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .player-card {
+      display: grid;
+      grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
+      gap: 14px;
+      align-items: center;
+      background: linear-gradient(180deg, var(--card1), var(--card2));
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 18px;
+      min-height: 92px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      transition: .2s ease;
+    }
+
+    .player-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.09);
+    }
+
+    .player-card.highlighted {
+      border-color: rgba(77,163,255,.8);
+      box-shadow: 0 0 0 3px rgba(77,163,255,.14), 0 14px 34px rgba(0,0,0,.28);
+    }
+
+    .player-card.rank-1 .player-name {
+      background: linear-gradient(135deg,#f5c451,#fff3b0,#b8861d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(245,196,81,.35);
+    }
+
+    .player-card.rank-2 .player-name {
+      background: linear-gradient(135deg,#e5e7eb,#9ca3af,#f3f4f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(156,163,175,.25);
+    }
+
+    .player-card.rank-3 .player-name {
+      background: linear-gradient(135deg,#d48a4c,#8f5323,#ffb36b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(212,138,76,.25);
+    }
+
+    .rank-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 68px;
+      border-radius: 14px;
+      overflow: hidden;
+      padding-left: 12px;
+      position: relative;
+      background: linear-gradient(135deg,#2d3748,#1f2937);
+    }
+
+    .rank-box.rank-1 { background: linear-gradient(135deg,#f5c451,#b8861d); }
+    .rank-box.rank-2 { background: linear-gradient(135deg,#d9e1e8,#8e9aa5); }
+    .rank-box.rank-3 { background: linear-gradient(135deg,#d48a4c,#8f5323); }
+
+    .rank-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: white;
+      min-width: 34px;
+      text-shadow: 0 2px 6px rgba(0,0,0,.35);
+    }
+
+    .mini-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .player-main {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .player-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+
+    .player-sub {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #93a4ba;
+      font-size: 13px;
+    }
+
+    .title-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.06);
+      color: #f8d36a;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .region {
+      justify-self: center;
+      font-weight: 800;
+      font-size: 20px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .region.eu { background: rgba(64,145,63,.28); color: #9df68b; }
+    .region.na { background: rgba(156,57,57,.28); color: #ff8b8b; }
+    .region.as { background: rgba(61,101,170,.28); color: #8fc2ff; }
+    .region.sa { background: rgba(152,98,39,.28); color: #ffc882; }
+
+    .tiers {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tier {
+      padding: 7px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      min-width: 52px;
+      text-align: center;
+      background: #1b2637;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .ht { color: #f9b54a; }
+    .lt { color: #bac4d3; }
+
+    .points-box {
+      justify-self: end;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .points-value {
+      font-size: 28px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .points-label {
+      font-size: 12px;
+      color: #7f90a8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .status {
+      max-width: 1320px;
+      margin: 0 auto 14px auto;
+      color: #93a4ba;
+      font-size: 14px;
+      padding: 0 10px;
+    }
+
+    .error { color: #fca5a5; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .info-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+
+    .info-modal.show { display: flex; }
+
+    .info-box {
+      width: min(620px, 96vw);
+      background: linear-gradient(180deg,#0f172a,#0b1220);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+
+    .info-box h2 { margin: 0 0 12px 0; font-size: 20px; }
+
+    .tabs { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+
+    .tab-btn {
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.05);
+      color: #e2e8f0;
+      font-weight: 800;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: #1e40af;
+      border-color: rgba(77,163,255,.5);
+      color: #fff;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: 14px;
+      color: #d7e2f0;
+    }
+
+    .close-btn {
+      margin-top: 14px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 12px;
+      background: #1e40af;
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* DISCORD BUTTON */
+    .discord-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #5865F2;
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+      transition: .2s ease;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .discord-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(88,101,242,.35);
+    }
+
+    .discord-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+    }
+
+    @media (max-width: 1100px) {
+      .table-head { display: none; }
+
+      .player-card {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .region, .points-box {
+        justify-self: start;
+        align-items: flex-start;
+      }
+
+      .main {
+        height: auto;
+        overflow: visible;
+      }
+
+      body { overflow: auto; }
+    }
+
+    @media (max-width: 700px) {
+      .result-grid { grid-template-columns: 1fr; }
+      .result-avatar { width: 76px; height: 76px; }
+      .result-name { font-size: 24px; }
+
+      .search-bar {
+        flex-direction: column;
+      }
+
+      .search-bar button,
+      .search-bar input {
+        width: 100%;
+      }
+    }
   </style>
 </head>
-
 <body>
   <div class="topbar">
     <h1>PvP Tiers</h1>
 
-    <div class="topbar-right">
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
       <button id="infoBtn" style="padding:10px 14px;border-radius:12px;border:none;font-weight:800;cursor:pointer;background:#4da3ff;color:#fff;">
         Informacje
       </button>
 
-      <!-- DISCORD BUTTON -->
       <a class="discord-btn" href="https://discord.gg/VGusdEPJuz" target="_blank">
-        <!-- ikonka Discord (SVG) -->
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20.317 4.369A19.791 19.791 0 0016.558 3c-.21.375-.455.88-.623 1.285a18.27 18.27 0 00-5.87 0C9.897 3.88 9.652 3.375 9.442 3A19.79 19.79 0 005.683 4.369C3.268 7.903 2.623 11.332 2.945 14.72c1.637 1.222 3.224 1.97 4.79 2.45.39-.54.736-1.11 1.03-1.71-.56-.21-1.1-.47-1.61-.78.135-.1.27-.2.4-.31 3.1 1.45 6.45 1.45 9.54 0 .13.11.265.21.4.31-.51.31-1.05.57-1.61.78.294.6.64 1.17 1.03 1.71 1.566-.48 3.153-1.228 4.79-2.45.38-3.85-.64-7.25-3.053-10.35zM9.75 13.5c-.69 0-1.25-.63-1.25-1.4 0-.77.56-1.4 1.25-1.4s1.25.63 1.25 1.4c0 .77-.56 1.4-1.25 1.4zm4.5 0c-.69 0-1.25-.63-1.25-1.4 0-.77.56-1.4 1.25-1.4s1.25.63 1.25 1.4c0 .77-.56 1.4-1.25 1.4z"/>
+        <svg viewBox="0 0 24 24">
+          <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.249a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.249.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.056 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.873-1.295 1.226-1.994a.076.076 0 00-.041-.105 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128c.126-.094.252-.192.371-.291a.074.074 0 01.077-.01c3.927 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.009c.12.1.246.198.372.292a.077.077 0 01-.006.127c-.596.346-1.215.63-1.873.892a.077.077 0 00-.04.106c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.88 19.88 0 006.002-3.03.077.077 0 00.03-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028z"/>
         </svg>
         Discord
       </a>
+    </div>
 
-      <div class="legend">
-        <span>Grandmaster: 400+</span>
-        <span>Master: 250+</span>
-        <span>Ace: 100+</span>
-        <span>Specialist: 50+</span>
-        <span>Cadet: 20+</span>
-        <span>Novice: 10+</span>
-        <span>Rookie: &lt;10</span>
-      </div>
+    <div class="legend">
+      <span>Grandmaster: 400+</span>
+      <span>Master: 250+</span>
+      <span>Ace: 100+</span>
+      <span>Specialist: 50+</span>
+      <span>Cadet: 20+</span>
+      <span>Novice: 10+</span>
+      <span>Rookie: &lt;10</span>
     </div>
   </div>
 
+  <!-- reszta BEZ ZMIAN -->
   <div class="main">
-    <!-- RESZTA TWOJEGO KODU BEZ ZMIAN -->
+    <div class="search-panel">
+      <div class="search-title">Wyszukaj gracza</div>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Wpisz nick gracza z listy..." autocomplete="off" />
+        <button class="btn-search" id="searchBtn">Wyszukaj gracza</button>
+        <button class="btn-clear" id="clearBtn">Wyczyść</button>
+      </div>
+      <div class="search-result" id="searchResult"></div>
+    </div>
+
+    <div class="status" id="status">Ładowanie rankingu...</div>
+
+    <div class="table-head">
+      <div>#</div>
+      <div>PLAYER</div>
+      <div>REGION</div>
+      <div>TIERS</div>
+      <div style="text-align:right;">POINTS</div>
+    </div>
+
+    <div class="ranking" id="ranking"></div>
   </div>
 
-  <!-- RESZTA JS BEZ ZMIAN -->
+  <div class="info-modal" id="infoModal">
+    <div class="info-box">
+      <h2>Informacje</h2>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="titlesTab">Title</button>
+        <button class="tab-btn" data-tab="tiersTab">Tiery</button>
+      </div>
+
+      <div class="tab-panel active" id="titlesTab">
+        <div class="info-row"><span>Grandmaster</span><span>400+ punktów</span></div>
+        <div class="info-row"><span>Master</span><span>250+ punktów</span></div>
+        <div class="info-row"><span>Ace</span><span>100+ punktów</span></div>
+        <div class="info-row"><span>Specialist</span><span>50+ punktów</span></div>
+        <div class="info-row"><span>Cadet</span><span>20+ punktów</span></div>
+        <div class="info-row"><span>Novice</span><span>10+ punktów</span></div>
+        <div class="info-row"><span>Rookie</span><span>&lt;10 punktów</span></div>
+      </div>
+
+      <div class="tab-panel" id="tiersTab">
+        <div class="info-row"><span>HT5</span><span>2 punkty</span></div>
+        <div class="info-row"><span>LT5</span><span>1 punkt</span></div>
+        <div class="info-row"><span>HT4</span><span>4 punkty</span></div>
+        <div class="info-row"><span>LT4</span><span>3 punkty</span></div>
+        <div class="info-row"><span>HT3</span><span>10 punktów</span></div>
+        <div class="info-row"><span>LT3</span><span>6 punktów</span></div>
+        <div class="info-row"><span>HT2</span><span>30 punktów</span></div>
+        <div class="info-row"><span>LT2</span><span>20 punktów</span></div>
+        <div class="info-row"><span>HT1</span><span>60 punktów</span></div>
+        <div class="info-row"><span>LT1</span><span>45 punktów</span></div>
+      </div>
+
+      <button class="close-btn" id="closeInfo">Zamknij</button>
+    </div>
+  </div>
+
+  <script>
+    let allPlayers = [];
+
+    function getTitle(points) {
+      if (points >= 400) return "Combat Grandmaster";
+      if (points >= 250) return "Combat Master";
+      if (points >= 100) return "Combat Ace";
+      if (points >= 50) return "Combat Specialist";
+      if (points >= 20) return "Combat Cadet";
+      if (points >= 10) return "Combat Novice";
+      return "Rookie";
+    }
+
+    function regionClass(region) {
+      return String(region || "EU").toLowerCase();
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function sortPlayers(players) {
+      return [...players].sort((a, b) => {
+        if ((b.points || 0) !== (a.points || 0)) return (b.points || 0) - (a.points || 0);
+        return String(a.nick || "").localeCompare(String(b.nick || ""));
+      });
+    }
+
+    function getPlayerRank(players, nick) {
+      const sorted = sortPlayers(players);
+      return sorted.findIndex(p => String(p.nick).toLowerCase() === String(nick).toLowerCase()) + 1;
+    }
+
+    function renderRanking(players, highlightedNick = "") {
+      const rankingEl = document.getElementById("ranking");
+      rankingEl.innerHTML = "";
+
+      const sorted = sortPlayers(players);
+
+      sorted.forEach((p, index) => {
+        const rank = index + 1;
+        const title = getTitle(Number(p.points) || 0);
+        const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
+
+        rankingEl.innerHTML += `
+          <div class="player-card ${isHighlighted ? "highlighted" : ""}">
+            <div class="rank-box">
+              <div class="rank-num">${rank}.</div>
+              <img class="mini-avatar" src="${escapeHtml(p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick || "")}`)}" alt="">
+            </div>
+            <div class="player-main">
+              <div class="player-name">${escapeHtml(p.nick)}</div>
+              <div class="player-sub">
+                <span class="title-badge">✦ ${escapeHtml(title)}</span>
+                <span>(${Number(p.points) || 0} points)</span>
+              </div>
+            </div>
+            <div class="region">${escapeHtml(p.region || "EU")}</div>
+            <div class="tiers"></div>
+            <div class="points-box">
+              <div class="points-value">${Number(p.points) || 0}</div>
+              <div class="points-label">Combat Points</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    async function loadPlayers() {
+      const status = document.getElementById("status");
+      try {
+        const response = await fetch("./players.json?v=" + Date.now());
+        const players = await response.json();
+        allPlayers = players;
+        renderRanking(players);
+        status.textContent = `Załadowano ${players.length} graczy.`;
+      } catch (err) {
+        status.classList.add("error");
+        status.textContent = "Błąd: " + err.message;
+      }
+    }
+
+    loadPlayers();
+
+    const infoBtn = document.getElementById("infoBtn");
+    const infoModal = document.getElementById("infoModal");
+    const closeInfo = document.getElementById("closeInfo");
+
+    infoBtn.onclick = () => infoModal.classList.add("show");
+    closeInfo.onclick = () => infoModal.classList.remove("show");
+  </script>
 </body>
 </html>
