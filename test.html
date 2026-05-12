@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>PvP Ranking | Invite Tier Test</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg1:#0f172a;
+      --bg2:#020617;
+      --card1:rgba(12,24,43,.95);
+      --card2:rgba(8,19,35,.95);
+      --border:rgba(255,255,255,.06);
+      --text:#fff;
+      --muted:#93a4ba;
+      --accent:#4da3ff;
+      --accent2:#1e40af;
+      --success:#9df68b;
+      --danger:#fca5a5;
+      --gold1:#f5c451;
+      --gold2:#b8861d;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top, rgba(77,163,255,.12), transparent 30%), linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
+      overflow: hidden;
+    }
+
+    .topbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 22px;
+      background: rgba(8,15,28,.88);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      flex-wrap: wrap;
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: .5px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    .legend span {
+      background: rgba(255,255,255,.06);
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.05);
+    }
+
+    .main {
+      height: calc(100vh - 90px);
+      overflow-y: auto;
+      padding: 18px 18px 40px;
+    }
+
+    .search-panel {
+      max-width: 1320px;
+      margin: 0 auto 18px auto;
+      background: linear-gradient(180deg, rgba(15,27,48,.95), rgba(10,20,36,.95));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 12px 32px rgba(0,0,0,.22);
+    }
+
+    .search-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #f8fafc;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      min-width: 240px;
+      background: #0d1728;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 15px;
+      outline: none;
+      transition: .2s ease;
+    }
+
+    .search-bar input:focus {
+      border-color: rgba(77,163,255,.8);
+      box-shadow: 0 0 0 4px rgba(77,163,255,.12);
+    }
+
+    .search-bar button {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .btn-search {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+    }
+
+    .btn-search:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(30,64,175,.25);
+    }
+
+    .btn-clear {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.06) !important;
+    }
+
+    .btn-clear:hover {
+      background: rgba(255,255,255,.12);
+    }
+
+    .search-result {
+      display: none;
+      background: linear-gradient(180deg, rgba(10,22,39,.96), rgba(7,18,33,.96));
+      border: 1px solid rgba(77,163,255,.22);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .search-result.show {
+      display: block;
+      animation: fadeIn .25s ease;
+    }
+
+    .search-result.not-found {
+      border-color: rgba(252,165,165,.22);
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .result-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.12);
+      background: #0f172a;
+    }
+
+    .result-name {
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .result-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .result-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      color: #d7e2f0;
+      font-size: 15px;
+    }
+
+    .info-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.06);
+      font-weight: 700;
+    }
+
+    .info-chip.region.eu { background: rgba(64,145,63,.22); color: #9df68b; }
+    .info-chip.region.na { background: rgba(156,57,57,.22); color: #ff8b8b; }
+    .info-chip.region.as { background: rgba(61,101,170,.22); color: #8fc2ff; }
+    .info-chip.region.sa { background: rgba(152,98,39,.22); color: #ffc882; }
+
+    .table-head {
+      max-width: 1320px;
+      margin: 0 auto 10px auto;
+      display: grid;
+      grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
+      gap: 14px;
+      color: #64748b;
+      font-weight: bold;
+      padding: 0 10px;
+    }
+
+    .ranking {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .player-card {
+      display: grid;
+      grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
+      gap: 14px;
+      align-items: center;
+      background: linear-gradient(180deg, var(--card1), var(--card2));
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 18px;
+      min-height: 92px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      transition: .2s ease;
+    }
+
+    .player-card:hover { transform: translateY(-1px); border-color: rgba(255,255,255,.09); }
+    .player-card.highlighted { border-color: rgba(77,163,255,.8); box-shadow: 0 0 0 3px rgba(77,163,255,.14), 0 14px 34px rgba(0,0,0,.28); }
+
+    .player-name { font-size: 22px; font-weight: 800; color: #f8fafc; }
+
+    /* NOWY PRZYCISK DISCORD */
+    .btn-discord {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg,#5865F2,#3b4acb);
+      transition: .2s ease;
+    }
+
+    .btn-discord:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(88,101,242,.35);
+    }
+
+    .btn-discord svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <h1>PvP Tiers</h1>
+
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <button id="infoBtn" style="padding:10px 14px;border-radius:12px;border:none;font-weight:800;cursor:pointer;background:#4da3ff;color:#fff;">
+        Informacje
+      </button>
+
+      <!-- 🔥 DODANY DISCORD -->
+      <button class="btn-discord" onclick="window.open('https://discord.gg/VGusdEPJuz','_blank')">
+        <svg viewBox="0 0 24 24">
+          <path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.21.375-.455.88-.623 1.28a18.27 18.27 0 0 0-7.87 0c-.168-.4-.413-.905-.623-1.28A19.736 19.736 0 0 0 3.683 4.37C1.533 7.24.889 10.05 1.212 12.82a19.9 19.9 0 0 0 6.062 3.03c.49-.67.925-1.38 1.29-2.13-.69-.26-1.35-.58-1.98-.95.17-.12.33-.25.49-.38 3.83 1.8 7.98 1.8 11.76 0 .16.13.32.26.49.38-.63.37-1.29.69-1.98.95.36.75.79 1.46 1.29 2.13a19.9 19.9 0 0 0 6.06-3.03c.42-3.52-.71-6.31-2.89-8.45z"/>
+        </svg>
+        Discord
+      </button>
+    </div>
+
+    <div class="legend">
+      <span>Grandmaster: 400+</span>
+      <span>Master: 250+</span>
+      <span>Ace: 100+</span>
+      <span>Specialist: 50+</span>
+      <span>Cadet: 20+</span>
+      <span>Novice: 10+</span>
+      <span>Rookie: &lt;10</span>
+    </div>
+  </div>
+
+  <!-- reszta BEZ ZMIAN -->
+  <div class="main">
+    <div class="search-panel">
+      <div class="search-title">Wyszukaj gracza</div>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Wpisz nick gracza z listy..." autocomplete="off" />
+        <button class="btn-search" id="searchBtn">Wyszukaj gracza</button>
+        <button class="btn-clear" id="clearBtn">Wyczyść</button>
+      </div>
+      <div class="search-result" id="searchResult"></div>
+    </div>
+
+    <div class="status" id="status">Ładowanie rankingu...</div>
+    <div class="table-head">
+      <div>#</div>
+      <div>PLAYER</div>
+      <div>REGION</div>
+      <div>TIERS</div>
+      <div style="text-align:right;">POINTS</div>
+    </div>
+    <div class="ranking" id="ranking"></div>
+  </div>
+
+  <script>
+    let allPlayers = [];
+
+    function getTitle(points) {
+      if (points >= 400) return "Combat Grandmaster";
+      if (points >= 250) return "Combat Master";
+      if (points >= 100) return "Combat Ace";
+      if (points >= 50) return "Combat Specialist";
+      if (points >= 20) return "Combat Cadet";
+      if (points >= 10) return "Combat Novice";
+      return "Rookie";
+    }
+
+    function renderRanking(players) {
+      const el = document.getElementById("ranking");
+      el.innerHTML = "";
+
+      players.forEach((p, i) => {
+        el.innerHTML += `
+          <div class="player-card">
+            <div>${i+1}</div>
+            <div class="player-name">${p.nick}</div>
+            <div>${p.region}</div>
+            <div>${(p.tiers || []).join(" ")}</div>
+            <div style="text-align:right;">${p.points}</div>
+          </div>
+        `;
+      });
+    }
+
+    async function loadPlayers() {
+      const res = await fetch("./players.json");
+      allPlayers = await res.json();
+      renderRanking(allPlayers);
+    }
+
+    loadPlayers();
+  </script>
+</body>
+</html>
