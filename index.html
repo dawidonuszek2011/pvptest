@@ -553,6 +553,35 @@
       cursor: pointer;
     }
 
+    .discord-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+      background: #5865F2;
+      color: #fff;
+      text-decoration: none;
+      transition: .2s ease;
+      white-space: nowrap;
+    }
+
+    .discord-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 10px 24px rgba(88,101,242,.28);
+    }
+
+    .discord-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      flex: 0 0 18px;
+    }
+
     @media (max-width: 1100px) {
       .table-head {
         display: none;
@@ -597,7 +626,8 @@
       }
 
       .search-bar button,
-      .search-bar input {
+      .search-bar input,
+      .discord-btn {
         width: 100%;
       }
     }
@@ -610,6 +640,13 @@
     <button id="infoBtn" style="padding:10px 14px;border-radius:12px;border:none;font-weight:800;cursor:pointer;background:#4da3ff;color:#fff;">
       Informacje
     </button>
+
+    <a class="discord-btn" href="https://discord.gg/VGusdEPJuz" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+      <svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M20.32 4.37A19.79 19.79 0 0 0 15.4 3a14.07 14.07 0 0 0-.67 1.36 18.21 18.21 0 0 0-5.46 0A14.2 14.2 0 0 0 8.6 3a19.77 19.77 0 0 0-4.93 1.37C.54 8.2-.36 11.9.09 15.55A19.94 19.94 0 0 0 6.1 18.6a14.56 14.56 0 0 0 1.29-2.1 12.9 12.9 0 0 1-2.03-.98c.17-.12.34-.25.5-.38 3.92 1.84 8.17 1.84 12.04 0 .17.13.33.26.5.38a12.7 12.7 0 0 1-2.04.98 14.3 14.3 0 0 0 1.29 2.1 19.87 19.87 0 0 0 6.02-3.05c.56-4.1-.96-7.75-3.4-11.18ZM8.02 14.6c-1.17 0-2.12-1.08-2.12-2.4 0-1.33.94-2.41 2.12-2.41 1.2 0 2.13 1.08 2.12 2.41 0 1.33-.94 2.4-2.12 2.4Zm7.95 0c-1.17 0-2.12-1.08-2.12-2.4 0-1.33.94-2.41 2.12-2.41 1.2 0 2.13 1.08 2.12 2.41 0 1.33-.93 2.4-2.12 2.4Z"/>
+      </svg>
+      Discord
+    </a>
 
     <div class="legend">
       <span>Grandmaster: 400+</span>
