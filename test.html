@@ -6,9 +6,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <title>PvP Ranking | Invite Tier Test</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     :root {
       --bg1:#0f172a;
@@ -213,25 +211,10 @@
       font-weight: 700;
     }
 
-    .info-chip.region.eu {
-      background: rgba(64,145,63,.22);
-      color: #9df68b;
-    }
-
-    .info-chip.region.na {
-      background: rgba(156,57,57,.22);
-      color: #ff8b8b;
-    }
-
-    .info-chip.region.as {
-      background: rgba(61,101,170,.22);
-      color: #8fc2ff;
-    }
-
-    .info-chip.region.sa {
-      background: rgba(152,98,39,.22);
-      color: #ffc882;
-    }
+    .info-chip.region.eu { background: rgba(64,145,63,.22); color: #9df68b; }
+    .info-chip.region.na { background: rgba(156,57,57,.22); color: #ff8b8b; }
+    .info-chip.region.as { background: rgba(61,101,170,.22); color: #8fc2ff; }
+    .info-chip.region.sa { background: rgba(152,98,39,.22); color: #ffc882; }
 
     .table-head {
       max-width: 1320px;
@@ -309,17 +292,9 @@
       background: linear-gradient(135deg,#2d3748,#1f2937);
     }
 
-    .rank-box.rank-1 {
-      background: linear-gradient(135deg,#f5c451,#b8861d);
-    }
-
-    .rank-box.rank-2 {
-      background: linear-gradient(135deg,#d9e1e8,#8e9aa5);
-    }
-
-    .rank-box.rank-3 {
-      background: linear-gradient(135deg,#d48a4c,#8f5323);
-    }
+    .rank-box.rank-1 { background: linear-gradient(135deg,#f5c451,#b8861d); }
+    .rank-box.rank-2 { background: linear-gradient(135deg,#d9e1e8,#8e9aa5); }
+    .rank-box.rank-3 { background: linear-gradient(135deg,#d48a4c,#8f5323); }
 
     .rank-num {
       font-size: 28px;
@@ -381,25 +356,10 @@
       text-align: center;
     }
 
-    .region.eu {
-      background: rgba(64,145,63,.28);
-      color: #9df68b;
-    }
-
-    .region.na {
-      background: rgba(156,57,57,.28);
-      color: #ff8b8b;
-    }
-
-    .region.as {
-      background: rgba(61,101,170,.28);
-      color: #8fc2ff;
-    }
-
-    .region.sa {
-      background: rgba(152,98,39,.28);
-      color: #ffc882;
-    }
+    .region.eu { background: rgba(64,145,63,.28); color: #9df68b; }
+    .region.na { background: rgba(156,57,57,.28); color: #ff8b8b; }
+    .region.as { background: rgba(61,101,170,.28); color: #8fc2ff; }
+    .region.sa { background: rgba(152,98,39,.28); color: #ffc882; }
 
     .tiers {
       display: flex;
@@ -419,13 +379,8 @@
       border: 1px solid rgba(255,255,255,.06);
     }
 
-    .ht {
-      color: #f9b54a;
-    }
-
-    .lt {
-      color: #bac4d3;
-    }
+    .ht { color: #f9b54a; }
+    .lt { color: #bac4d3; }
 
     .points-box {
       justify-self: end;
@@ -456,19 +411,11 @@
       padding: 0 10px;
     }
 
-    .error {
-      color: #fca5a5;
-    }
+    .error { color: #fca5a5; }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .info-modal {
@@ -483,9 +430,7 @@
       padding: 16px;
     }
 
-    .info-modal.show {
-      display: flex;
-    }
+    .info-modal.show { display: flex; }
 
     .info-box {
       width: min(620px, 96vw);
@@ -524,13 +469,8 @@
       color: #fff;
     }
 
-    .tab-panel {
-      display: none;
-    }
-
-    .tab-panel.active {
-      display: block;
-    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
 
     .info-row {
       display: flex;
@@ -582,60 +522,67 @@
       flex: 0 0 18px;
     }
 
+    .category-bar {
+      max-width: 1320px;
+      margin: 0 auto 18px auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 0 10px;
+    }
+
+    .category-btn {
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.05);
+      color: #dbe7f5;
+      font-weight: 900;
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .category-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+    }
+
+    .category-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: rgba(77,163,255,.45);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(30,64,175,.18);
+    }
+
+    .section-title {
+      max-width: 1320px;
+      margin: 0 auto 10px auto;
+      padding: 0 10px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #cbd5e1;
+    }
+
     @media (max-width: 1100px) {
-      .table-head {
-        display: none;
-      }
-
-      .player-card {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-      .region, .points-box {
-        justify-self: start;
-        align-items: flex-start;
-      }
-
-      .main {
-        height: auto;
-        overflow: visible;
-      }
-
-      body {
-        overflow: auto;
-      }
+      .table-head { display: none; }
+      .player-card { grid-template-columns: 1fr; gap: 10px; }
+      .region, .points-box { justify-self: start; align-items: flex-start; }
+      .main { height: auto; overflow: visible; }
+      body { overflow: auto; }
     }
 
     @media (max-width: 700px) {
-      .result-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .result-avatar {
-        width: 76px;
-        height: 76px;
-      }
-
-      .result-name {
-        font-size: 24px;
-      }
-
-      .search-bar {
-        flex-direction: column;
-      }
-
-      .search-bar button,
-      .search-bar input,
-      .discord-btn {
-        width: 100%;
-      }
+      .result-grid { grid-template-columns: 1fr; }
+      .result-avatar { width: 76px; height: 76px; }
+      .result-name { font-size: 24px; }
+      .search-bar { flex-direction: column; }
+      .search-bar button, .search-bar input, .discord-btn { width: 100%; }
     }
   </style>
 </head>
 <body>
   <div class="topbar">
-    <h1>PvP Tiers</h1>
+    <h1>Fox Tiers</h1>
 
     <button id="infoBtn" style="padding:10px 14px;border-radius:12px;border:none;font-weight:800;cursor:pointer;background:#4da3ff;color:#fff;">
       Informacje
@@ -670,6 +617,9 @@
       <div class="search-result" id="searchResult"></div>
     </div>
 
+    <div class="category-bar" id="categoryBar"></div>
+
+    <div class="section-title" id="sectionTitle">Ranking: Ogólna</div>
     <div class="status" id="status">Ładowanie rankingu...</div>
 
     <div class="table-head">
@@ -721,6 +671,22 @@
 
   <script>
     let allPlayers = [];
+    let currentCategory = "overall";
+
+    const categories = [
+      { key: "overall", label: "Ogólna" },
+      { key: "ogolny", label: "Ogólny" },
+      { key: "mace", label: "Mace" },
+      { key: "sword", label: "Sword" },
+      { key: "axe", label: "Axe" },
+      { key: "crystal", label: "Crystal" },
+      { key: "uhc", label: "UHC" },
+      { key: "pot", label: "Pot" },
+      { key: "nethop", label: "NethOP" },
+      { key: "cart", label: "Cart" },
+      { key: "smp", label: "SMP" },
+      { key: "spear", label: "Spear" }
+    ];
 
     function getTitle(points) {
       if (points >= 400) return "Combat Grandmaster";
@@ -741,19 +707,52 @@
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
+        .replace(/\"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
 
-    function sortPlayers(players) {
+    function getCategoryData(player, categoryKey) {
+      if (categoryKey === "overall") {
+        return {
+          points: Number(player.points) || 0,
+          tiers: Array.isArray(player.tiers) ? player.tiers : []
+        };
+      }
+
+      const raw =
+        player?.categories?.[categoryKey] ??
+        player?.stats?.[categoryKey] ??
+        player?.ranking?.[categoryKey] ??
+        player?.categoryPoints?.[categoryKey] ??
+        player?.pointsByCategory?.[categoryKey] ??
+        player?.scores?.[categoryKey] ??
+        player?.[categoryKey];
+
+      if (raw == null) {
+        return { points: 0, tiers: [] };
+      }
+
+      if (typeof raw === "number" || typeof raw === "string") {
+        return { points: Number(raw) || 0, tiers: [] };
+      }
+
+      return {
+        points: Number(raw.points ?? raw.value ?? raw.score ?? 0) || 0,
+        tiers: Array.isArray(raw.tiers) ? raw.tiers : (Array.isArray(raw.tier) ? raw.tier : [])
+      };
+    }
+
+    function sortPlayers(players, categoryKey = currentCategory) {
       return [...players].sort((a, b) => {
-        if ((b.points || 0) !== (a.points || 0)) return (b.points || 0) - (a.points || 0);
+        const aData = getCategoryData(a, categoryKey);
+        const bData = getCategoryData(b, categoryKey);
+        if (bData.points !== aData.points) return bData.points - aData.points;
         return String(a.nick || "").localeCompare(String(b.nick || ""));
       });
     }
 
-    function getPlayerRank(players, nick) {
-      const sorted = sortPlayers(players);
+    function getPlayerRank(players, nick, categoryKey = currentCategory) {
+      const sorted = sortPlayers(players, categoryKey);
       return sorted.findIndex(p => String(p.nick).toLowerCase() === String(nick).toLowerCase()) + 1;
     }
 
@@ -761,14 +760,15 @@
       const rankingEl = document.getElementById("ranking");
       rankingEl.innerHTML = "";
 
-      const sorted = sortPlayers(players);
+      const sorted = sortPlayers(players, currentCategory);
 
       sorted.forEach((p, index) => {
         const rank = index + 1;
-        const title = getTitle(Number(p.points) || 0);
+        const data = getCategoryData(p, currentCategory);
+        const title = getTitle(Number(data.points) || 0);
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
 
-        const tiersHTML = (Array.isArray(p.tiers) ? p.tiers : []).map(t => {
+        const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => {
           const type = String(t).includes("HT") ? "ht" : "lt";
           return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
         }).join("");
@@ -783,27 +783,31 @@
               <div class="player-name">${escapeHtml(p.nick)}</div>
               <div class="player-sub">
                 <span class="title-badge">✦ ${escapeHtml(title)}</span>
-                <span>(${Number(p.points) || 0} points)</span>
+                <span>(${Number(data.points) || 0} points)</span>
               </div>
             </div>
             <div class="region ${regionClass(p.region)}">${escapeHtml(p.region || "EU")}</div>
             <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
             <div class="points-box">
-              <div class="points-value">${Number(p.points) || 0}</div>
+              <div class="points-value">${Number(data.points) || 0}</div>
               <div class="points-label">Combat Points</div>
             </div>
           </div>
         `;
       });
+
+      document.getElementById("sectionTitle").textContent = `Ranking: ${categories.find(c => c.key === currentCategory)?.label || currentCategory}`;
+      document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${categories.find(c => c.key === currentCategory)?.label || currentCategory}`;
     }
 
     function showSearchResult(player) {
       const result = document.getElementById("searchResult");
-      const rank = getPlayerRank(allPlayers, player.nick);
-      const title = getTitle(Number(player.points) || 0);
+      const data = getCategoryData(player, currentCategory);
+      const rank = getPlayerRank(allPlayers, player.nick, currentCategory);
+      const title = getTitle(Number(data.points) || 0);
 
-      const tiersHTML = (Array.isArray(player.tiers) ? player.tiers : []).length
-        ? player.tiers.map(t => {
+      const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).length
+        ? data.tiers.map(t => {
             const type = String(t).includes("HT") ? "ht" : "lt";
             return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
           }).join("")
@@ -816,15 +820,11 @@
           <div>
             <div class="result-name">${escapeHtml(player.nick)}</div>
             <div class="result-lines">
+              <div class="result-line"><span class="info-chip">Nick: ${escapeHtml(player.nick)}</span></div>
+              <div class="result-line"><span class="info-chip region ${regionClass(player.region)}">Region: ${escapeHtml(player.region || "EU")}</span></div>
               <div class="result-line">
-                <span class="info-chip">Nick: ${escapeHtml(player.nick)}</span>
-              </div>
-              <div class="result-line">
-                <span class="info-chip region ${regionClass(player.region)}">Region: ${escapeHtml(player.region || "EU")}</span>
-              </div>
-              <div class="result-line">
-                <span class="info-chip">Punkty: ${Number(player.points) || 0}</span>
-                <span class="info-chip">Ranking: #${rank}</span>
+                <span class="info-chip">Punkty: ${Number(data.points) || 0}</span>
+                <span class="info-chip">Ranking: #${rank || "-"}</span>
                 <span class="info-chip">Tytuł: ${escapeHtml(title)}</span>
               </div>
               <div class="result-line">
@@ -839,9 +839,7 @@
       renderRanking(allPlayers, player.nick);
 
       const card = document.getElementById("player-" + encodeURIComponent(player.nick || ""));
-      if (card) {
-        card.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+      if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
     function showNotFound(nick) {
@@ -868,7 +866,6 @@
       }
 
       const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === nick.toLowerCase());
-
       if (found) showSearchResult(found);
       else showNotFound(nick);
     }
@@ -880,12 +877,40 @@
       renderRanking(allPlayers);
     }
 
+    function setCategory(categoryKey) {
+      currentCategory = categoryKey;
+      document.querySelectorAll(".category-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.category === categoryKey);
+      });
+
+      const currentSearch = document.getElementById("searchInput").value.trim();
+      if (currentSearch) {
+        const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === currentSearch.toLowerCase());
+        if (found) showSearchResult(found);
+        else renderRanking(allPlayers);
+      } else {
+        renderRanking(allPlayers);
+      }
+    }
+
+    function buildCategoryBar() {
+      const bar = document.getElementById("categoryBar");
+      bar.innerHTML = categories.map(cat => `
+        <button class="category-btn ${cat.key === currentCategory ? "active" : ""}" data-category="${cat.key}">${escapeHtml(cat.label)}</button>
+      `).join("");
+
+      bar.querySelectorAll(".category-btn").forEach(btn => {
+        btn.addEventListener("click", () => setCategory(btn.dataset.category));
+      });
+    }
+
     async function loadPlayers() {
       const status = document.getElementById("status");
       try {
         const response = await fetch("./players.json?v=" + Date.now(), { cache: "no-store" });
         const players = await response.json();
         allPlayers = players;
+        buildCategoryBar();
         renderRanking(players);
         status.textContent = `Załadowano ${players.length} graczy.`;
       } catch (err) {
@@ -903,7 +928,6 @@
     document.getElementById("ranking").addEventListener("click", (e) => {
       const card = e.target.closest(".player-card");
       if (!card) return;
-
       const nick = card.querySelector(".player-name")?.textContent?.trim();
       const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === String(nick || "").toLowerCase());
       if (found) showSearchResult(found);
@@ -917,27 +941,15 @@
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabPanels = document.querySelectorAll(".tab-panel");
 
-    infoBtn.addEventListener("click", () => {
-      infoModal.classList.add("show");
-    });
-
-    closeInfo.addEventListener("click", () => {
-      infoModal.classList.remove("show");
-    });
-
-    infoModal.addEventListener("click", (e) => {
-      if (e.target === infoModal) {
-        infoModal.classList.remove("show");
-      }
-    });
+    infoBtn.addEventListener("click", () => { infoModal.classList.add("show"); });
+    closeInfo.addEventListener("click", () => { infoModal.classList.remove("show"); });
+    infoModal.addEventListener("click", (e) => { if (e.target === infoModal) infoModal.classList.remove("show"); });
 
     tabButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         const target = btn.dataset.tab;
-
         tabButtons.forEach(b => b.classList.remove("active"));
         tabPanels.forEach(panel => panel.classList.remove("active"));
-
         btn.classList.add("active");
         document.getElementById(target).classList.add("active");
       });
