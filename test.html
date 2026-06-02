@@ -7,7 +7,6 @@
   <title>PvP Ranking | Invite Tier Test</title>
   <style>
     * { box-sizing: border-box; }
-
     :root {
       --bg1:#0f172a;
       --bg2:#020617;
@@ -18,12 +17,7 @@
       --muted:#93a4ba;
       --accent:#4da3ff;
       --accent2:#1e40af;
-      --success:#9df68b;
-      --danger:#fca5a5;
-      --gold1:#f5c451;
-      --gold2:#b8861d;
     }
-
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -31,7 +25,6 @@
       background: radial-gradient(circle at top, rgba(77,163,255,.12), transparent 30%), linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
       overflow: hidden;
     }
-
     .topbar {
       min-height: 72px;
       display: flex;
@@ -44,34 +37,19 @@
       flex-wrap: wrap;
       backdrop-filter: blur(10px);
     }
-
-    .topbar h1 {
-      margin: 0;
-      font-size: 28px;
-      letter-spacing: .5px;
-    }
-
-    .legend {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 13px;
-      color: #cbd5e1;
-    }
-
+    .topbar h1 { margin: 0; font-size: 28px; letter-spacing: .5px; }
+    .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; color: #cbd5e1; }
     .legend span {
       background: rgba(255,255,255,.06);
       padding: 8px 10px;
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,.05);
     }
-
     .main {
       height: calc(100vh - 90px);
       overflow-y: auto;
       padding: 18px 18px 40px;
     }
-
     .search-panel {
       max-width: 1320px;
       margin: 0 auto 18px auto;
@@ -81,21 +59,18 @@
       padding: 18px;
       box-shadow: 0 12px 32px rgba(0,0,0,.22);
     }
-
     .search-title {
       font-size: 18px;
       font-weight: 800;
       margin-bottom: 14px;
       color: #f8fafc;
     }
-
     .search-bar {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
       margin-bottom: 16px;
     }
-
     .search-bar input {
       flex: 1;
       min-width: 240px;
@@ -108,12 +83,10 @@
       outline: none;
       transition: .2s ease;
     }
-
     .search-bar input:focus {
       border-color: rgba(77,163,255,.8);
       box-shadow: 0 0 0 4px rgba(77,163,255,.12);
     }
-
     .search-bar button {
       border: none;
       border-radius: 14px;
@@ -123,26 +96,20 @@
       cursor: pointer;
       transition: .2s ease;
     }
-
     .btn-search {
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: #fff;
     }
-
     .btn-search:hover {
       transform: translateY(-1px);
       box-shadow: 0 10px 24px rgba(30,64,175,.25);
     }
-
     .btn-clear {
       background: rgba(255,255,255,.08);
       color: #fff;
       border: 1px solid rgba(255,255,255,.06) !important;
     }
-
-    .btn-clear:hover {
-      background: rgba(255,255,255,.12);
-    }
+    .btn-clear:hover { background: rgba(255,255,255,.12); }
 
     .search-result {
       display: none;
@@ -151,23 +118,14 @@
       border-radius: 18px;
       padding: 18px;
     }
-
-    .search-result.show {
-      display: block;
-      animation: fadeIn .25s ease;
-    }
-
-    .search-result.not-found {
-      border-color: rgba(252,165,165,.22);
-    }
-
+    .search-result.show { display: block; animation: fadeIn .25s ease; }
+    .search-result.not-found { border-color: rgba(252,165,165,.22); }
     .result-grid {
       display: grid;
       grid-template-columns: 110px 1fr;
       gap: 16px;
       align-items: center;
     }
-
     .result-avatar {
       width: 90px;
       height: 90px;
@@ -176,20 +134,13 @@
       border: 1px solid rgba(255,255,255,.12);
       background: #0f172a;
     }
-
     .result-name {
       font-size: 28px;
       font-weight: 900;
       color: #fff;
       margin-bottom: 10px;
     }
-
-    .result-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
+    .result-lines { display: flex; flex-direction: column; gap: 10px; }
     .result-line {
       display: flex;
       flex-wrap: wrap;
@@ -198,7 +149,6 @@
       color: #d7e2f0;
       font-size: 15px;
     }
-
     .info-chip {
       display: inline-flex;
       align-items: center;
@@ -210,11 +160,56 @@
       border: 1px solid rgba(255,255,255,.06);
       font-weight: 700;
     }
-
     .info-chip.region.eu { background: rgba(64,145,63,.22); color: #9df68b; }
     .info-chip.region.na { background: rgba(156,57,57,.22); color: #ff8b8b; }
     .info-chip.region.as { background: rgba(61,101,170,.22); color: #8fc2ff; }
     .info-chip.region.sa { background: rgba(152,98,39,.22); color: #ffc882; }
+
+    .category-bar {
+      max-width: 1320px;
+      margin: 0 auto 18px auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 0 10px;
+    }
+    .category-btn {
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.05);
+      color: #dbe7f5;
+      font-weight: 900;
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+    .category-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+    }
+    .category-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: rgba(77,163,255,.45);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(30,64,175,.18);
+    }
+
+    .section-title {
+      max-width: 1320px;
+      margin: 0 auto 10px auto;
+      padding: 0 10px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #cbd5e1;
+    }
+    .status {
+      max-width: 1320px;
+      margin: 0 auto 14px auto;
+      color: #93a4ba;
+      font-size: 14px;
+      padding: 0 10px;
+    }
+    .error { color: #fca5a5; }
 
     .table-head {
       max-width: 1320px;
@@ -226,7 +221,6 @@
       font-weight: bold;
       padding: 0 10px;
     }
-
     .ranking {
       max-width: 1320px;
       margin: 0 auto;
@@ -234,7 +228,6 @@
       flex-direction: column;
       gap: 12px;
     }
-
     .player-card {
       display: grid;
       grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
@@ -248,38 +241,32 @@
       box-shadow: 0 10px 30px rgba(0,0,0,.22);
       transition: .2s ease;
     }
-
     .player-card:hover {
       transform: translateY(-1px);
       border-color: rgba(255,255,255,.09);
     }
-
     .player-card.highlighted {
       border-color: rgba(77,163,255,.8);
       box-shadow: 0 0 0 3px rgba(77,163,255,.14), 0 14px 34px rgba(0,0,0,.28);
     }
-
     .player-card.rank-1 .player-name {
       background: linear-gradient(135deg,#f5c451,#fff3b0,#b8861d);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 10px rgba(245,196,81,.35);
     }
-
     .player-card.rank-2 .player-name {
       background: linear-gradient(135deg,#e5e7eb,#9ca3af,#f3f4f6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 10px rgba(156,163,175,.25);
     }
-
     .player-card.rank-3 .player-name {
       background: linear-gradient(135deg,#d48a4c,#8f5323,#ffb36b);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 10px rgba(212,138,76,.25);
     }
-
     .rank-box {
       display: flex;
       align-items: center;
@@ -291,11 +278,9 @@
       position: relative;
       background: linear-gradient(135deg,#2d3748,#1f2937);
     }
-
     .rank-box.rank-1 { background: linear-gradient(135deg,#f5c451,#b8861d); }
     .rank-box.rank-2 { background: linear-gradient(135deg,#d9e1e8,#8e9aa5); }
     .rank-box.rank-3 { background: linear-gradient(135deg,#d48a4c,#8f5323); }
-
     .rank-num {
       font-size: 28px;
       font-weight: 900;
@@ -303,7 +288,6 @@
       min-width: 34px;
       text-shadow: 0 2px 6px rgba(0,0,0,.35);
     }
-
     .mini-avatar {
       width: 42px;
       height: 42px;
@@ -311,19 +295,12 @@
       object-fit: cover;
       border: 1px solid rgba(255,255,255,.18);
     }
-
-    .player-main {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
+    .player-main { display: flex; flex-direction: column; gap: 6px; }
     .player-name {
       font-size: 22px;
       font-weight: 800;
       color: #f8fafc;
     }
-
     .player-sub {
       display: flex;
       align-items: center;
@@ -332,7 +309,6 @@
       color: #93a4ba;
       font-size: 13px;
     }
-
     .title-badge {
       display: inline-flex;
       align-items: center;
@@ -345,7 +321,6 @@
       font-size: 12px;
       font-weight: 700;
     }
-
     .region {
       justify-self: center;
       font-weight: 800;
@@ -355,19 +330,16 @@
       min-width: 60px;
       text-align: center;
     }
-
     .region.eu { background: rgba(64,145,63,.28); color: #9df68b; }
     .region.na { background: rgba(156,57,57,.28); color: #ff8b8b; }
     .region.as { background: rgba(61,101,170,.28); color: #8fc2ff; }
     .region.sa { background: rgba(152,98,39,.28); color: #ffc882; }
-
     .tiers {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       align-items: center;
     }
-
     .tier {
       padding: 7px 10px;
       border-radius: 12px;
@@ -378,10 +350,8 @@
       background: #1b2637;
       border: 1px solid rgba(255,255,255,.06);
     }
-
     .ht { color: #f9b54a; }
     .lt { color: #bac4d3; }
-
     .points-box {
       justify-self: end;
       display: flex;
@@ -389,29 +359,17 @@
       align-items: flex-end;
       gap: 6px;
     }
-
     .points-value {
       font-size: 28px;
       font-weight: 900;
       color: #ffffff;
     }
-
     .points-label {
       font-size: 12px;
       color: #7f90a8;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-
-    .status {
-      max-width: 1320px;
-      margin: 0 auto 14px auto;
-      color: #93a4ba;
-      font-size: 14px;
-      padding: 0 10px;
-    }
-
-    .error { color: #fca5a5; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
@@ -429,9 +387,7 @@
       z-index: 9999;
       padding: 16px;
     }
-
     .info-modal.show { display: flex; }
-
     .info-box {
       width: min(620px, 96vw);
       background: linear-gradient(180deg,#0f172a,#0b1220);
@@ -440,19 +396,13 @@
       padding: 18px;
       box-shadow: 0 20px 60px rgba(0,0,0,.5);
     }
-
-    .info-box h2 {
-      margin: 0 0 12px 0;
-      font-size: 20px;
-    }
-
+    .info-box h2 { margin: 0 0 12px 0; font-size: 20px; }
     .tabs {
       display: flex;
       gap: 10px;
       margin-bottom: 14px;
       flex-wrap: wrap;
     }
-
     .tab-btn {
       border: 1px solid rgba(255,255,255,.08);
       background: rgba(255,255,255,.05);
@@ -462,16 +412,13 @@
       border-radius: 12px;
       cursor: pointer;
     }
-
     .tab-btn.active {
       background: #1e40af;
       border-color: rgba(77,163,255,.5);
       color: #fff;
     }
-
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
-
     .info-row {
       display: flex;
       justify-content: space-between;
@@ -480,7 +427,6 @@
       font-size: 14px;
       color: #d7e2f0;
     }
-
     .close-btn {
       margin-top: 14px;
       width: 100%;
@@ -492,7 +438,6 @@
       font-weight: 800;
       cursor: pointer;
     }
-
     .discord-btn {
       display: inline-flex;
       align-items: center;
@@ -508,20 +453,17 @@
       transition: .2s ease;
       white-space: nowrap;
     }
-
     .discord-btn:hover {
       transform: translateY(-1px);
       filter: brightness(1.05);
       box-shadow: 0 10px 24px rgba(88,101,242,.28);
     }
-
     .discord-icon {
       width: 18px;
       height: 18px;
       display: inline-block;
       flex: 0 0 18px;
     }
-
     .category-bar {
       max-width: 1320px;
       margin: 0 auto 18px auto;
@@ -530,7 +472,6 @@
       flex-wrap: wrap;
       padding: 0 10px;
     }
-
     .category-btn {
       border: 1px solid rgba(255,255,255,.08);
       background: rgba(255,255,255,.05);
@@ -541,28 +482,16 @@
       cursor: pointer;
       transition: .2s ease;
     }
-
     .category-btn:hover {
       transform: translateY(-1px);
       background: rgba(255,255,255,.08);
     }
-
     .category-btn.active {
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       border-color: rgba(77,163,255,.45);
       color: #fff;
       box-shadow: 0 10px 24px rgba(30,64,175,.18);
     }
-
-    .section-title {
-      max-width: 1320px;
-      margin: 0 auto 10px auto;
-      padding: 0 10px;
-      font-size: 16px;
-      font-weight: 800;
-      color: #cbd5e1;
-    }
-
     @media (max-width: 1100px) {
       .table-head { display: none; }
       .player-card { grid-template-columns: 1fr; gap: 10px; }
@@ -570,7 +499,6 @@
       .main { height: auto; overflow: visible; }
       body { overflow: auto; }
     }
-
     @media (max-width: 700px) {
       .result-grid { grid-template-columns: 1fr; }
       .result-avatar { width: 76px; height: 76px; }
@@ -675,7 +603,6 @@
 
     const categories = [
       { key: "overall", label: "Ogólna" },
-      { key: "ogolny", label: "Ogólny" },
       { key: "mace", label: "Mace" },
       { key: "sword", label: "Sword" },
       { key: "axe", label: "Axe" },
@@ -688,6 +615,24 @@
       { key: "spear", label: "Spear" }
     ];
 
+    const CATEGORY_LABELS = {
+      overall: "Ogólna",
+      mace: "Mace",
+      sword: "Sword",
+      axe: "Axe",
+      crystal: "Crystal",
+      uhc: "UHC",
+      pot: "Pot",
+      nethop: "NethOP",
+      cart: "Cart",
+      smp: "SMP",
+      spear: "Spear"
+    };
+
+    const TIER_SCORE = {
+      HT5: 2, LT5: 1, HT4: 4, LT4: 3, HT3: 10, LT3: 6, HT2: 30, LT2: 20, HT1: 60, LT1: 45
+    };
+
     function getTitle(points) {
       if (points >= 400) return "Combat Grandmaster";
       if (points >= 250) return "Combat Master";
@@ -698,8 +643,8 @@
       return "Rookie";
     }
 
-    function regionClass(region) {
-      return String(region || "EU").toLowerCase();
+    function normalizeTierText(text) {
+      return String(text || "").trim().replace(/\s+/g, " ").toUpperCase();
     }
 
     function escapeHtml(text) {
@@ -707,46 +652,47 @@
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
+        .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+    }
+
+    function parseTierEntry(entry) {
+      const raw = String(entry ?? "").trim();
+      if (!raw) return "";
+      const idx = raw.indexOf(":");
+      if (idx === -1) return normalizeTierText(raw);
+      return normalizeTierText(raw.slice(idx + 1));
+    }
+
+    function getCategoryTier(player, categoryKey) {
+      const wanted = CATEGORY_LABELS[categoryKey] || categoryKey;
+      const tiers = Array.isArray(player?.tiers) ? player.tiers : [];
+      const match = tiers.find(item => String(item || "").toLowerCase().startsWith(String(wanted).toLowerCase() + ":"));
+      return parseTierEntry(match || "");
+    }
+
+    function getTierScore(tierText) {
+      return TIER_SCORE[normalizeTierText(tierText)] || 0;
     }
 
     function getCategoryData(player, categoryKey) {
       if (categoryKey === "overall") {
-        return {
-          points: Number(player.points) || 0,
-          tiers: Array.isArray(player.tiers) ? player.tiers : []
-        };
+        return { points: Number(player.points) || 0, tier: "", tierScore: 0, tiers: Array.isArray(player.tiers) ? player.tiers : [] };
       }
-
-      const raw =
-        player?.categories?.[categoryKey] ??
-        player?.stats?.[categoryKey] ??
-        player?.ranking?.[categoryKey] ??
-        player?.categoryPoints?.[categoryKey] ??
-        player?.pointsByCategory?.[categoryKey] ??
-        player?.scores?.[categoryKey] ??
-        player?.[categoryKey];
-
-      if (raw == null) {
-        return { points: 0, tiers: [] };
-      }
-
-      if (typeof raw === "number" || typeof raw === "string") {
-        return { points: Number(raw) || 0, tiers: [] };
-      }
-
-      return {
-        points: Number(raw.points ?? raw.value ?? raw.score ?? 0) || 0,
-        tiers: Array.isArray(raw.tiers) ? raw.tiers : (Array.isArray(raw.tier) ? raw.tier : [])
-      };
+      const tier = getCategoryTier(player, categoryKey);
+      return { points: 0, tier, tierScore: getTierScore(tier), tiers: Array.isArray(player.tiers) ? player.tiers : [] };
     }
 
     function sortPlayers(players, categoryKey = currentCategory) {
       return [...players].sort((a, b) => {
         const aData = getCategoryData(a, categoryKey);
         const bData = getCategoryData(b, categoryKey);
-        if (bData.points !== aData.points) return bData.points - aData.points;
+        if (categoryKey === "overall") {
+          if (bData.points !== aData.points) return bData.points - aData.points;
+        } else {
+          if (bData.tierScore !== aData.tierScore) return bData.tierScore - aData.tierScore;
+          if (bData.points !== aData.points) return bData.points - aData.points;
+        }
         return String(a.nick || "").localeCompare(String(b.nick || ""));
       });
     }
@@ -759,15 +705,17 @@
     function renderRanking(players, highlightedNick = "") {
       const rankingEl = document.getElementById("ranking");
       rankingEl.innerHTML = "";
-
       const sorted = sortPlayers(players, currentCategory);
+      const isOverall = currentCategory === "overall";
+      const pointsHeader = document.querySelector(".table-head div:last-child");
+      if (pointsHeader) pointsHeader.textContent = isOverall ? "POINTS" : "TIER";
 
       sorted.forEach((p, index) => {
         const rank = index + 1;
         const data = getCategoryData(p, currentCategory);
-        const title = getTitle(Number(data.points) || 0);
+        const displayValue = isOverall ? String(Number(data.points) || 0) : (data.tier || "BRAK");
+        const displayBadge = isOverall ? getTitle(Number(data.points) || 0) : (data.tier || "BRAK");
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
-
         const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => {
           const type = String(t).includes("HT") ? "ht" : "lt";
           return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
@@ -782,29 +730,31 @@
             <div class="player-main">
               <div class="player-name">${escapeHtml(p.nick)}</div>
               <div class="player-sub">
-                <span class="title-badge">✦ ${escapeHtml(title)}</span>
-                <span>(${Number(data.points) || 0} points)</span>
+                <span class="title-badge">✦ ${escapeHtml(displayBadge)}</span>
+                <span>${isOverall ? `(${displayValue} points)` : `(${escapeHtml(displayValue)})`}</span>
               </div>
             </div>
-            <div class="region ${regionClass(p.region)}">${escapeHtml(p.region || "EU")}</div>
+            <div class="region ${String(p.region || "EU").toLowerCase()}">${escapeHtml(p.region || "EU")}</div>
             <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
             <div class="points-box">
-              <div class="points-value">${Number(data.points) || 0}</div>
-              <div class="points-label">Combat Points</div>
+              <div class="points-value">${escapeHtml(displayValue)}</div>
+              <div class="points-label">${isOverall ? "Combat Points" : "Tier"}</div>
             </div>
           </div>
         `;
       });
 
-      document.getElementById("sectionTitle").textContent = `Ranking: ${categories.find(c => c.key === currentCategory)?.label || currentCategory}`;
-      document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${categories.find(c => c.key === currentCategory)?.label || currentCategory}`;
+      document.getElementById("sectionTitle").textContent = `Ranking: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
+      document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
     }
 
     function showSearchResult(player) {
       const result = document.getElementById("searchResult");
       const data = getCategoryData(player, currentCategory);
       const rank = getPlayerRank(allPlayers, player.nick, currentCategory);
-      const title = getTitle(Number(data.points) || 0);
+      const isOverall = currentCategory === "overall";
+      const displayValue = isOverall ? String(Number(data.points) || 0) : (data.tier || "BRAK");
+      const displayLabel = isOverall ? getTitle(Number(data.points) || 0) : (data.tier || "BRAK");
 
       const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).length
         ? data.tiers.map(t => {
@@ -821,11 +771,11 @@
             <div class="result-name">${escapeHtml(player.nick)}</div>
             <div class="result-lines">
               <div class="result-line"><span class="info-chip">Nick: ${escapeHtml(player.nick)}</span></div>
-              <div class="result-line"><span class="info-chip region ${regionClass(player.region)}">Region: ${escapeHtml(player.region || "EU")}</span></div>
+              <div class="result-line"><span class="info-chip region ${String(player.region || "EU").toLowerCase()}">Region: ${escapeHtml(player.region || "EU")}</span></div>
               <div class="result-line">
-                <span class="info-chip">Punkty: ${Number(data.points) || 0}</span>
+                <span class="info-chip">${isOverall ? "Punkty" : "Tier"}: ${escapeHtml(displayValue)}</span>
                 <span class="info-chip">Ranking: #${rank || "-"}</span>
-                <span class="info-chip">Tytuł: ${escapeHtml(title)}</span>
+                <span class="info-chip">${isOverall ? "Tytuł" : "Tier"}: ${escapeHtml(displayLabel)}</span>
               </div>
               <div class="result-line">
                 <span class="info-chip">Tiery:</span>
@@ -837,7 +787,6 @@
       `;
 
       renderRanking(allPlayers, player.nick);
-
       const card = document.getElementById("player-" + encodeURIComponent(player.nick || ""));
       if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
     }
@@ -847,9 +796,7 @@
       result.className = "search-result show not-found";
       result.innerHTML = `
         <div class="result-name" style="font-size:22px; margin-bottom:8px;">Nie znaleziono gracza</div>
-        <div style="color:#cbd5e1; font-size:15px;">
-          Nick <b>${escapeHtml(nick)}</b> nie istnieje w aktualnej liście graczy.
-        </div>
+        <div style="color:#cbd5e1; font-size:15px;">Nick <b>${escapeHtml(nick)}</b> nie istnieje w aktualnej liście graczy.</div>
       `;
       renderRanking(allPlayers);
     }
@@ -857,14 +804,12 @@
     function searchPlayer() {
       const input = document.getElementById("searchInput");
       const nick = input.value.trim();
-
       if (!nick) {
         document.getElementById("searchResult").className = "search-result";
         document.getElementById("searchResult").innerHTML = "";
         renderRanking(allPlayers);
         return;
       }
-
       const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === nick.toLowerCase());
       if (found) showSearchResult(found);
       else showNotFound(nick);
@@ -879,10 +824,7 @@
 
     function setCategory(categoryKey) {
       currentCategory = categoryKey;
-      document.querySelectorAll(".category-btn").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.category === categoryKey);
-      });
-
+      document.querySelectorAll(".category-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.category === categoryKey));
       const currentSearch = document.getElementById("searchInput").value.trim();
       if (currentSearch) {
         const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === currentSearch.toLowerCase());
@@ -895,13 +837,10 @@
 
     function buildCategoryBar() {
       const bar = document.getElementById("categoryBar");
-      bar.innerHTML = categories.map(cat => `
-        <button class="category-btn ${cat.key === currentCategory ? "active" : ""}" data-category="${cat.key}">${escapeHtml(cat.label)}</button>
-      `).join("");
-
-      bar.querySelectorAll(".category-btn").forEach(btn => {
-        btn.addEventListener("click", () => setCategory(btn.dataset.category));
-      });
+      bar.innerHTML = categories.map(cat =>
+        `<button class="category-btn ${cat.key === currentCategory ? "active" : ""}" data-category="${cat.key}">${escapeHtml(cat.label)}</button>`
+      ).join("");
+      bar.querySelectorAll(".category-btn").forEach(btn => btn.addEventListener("click", () => setCategory(btn.dataset.category)));
     }
 
     async function loadPlayers() {
