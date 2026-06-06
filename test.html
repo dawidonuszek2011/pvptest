@@ -190,19 +190,6 @@
       color: #93a4ba;
     }
 
-    .search-close-hint {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,.06);
-      color: #e2e8f0;
-      font-size: 38px;
-      line-height: 1;
-      font-weight: 700;
-    }
-
     .profile-block {
       display: grid;
       grid-template-columns: 120px 1fr;
@@ -876,17 +863,17 @@
     let currentCategory = "overall";
 
     const categories = [
-      { key: "overall", label: "Ogólna", icon: "./icons/overall.png" },
-      { key: "mace", label: "Mace", icon: "./icons/mace.png" },
-      { key: "sword", label: "Sword", icon: "./icons/sword.png" },
-      { key: "axe", label: "Axe", icon: "./icons/axe.png" },
-      { key: "crystal", label: "Crystal", icon: "./icons/crystal.png" },
-      { key: "uhc", label: "UHC", icon: "./icons/uhc.png" },
-      { key: "pot", label: "Pot", icon: "./icons/pot.png" },
-      { key: "nethop", label: "NethOP", icon: "./icons/nethop.png" },
-      { key: "cart", label: "Cart", icon: "./icons/cart.png" },
-      { key: "smp", label: "SMP", icon: "./icons/smp.png" },
-      { key: "spear", label: "Spear", icon: "./icons/spear.png" }
+      { key: "overall", label: "Ogólna", icon: "./overall.png" },
+      { key: "mace", label: "Mace", icon: "./mace.png" },
+      { key: "sword", label: "Sword", icon: "./sword.png" },
+      { key: "axe", label: "Axe", icon: "./axe.png" },
+      { key: "crystal", label: "Crystal", icon: "./crystal.png" },
+      { key: "uhc", label: "UHC", icon: "./uhc.png" },
+      { key: "pot", label: "Pot", icon: "./pot.png" },
+      { key: "nethop", label: "NethOP", icon: "./nethop.png" },
+      { key: "cart", label: "Cart", icon: "./cart.png" },
+      { key: "smp", label: "SMP", icon: "./smp.png" },
+      { key: "spear", label: "Spear", icon: "./spear.png" }
     ];
 
     const CATEGORY_LABELS = {
@@ -1015,7 +1002,6 @@
               <div class="rank-num">${rank}.</div>
               <img class="mini-avatar" src="${escapeHtml(p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick || "")}`)}" alt="${escapeHtml(p.nick)}">
             </div>
-
             <div class="player-main">
               <div class="player-name">${escapeHtml(p.nick)}</div>
               <div class="player-sub">
@@ -1023,10 +1009,8 @@
                 <span>${isOverall ? `(${displayValue} points)` : `(${escapeHtml(displayValue)})`}</span>
               </div>
             </div>
-
             <div class="region ${String(p.region || "EU").toLowerCase()}">${escapeHtml(p.region || "EU")}</div>
             <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
-
             <div class="points-box">
               <div class="points-value">${escapeHtml(displayValue)}</div>
               <div class="points-label">${isOverall ? "Combat Points" : "Tier"}</div>
@@ -1041,18 +1025,18 @@
 
     function tierIconForCategory(categoryKey) {
       const icons = {
-        mace: "./icons/mace.png",
-        sword: "./icons/sword.png",
-        axe: "./icons/axe.png",
-        crystal: "./icons/crystal.png",
-        uhc: "./icons/uhc.png",
-        pot: "./icons/pot.png",
-        nethop: "./icons/nethop.png",
-        cart: "./icons/cart.png",
-        smp: "./icons/smp.png",
-        spear: "./icons/spear.png"
+        mace: "./mace.png",
+        sword: "./sword.png",
+        axe: "./axe.png",
+        crystal: "./crystal.png",
+        uhc: "./uhc.png",
+        pot: "./pot.png",
+        nethop: "./nethop.png",
+        cart: "./cart.png",
+        smp: "./smp.png",
+        spear: "./spear.png"
       };
-      return icons[categoryKey] || "./icons/default.png";
+      return icons[categoryKey] || "./default.png";
     }
 
     function showSearchResult(player) {
@@ -1187,9 +1171,9 @@
         </button>
       `).join("");
 
-      bar.querySelectorAll(".category-btn").forEach(btn => {
-        btn.addEventListener("click", () => setCategory(btn.dataset.category));
-      });
+      bar.querySelectorAll(".category-btn").forEach(btn =>
+        btn.addEventListener("click", () => setCategory(btn.dataset.category))
+      );
     }
 
     async function loadPlayers() {
