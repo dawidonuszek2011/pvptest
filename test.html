@@ -1,5 +1,4 @@
-```html
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
@@ -256,52 +255,53 @@
 
     .tier-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(82px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 12px;
       align-items: stretch;
     }
-    .tier-item {
+    .tier-chip {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 8px;
-      padding: 12px 10px;
+      gap: 10px;
+      justify-content: flex-start;
+      padding: 12px 12px;
       border-radius: 14px;
       background: rgba(255,255,255,.03);
       border: 1px solid rgba(255,255,255,.08);
-      min-height: 96px;
+      min-height: 56px;
+      overflow: hidden;
     }
-    .tier-icon {
-      width: 36px;
-      height: 36px;
+    .tier-chip-icon {
+      width: 24px;
+      height: 24px;
       border-radius: 999px;
       display: grid;
       place-items: center;
-      font-size: 20px;
-      font-weight: 900;
       background: rgba(255,255,255,.08);
-      color: #fff;
       overflow: hidden;
-      flex: 0 0 36px;
+      flex: 0 0 24px;
+      font-size: 16px;
+      font-weight: 900;
+      color: #fff;
     }
-    .tier-icon img {
+    .tier-chip-icon img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-    .tier-item .tier {
-      min-width: auto;
+    .tier {
       padding: 7px 10px;
-      font-size: 13px;
-    }
-    .tier-name {
+      border-radius: 12px;
       font-size: 12px;
-      color: #93a4ba;
       font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .4px;
+      min-width: 52px;
+      text-align: center;
+      background: #1b2637;
+      border: 1px solid rgba(255,255,255,.06);
     }
+    .ht { color: #f9b54a; }
+    .lt { color: #bac4d3; }
 
     .category-bar {
       max-width: 1320px;
@@ -495,18 +495,6 @@
       flex-wrap: wrap;
       align-items: center;
     }
-    .tier {
-      padding: 7px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 800;
-      min-width: 52px;
-      text-align: center;
-      background: #1b2637;
-      border: 1px solid rgba(255,255,255,.06);
-    }
-    .ht { color: #f9b54a; }
-    .lt { color: #bac4d3; }
     .points-box {
       justify-self: end;
       display: flex;
@@ -753,18 +741,19 @@
       spear: "Spear"
     };
 
+    // Put your icons in ./icons/
     const CATEGORY_ICON_DATA = {
       overall: { emoji: "★" },
-      mace:    { src: "mace.png",    alt: "Mace",    emoji: "⚔" },
-      sword:   { src: "sword.png",   alt: "Sword",   emoji: "🗡" },
-      axe:     { src: "axe.png",     alt: "Axe",     emoji: "🪓" },
-      crystal: { src: "crystal.png", alt: "Crystal", emoji: "◈" },
-      uhc:     { src: "uhc.png",     alt: "UHC",     emoji: "⛏" },
-      pot:     { src: "pot.png",     alt: "Pot",     emoji: "⚗" },
-      nethop:  { src: "nethop.png",  alt: "NethOP",  emoji: "◆" },
-      cart:    { src: "cart.png",    alt: "Cart",    emoji: "⛏" },
-      smp:     { src: "smp.png",     alt: "SMP",     emoji: "●" },
-      spear:   { src: "spear.png",   alt: "Spear",   emoji: "↗" }
+      mace:    { src: "icons/mace.png",    alt: "Mace",    emoji: "⚔" },
+      sword:   { src: "icons/sword.png",   alt: "Sword",   emoji: "🗡" },
+      axe:     { src: "icons/axe.png",     alt: "Axe",     emoji: "🪓" },
+      crystal: { src: "icons/crystal.png", alt: "Crystal", emoji: "◈" },
+      uhc:     { src: "icons/uhc.png",     alt: "UHC",     emoji: "⛏" },
+      pot:     { src: "icons/pot.png",     alt: "Pot",     emoji: "⚗" },
+      nethop:  { src: "icons/nethop.png",  alt: "NethOP",  emoji: "◆" },
+      cart:    { src: "icons/cart.png",    alt: "Cart",    emoji: "⛏" },
+      smp:     { src: "icons/smp.png",     alt: "SMP",     emoji: "●" },
+      spear:   { src: "icons/spear.png",   alt: "Spear",   emoji: "↗" }
     };
 
     const TIER_SCORE = {
@@ -845,9 +834,7 @@
 
       if (icon.src) {
         const fallback = escapeHtml(icon.emoji || "★");
-        const src = escapeHtml(icon.src);
-        const alt = escapeHtml(icon.alt || categoryKey);
-        return `<img src="${src}" alt="${alt}" onerror="this.outerHTML='${fallback}'">`;
+        return `<img src="${escapeHtml(icon.src)}" alt="${escapeHtml(icon.alt || categoryKey)}" onerror="this.onerror=null;this.replaceWith(document.createTextNode('${fallback}'))">`;
       }
 
       return escapeHtml(icon.emoji || "★");
@@ -867,6 +854,21 @@
       });
     }
 
+    function renderTierChips(player) {
+      return categories
+        .filter(cat => cat.key !== "overall")
+        .map(cat => {
+          const tier = getCategoryTier(player, cat.key) || "BRAK";
+          const tierClass = tier !== "BRAK" ? (String(tier).includes("HT") ? "ht" : "lt") : "lt";
+          return `
+            <div class="tier-chip" title="${escapeHtml(cat.label)}">
+              <span class="tier-chip-icon">${iconMarkup(cat.key)}</span>
+              <span class="tier ${tierClass}">${escapeHtml(tier)}</span>
+            </div>
+          `;
+        }).join("");
+    }
+
     function renderRanking(players, highlightedNick = "") {
       const rankingEl = document.getElementById("ranking");
       rankingEl.innerHTML = "";
@@ -881,10 +883,7 @@
         const displayValue = isOverall ? String(Number(data.points) || 0) : (data.tier || "BRAK");
         const displayBadge = isOverall ? getTitle(Number(data.points) || 0) : (data.tier || "BRAK");
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
-        const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => {
-          const type = String(t).includes("HT") ? "ht" : "lt";
-          return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
-        }).join("");
+        const tiersHTML = renderTierChips(p);
 
         rankingEl.innerHTML += `
           <div class="player-card ${isHighlighted ? "highlighted" : ""} ${rank <= 3 ? "rank-" + rank : ""}" id="player-${encodeURIComponent(p.nick || "")}">
@@ -913,23 +912,6 @@
       document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
     }
 
-    function getTierIconHTML(categoryKey, tierText = "") {
-      const hasTier = String(tierText || "").trim() && String(tierText).trim() !== "BRAK";
-      const icon = CATEGORY_ICON_DATA[categoryKey] || CATEGORY_ICON_DATA.overall;
-
-      if (categoryKey === "mace" && hasTier && icon.src) {
-        const fallback = escapeHtml(icon.emoji || "★");
-        return `<img src="${escapeHtml(icon.src)}" alt="${escapeHtml(icon.alt)}" onerror="this.outerHTML='${fallback}'">`;
-      }
-
-      if (icon.src) {
-        const fallback = escapeHtml(icon.emoji || "★");
-        return `<img src="${escapeHtml(icon.src)}" alt="${escapeHtml(icon.alt)}" onerror="this.outerHTML='${fallback}'">`;
-      }
-
-      return escapeHtml(icon.emoji || "★");
-    }
-
     function showSearchResult(player) {
       const result = document.getElementById("searchResult");
       const overallData = getCategoryData(player, "overall");
@@ -937,19 +919,7 @@
       const title = getTitle(Number(overallData.points) || 0);
       const region = String(player.region || "EU");
 
-      const tierItems = categories
-        .filter(cat => cat.key !== "overall")
-        .map(cat => {
-          const tier = getCategoryTier(player, cat.key) || "BRAK";
-          const tierClass = tier !== "BRAK" ? (String(tier).includes("HT") ? "ht" : "lt") : "lt";
-          return `
-            <div class="tier-item">
-              <div class="tier-icon">${getTierIconHTML(cat.key, tier)}</div>
-              <div class="tier ${tierClass}">${escapeHtml(tier)}</div>
-              <div class="tier-name">${escapeHtml(cat.label)}</div>
-            </div>
-          `;
-        }).join("");
+      const tierItems = renderTierChips(player);
 
       result.className = "search-result show";
       result.innerHTML = `
@@ -1098,4 +1068,3 @@
   </script>
 </body>
 </html>
-```
