@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -150,18 +151,6 @@
       font-size: 15px;
       color: #93a4ba;
     }
-    .search-close-hint {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,.06);
-      color: #e2e8f0;
-      font-size: 38px;
-      line-height: 1;
-      font-weight: 700;
-    }
 
     .profile-block {
       display: grid;
@@ -216,25 +205,6 @@
       font-weight: 900;
       color: #1f2937;
       text-transform: capitalize;
-    }
-    .profile-links {
-      margin-top: 12px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .profile-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.08);
-      color: #93c5fd;
-      text-decoration: none;
-      font-weight: 700;
     }
 
     .section-block {
@@ -311,6 +281,14 @@
       font-weight: 900;
       background: rgba(255,255,255,.08);
       color: #fff;
+      overflow: hidden;
+      flex: 0 0 36px;
+    }
+    .tier-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
     .tier-item .tier {
       min-width: auto;
@@ -324,22 +302,6 @@
       text-transform: uppercase;
       letter-spacing: .4px;
     }
-
-    .info-chip {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 38px;
-      padding: 8px 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.06);
-      font-weight: 700;
-    }
-    .info-chip.region.eu { background: rgba(64,145,63,.22); color: #9df68b; }
-    .info-chip.region.na { background: rgba(156,57,57,.22); color: #ff8b8b; }
-    .info-chip.region.as { background: rgba(61,101,170,.22); color: #8fc2ff; }
-    .info-chip.region.sa { background: rgba(152,98,39,.22); color: #ffc882; }
 
     .category-bar {
       max-width: 1320px;
@@ -362,14 +324,6 @@
       align-items: center;
       gap: 8px;
     }
-    .category-btn .cat-icon {
-      width: 18px;
-      height: 18px;
-      object-fit: cover;
-      display: block;
-      border-radius: 4px;
-      flex: 0 0 18px;
-    }
     .category-btn:hover {
       transform: translateY(-1px);
       background: rgba(255,255,255,.08);
@@ -379,6 +333,20 @@
       border-color: rgba(77,163,255,.45);
       color: #fff;
       box-shadow: 0 10px 24px rgba(30,64,175,.18);
+    }
+    .category-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-grid;
+      place-items: center;
+      overflow: hidden;
+      flex: 0 0 18px;
+    }
+    .category-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .section-title {
@@ -651,45 +619,6 @@
       display: inline-block;
       flex: 0 0 18px;
     }
-    .category-bar {
-      max-width: 1320px;
-      margin: 0 auto 18px auto;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 0 10px;
-    }
-    .category-btn {
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.05);
-      color: #dbe7f5;
-      font-weight: 900;
-      padding: 10px 14px;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: .2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .category-btn .cat-icon {
-      width: 18px;
-      height: 18px;
-      object-fit: cover;
-      display: block;
-      border-radius: 4px;
-      flex: 0 0 18px;
-    }
-    .category-btn:hover {
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.08);
-    }
-    .category-btn.active {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border-color: rgba(77,163,255,.45);
-      color: #fff;
-      box-shadow: 0 10px 24px rgba(30,64,175,.18);
-    }
     @media (max-width: 1100px) {
       .table-head { display: none; }
       .player-card { grid-template-columns: 1fr; gap: 10px; }
@@ -698,9 +627,6 @@
       body { overflow: auto; }
     }
     @media (max-width: 700px) {
-      .result-grid { grid-template-columns: 1fr; }
-      .result-avatar { width: 76px; height: 76px; }
-      .result-name { font-size: 24px; }
       .search-bar { flex-direction: column; }
       .search-bar button, .search-bar input, .discord-btn { width: 100%; }
     }
@@ -827,6 +753,20 @@
       spear: "Spear"
     };
 
+    const CATEGORY_ICON_DATA = {
+      overall: { emoji: "★" },
+      mace:    { src: "mace.png",    alt: "Mace",    emoji: "⚔" },
+      sword:   { src: "sword.png",   alt: "Sword",   emoji: "🗡" },
+      axe:     { src: "axe.png",     alt: "Axe",     emoji: "🪓" },
+      crystal: { src: "crystal.png", alt: "Crystal", emoji: "◈" },
+      uhc:     { src: "uhc.png",     alt: "UHC",     emoji: "⛏" },
+      pot:     { src: "pot.png",     alt: "Pot",     emoji: "⚗" },
+      nethop:  { src: "nethop.png",  alt: "NethOP",  emoji: "◆" },
+      cart:    { src: "cart.png",    alt: "Cart",    emoji: "⛏" },
+      smp:     { src: "smp.png",     alt: "SMP",     emoji: "●" },
+      spear:   { src: "spear.png",   alt: "Spear",   emoji: "↗" }
+    };
+
     const TIER_SCORE = {
       HT5: 2, LT5: 1, HT4: 4, LT4: 3, HT3: 10, LT3: 6, HT2: 30, LT2: 20, HT1: 60, LT1: 45
     };
@@ -900,6 +840,33 @@
       return sorted.findIndex(p => String(p.nick).toLowerCase() === String(nick).toLowerCase()) + 1;
     }
 
+    function iconMarkup(categoryKey) {
+      const icon = CATEGORY_ICON_DATA[categoryKey] || CATEGORY_ICON_DATA.overall;
+
+      if (icon.src) {
+        const fallback = escapeHtml(icon.emoji || "★");
+        const src = escapeHtml(icon.src);
+        const alt = escapeHtml(icon.alt || categoryKey);
+        return `<img src="${src}" alt="${alt}" onerror="this.outerHTML='${fallback}'">`;
+      }
+
+      return escapeHtml(icon.emoji || "★");
+    }
+
+    function buildCategoryBar() {
+      const bar = document.getElementById("categoryBar");
+      bar.innerHTML = categories.map(cat => `
+        <button class="category-btn ${cat.key === currentCategory ? "active" : ""}" data-category="${cat.key}">
+          <span class="category-icon">${iconMarkup(cat.key)}</span>
+          <span class="category-label">${escapeHtml(cat.label)}</span>
+        </button>
+      `).join("");
+
+      bar.querySelectorAll(".category-btn").forEach(btn => {
+        btn.addEventListener("click", () => setCategory(btn.dataset.category));
+      });
+    }
+
     function renderRanking(players, highlightedNick = "") {
       const rankingEl = document.getElementById("ranking");
       rankingEl.innerHTML = "";
@@ -946,20 +913,21 @@
       document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
     }
 
-    function tierIconForCategory(categoryKey) {
-      const icons = {
-        mace: "⚔",
-        sword: "🗡",
-        axe: "🪓",
-        crystal: "◈",
-        uhc: "⛏",
-        pot: "⚗",
-        nethop: "◆",
-        cart: "⛏",
-        smp: "●",
-        spear: "↗"
-      };
-      return icons[categoryKey] || "★";
+    function getTierIconHTML(categoryKey, tierText = "") {
+      const hasTier = String(tierText || "").trim() && String(tierText).trim() !== "BRAK";
+      const icon = CATEGORY_ICON_DATA[categoryKey] || CATEGORY_ICON_DATA.overall;
+
+      if (categoryKey === "mace" && hasTier && icon.src) {
+        const fallback = escapeHtml(icon.emoji || "★");
+        return `<img src="${escapeHtml(icon.src)}" alt="${escapeHtml(icon.alt)}" onerror="this.outerHTML='${fallback}'">`;
+      }
+
+      if (icon.src) {
+        const fallback = escapeHtml(icon.emoji || "★");
+        return `<img src="${escapeHtml(icon.src)}" alt="${escapeHtml(icon.alt)}" onerror="this.outerHTML='${fallback}'">`;
+      }
+
+      return escapeHtml(icon.emoji || "★");
     }
 
     function showSearchResult(player) {
@@ -968,7 +936,6 @@
       const overallRank = getPlayerRank(allPlayers, player.nick, "overall");
       const title = getTitle(Number(overallData.points) || 0);
       const region = String(player.region || "EU");
-      const regionKey = region.toLowerCase();
 
       const tierItems = categories
         .filter(cat => cat.key !== "overall")
@@ -977,7 +944,7 @@
           const tierClass = tier !== "BRAK" ? (String(tier).includes("HT") ? "ht" : "lt") : "lt";
           return `
             <div class="tier-item">
-              <div class="tier-icon">${tierIconForCategory(cat.key)}</div>
+              <div class="tier-icon">${getTierIconHTML(cat.key, tier)}</div>
               <div class="tier ${tierClass}">${escapeHtml(tier)}</div>
               <div class="tier-name">${escapeHtml(cat.label)}</div>
             </div>
@@ -992,7 +959,6 @@
               <div class="search-label">Searching Player..</div>
               <div class="search-subtitle">Searching for ${escapeHtml(player.nick)}</div>
             </div>
-
           </div>
 
           <div class="profile-block">
@@ -1003,7 +969,6 @@
               <h3 class="profile-name">${escapeHtml(player.nick)}</h3>
               <div class="profile-title">✦ ${escapeHtml(title)}</div>
               <div class="profile-region">${escapeHtml(region.replace(/_/g, " "))}</div>
-              <div class="profile-links"></div>
             </div>
           </div>
 
@@ -1039,7 +1004,6 @@
               <div class="search-label">Searching Player..</div>
               <div class="search-subtitle">Searching for ${escapeHtml(nick)}</div>
             </div>
-
           </div>
           <div style="padding:18px 6px 8px;color:#cbd5e1;font-size:16px;font-weight:700;">Nick <b>${escapeHtml(nick)}</b> nie istnieje w aktualnej liście graczy.</div>
         </div>
@@ -1079,14 +1043,6 @@
       } else {
         renderRanking(allPlayers);
       }
-    }
-
-    function buildCategoryBar() {
-      const bar = document.getElementById("categoryBar");
-      bar.innerHTML = categories.map(cat =>
-        `<button class="category-btn ${cat.key === currentCategory ? "active" : ""}" data-category="${cat.key}">${categoryButtonIcon(cat.key)}<span>${escapeHtml(cat.label)}</span></button>`
-      ).join("");
-      bar.querySelectorAll(".category-btn").forEach(btn => btn.addEventListener("click", () => setCategory(btn.dataset.category)));
     }
 
     async function loadPlayers() {
@@ -1142,3 +1098,4 @@
   </script>
 </body>
 </html>
+```
