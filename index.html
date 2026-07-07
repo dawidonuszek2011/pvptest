@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
@@ -283,10 +283,12 @@
       overflow: hidden;
       flex: 0 0 36px;
     }
-    .tier-icon img {
+    .tier-icon img,
+    .category-icon img,
+    .tier-chip-icon img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: block;
     }
     .tier-item .tier {
@@ -340,12 +342,6 @@
       place-items: center;
       overflow: hidden;
       flex: 0 0 18px;
-    }
-    .category-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
     }
 
     .section-title {
@@ -503,6 +499,17 @@
       text-align: center;
       background: #1b2637;
       border: 1px solid rgba(255,255,255,.06);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tier-chip-icon {
+      width: 14px;
+      height: 14px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 14px;
+      overflow: hidden;
     }
     .ht { color: #f9b54a; }
     .lt { color: #bac4d3; }
@@ -618,6 +625,20 @@
       display: inline-block;
       flex: 0 0 18px;
     }
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      display: inline-block;
+      flex: 0 0 18px;
+    }
+    .icon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
     @media (max-width: 1100px) {
       .table-head { display: none; }
       .player-card { grid-template-columns: 1fr; gap: 10px; }
@@ -725,17 +746,17 @@
     let currentCategory = "overall";
 
     const categories = [
-      { key: "overall", label: "Ogólna" },
-      { key: "mace", label: "Mace" },
-      { key: "sword", label: "Sword" },
-      { key: "axe", label: "Axe" },
-      { key: "crystal", label: "Crystal" },
-      { key: "uhc", label: "UHC" },
-      { key: "pot", label: "Pot" },
-      { key: "nethop", label: "NethOP" },
-      { key: "cart", label: "Cart" },
-      { key: "smp", label: "SMP" },
-      { key: "spear", label: "Spear" }
+      { key: "overall", label: "Ogólna", icon: "overall.png" },
+      { key: "mace", label: "Mace", icon: "mace.png" },
+      { key: "sword", label: "Sword", icon: "sword.png" },
+      { key: "axe", label: "Axe", icon: "axe.png" },
+      { key: "crystal", label: "Crystal", icon: "crystal.png" },
+      { key: "uhc", label: "UHC", icon: "uhc.png" },
+      { key: "pot", label: "Pot", icon: "pot.png" },
+      { key: "nethop", label: "NethOP", icon: "nethop.png" },
+      { key: "cart", label: "Cart", icon: "cart.png" },
+      { key: "smp", label: "SMP", icon: "smp.png" },
+      { key: "spear", label: "Spear", icon: "spear.png" }
     ];
 
     const CATEGORY_LABELS = {
@@ -753,7 +774,7 @@
     };
 
     const CATEGORY_ICON_DATA = {
-      overall: { emoji: "🏆" },
+      overall: { src: "overall.png", alt: "Overall", emoji: "🏆" },
       mace:    { src: "mace.png",    alt: "Mace",    emoji: "⚔" },
       sword:   { src: "sword.png",   alt: "Sword",   emoji: "🗡" },
       axe:     { src: "axe.png",     alt: "Axe",     emoji: "🪓" },
@@ -768,6 +789,19 @@
 
     const TIER_SCORE = {
       HT5: 2, LT5: 1, HT4: 4, LT4: 3, HT3: 10, LT3: 6, HT2: 30, LT2: 20, HT1: 60, LT1: 45
+    };
+
+    const TIER_ICONS = {
+      HT5: "HT5.png",
+      LT5: "LT5.png",
+      HT4: "HT4.png",
+      LT4: "LT4.png",
+      HT3: "HT3.png",
+      LT3: "LT3.png",
+      HT2: "HT2.png",
+      LT2: "LT2.png",
+      HT1: "HT1.png",
+      LT1: "LT1.png"
     };
 
     function getTitle(points) {
@@ -795,17 +829,29 @@
 
     function parseTierEntry(entry) {
       const raw = String(entry ?? "").trim();
-      if (!raw) return "";
+      if (!raw) return { category: "", tier: "" };
+
       const idx = raw.indexOf(":");
-      if (idx === -1) return normalizeTierText(raw);
-      return normalizeTierText(raw.slice(idx + 1));
+      if (idx === -1) return { category: "", tier: normalizeTierText(raw) };
+
+      return {
+        category: raw.slice(0, idx).trim(),
+        tier: raw.slice(idx + 1).trim()
+      };
+    }
+
+    function categoryKeyFromLabel(label) {
+      const lower = String(label || "").trim().toLowerCase();
+      const found = Object.keys(CATEGORY_LABELS).find(k => CATEGORY_LABELS[k].toLowerCase() === lower);
+      return found || lower;
     }
 
     function getCategoryTier(player, categoryKey) {
       const wanted = CATEGORY_LABELS[categoryKey] || categoryKey;
       const tiers = Array.isArray(player?.tiers) ? player.tiers : [];
       const match = tiers.find(item => String(item || "").toLowerCase().startsWith(String(wanted).toLowerCase() + ":"));
-      return parseTierEntry(match || "");
+      const parsed = parseTierEntry(match || "");
+      return parsed.tier ? normalizeTierText(parsed.tier) : "";
     }
 
     function getTierScore(tierText) {
@@ -814,22 +860,34 @@
 
     function getCategoryData(player, categoryKey) {
       if (categoryKey === "overall") {
-        return { points: Number(player.points) || 0, tier: "", tierScore: 0, tiers: Array.isArray(player.tiers) ? player.tiers : [] };
+        return {
+          points: Number(player.points) || 0,
+          tier: "",
+          tierScore: 0,
+          tiers: Array.isArray(player.tiers) ? player.tiers : []
+        };
       }
       const tier = getCategoryTier(player, categoryKey);
-      return { points: 0, tier, tierScore: getTierScore(tier), tiers: Array.isArray(player.tiers) ? player.tiers : [] };
+      return {
+        points: 0,
+        tier,
+        tierScore: getTierScore(tier),
+        tiers: Array.isArray(player.tiers) ? player.tiers : []
+      };
     }
 
     function sortPlayers(players, categoryKey = currentCategory) {
       return [...players].sort((a, b) => {
         const aData = getCategoryData(a, categoryKey);
         const bData = getCategoryData(b, categoryKey);
+
         if (categoryKey === "overall") {
           if (bData.points !== aData.points) return bData.points - aData.points;
         } else {
           if (bData.tierScore !== aData.tierScore) return bData.tierScore - aData.tierScore;
           if (bData.points !== aData.points) return bData.points - aData.points;
         }
+
         return String(a.nick || "").localeCompare(String(b.nick || ""));
       });
     }
@@ -839,24 +897,37 @@
       return sorted.findIndex(p => String(p.nick).toLowerCase() === String(nick).toLowerCase()) + 1;
     }
 
-    function iconMarkup(categoryKey) {
+    function imgOrFallback(src, alt, fallbackEmoji, className = "") {
+      const safeSrc = escapeHtml(src);
+      const safeAlt = escapeHtml(alt || "");
+      const fallback = escapeHtml(fallbackEmoji || "★");
+      return `
+        <img
+          src="${safeSrc}"
+          alt="${safeAlt}"
+          class="${className}"
+          onerror="this.outerHTML='${fallback}'"
+        >
+      `;
+    }
+
+    function categoryIconHtml(categoryKey) {
       const icon = CATEGORY_ICON_DATA[categoryKey] || CATEGORY_ICON_DATA.overall;
+      return imgOrFallback(icon.src, icon.alt, icon.emoji, "icon-img");
+    }
 
-      if (icon.src) {
-        const fallback = escapeHtml(icon.emoji || "★");
-        const src = escapeHtml(icon.src);
-        const alt = escapeHtml(icon.alt || categoryKey);
-        return `<img src="${src}" alt="${alt}" onerror="this.outerHTML='${fallback}'">`;
-      }
-
-      return escapeHtml(icon.emoji || "★");
+    function tierIconHtml(tierText) {
+      const normalized = normalizeTierText(tierText);
+      const file = TIER_ICONS[normalized];
+      if (!file) return "";
+      return imgOrFallback(file, normalized, "", "icon-img");
     }
 
     function buildCategoryBar() {
       const bar = document.getElementById("categoryBar");
       bar.innerHTML = categories.map(cat => `
         <button class="category-btn ${cat.key === currentCategory ? "active" : ""}" data-category="${cat.key}">
-          <span class="category-icon">${iconMarkup(cat.key)}</span>
+          <span class="category-icon">${categoryIconHtml(cat.key)}</span>
           <span class="category-label">${escapeHtml(cat.label)}</span>
         </button>
       `).join("");
@@ -866,9 +937,30 @@
       });
     }
 
+    function tierChipHtml(rawTier) {
+      const parsed = parseTierEntry(rawTier);
+      const tierValue = parsed.tier ? normalizeTierText(parsed.tier) : normalizeTierText(rawTier);
+      const categoryKey = categoryKeyFromLabel(parsed.category);
+
+      const icon = CATEGORY_ICON_DATA[categoryKey];
+      const iconHtml = icon && icon.src
+        ? imgOrFallback(icon.src, icon.alt, icon.emoji, "tier-chip-icon-img")
+        : "";
+
+      const tierClass = tierValue.includes("HT") ? "ht" : "lt";
+
+      return `
+        <span class="tier ${tierClass}">
+          ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
+          <span>${escapeHtml(tierValue || rawTier || "BRAK")}</span>
+        </span>
+      `;
+    }
+
     function renderRanking(players, highlightedNick = "") {
       const rankingEl = document.getElementById("ranking");
       rankingEl.innerHTML = "";
+
       const sorted = sortPlayers(players, currentCategory);
       const isOverall = currentCategory === "overall";
       const pointsHeader = document.querySelector(".table-head div:last-child");
@@ -880,10 +972,8 @@
         const displayValue = isOverall ? String(Number(data.points) || 0) : (data.tier || "BRAK");
         const displayBadge = isOverall ? getTitle(Number(data.points) || 0) : (data.tier || "BRAK");
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
-        const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => {
-          const type = String(t).includes("HT") ? "ht" : "lt";
-          return `<span class="tier ${type}">${escapeHtml(t)}</span>`;
-        }).join("");
+
+        const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => tierChipHtml(t)).join("");
 
         rankingEl.innerHTML += `
           <div class="player-card ${isHighlighted ? "highlighted" : ""} ${rank <= 3 ? "rank-" + rank : ""}" id="player-${encodeURIComponent(p.nick || "")}">
@@ -891,6 +981,7 @@
               <div class="rank-num">${rank}.</div>
               <img class="mini-avatar" src="${escapeHtml(p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick || "")}`)}" alt="${escapeHtml(p.nick)}">
             </div>
+
             <div class="player-main">
               <div class="player-name">${escapeHtml(p.nick)}</div>
               <div class="player-sub">
@@ -898,8 +989,11 @@
                 <span>${isOverall ? `(${displayValue} points)` : `(${escapeHtml(displayValue)})`}</span>
               </div>
             </div>
+
             <div class="region ${String(p.region || "EU").toLowerCase()}">${escapeHtml(p.region || "EU")}</div>
+
             <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
+
             <div class="points-box">
               <div class="points-value">${escapeHtml(displayValue)}</div>
               <div class="points-label">${isOverall ? "Combat Points" : "Tier"}</div>
@@ -910,23 +1004,6 @@
 
       document.getElementById("sectionTitle").textContent = `Ranking: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
       document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
-    }
-
-    function getTierIconHTML(categoryKey, tierText = "") {
-      const hasTier = String(tierText || "").trim() && String(tierText).trim() !== "BRAK";
-      const icon = CATEGORY_ICON_DATA[categoryKey] || CATEGORY_ICON_DATA.overall;
-
-      if (categoryKey === "mace" && hasTier && icon.src) {
-        const fallback = escapeHtml(icon.emoji || "★");
-        return `<img src="${escapeHtml(icon.src)}" alt="${escapeHtml(icon.alt)}" onerror="this.outerHTML='${fallback}'">`;
-      }
-
-      if (icon.src) {
-        const fallback = escapeHtml(icon.emoji || "★");
-        return `<img src="${escapeHtml(icon.src)}" alt="${escapeHtml(icon.alt)}" onerror="this.outerHTML='${fallback}'">`;
-      }
-
-      return escapeHtml(icon.emoji || "★");
     }
 
     function showSearchResult(player) {
@@ -943,7 +1020,7 @@
           const tierClass = tier !== "BRAK" ? (String(tier).includes("HT") ? "ht" : "lt") : "lt";
           return `
             <div class="tier-item">
-              <div class="tier-icon">${getTierIconHTML(cat.key, tier)}</div>
+              <div class="tier-icon">${categoryIconHtml(cat.key)}</div>
               <div class="tier ${tierClass}">${escapeHtml(tier)}</div>
               <div class="tier-name">${escapeHtml(cat.label)}</div>
             </div>
@@ -1004,7 +1081,9 @@
               <div class="search-subtitle">Searching for ${escapeHtml(nick)}</div>
             </div>
           </div>
-          <div style="padding:18px 6px 8px;color:#cbd5e1;font-size:16px;font-weight:700;">Nick <b>${escapeHtml(nick)}</b> nie istnieje w aktualnej liście graczy.</div>
+          <div style="padding:18px 6px 8px;color:#cbd5e1;font-size:16px;font-weight:700;">
+            Nick <b>${escapeHtml(nick)}</b> nie istnieje w aktualnej liście graczy.
+          </div>
         </div>
       `;
       renderRanking(allPlayers);
@@ -1013,12 +1092,14 @@
     function searchPlayer() {
       const input = document.getElementById("searchInput");
       const nick = input.value.trim();
+
       if (!nick) {
         document.getElementById("searchResult").className = "search-result";
         document.getElementById("searchResult").innerHTML = "";
         renderRanking(allPlayers);
         return;
       }
+
       const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === nick.toLowerCase());
       if (found) showSearchResult(found);
       else showNotFound(nick);
@@ -1034,6 +1115,7 @@
     function setCategory(categoryKey) {
       currentCategory = categoryKey;
       document.querySelectorAll(".category-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.category === categoryKey));
+
       const currentSearch = document.getElementById("searchInput").value.trim();
       if (currentSearch) {
         const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === currentSearch.toLowerCase());
@@ -1061,6 +1143,7 @@
 
     document.getElementById("searchBtn").addEventListener("click", searchPlayer);
     document.getElementById("clearBtn").addEventListener("click", clearSearch);
+
     document.getElementById("searchInput").addEventListener("keydown", e => {
       if (e.key === "Enter") searchPlayer();
     });
