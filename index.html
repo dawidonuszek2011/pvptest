@@ -1,4 +1,4 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
@@ -511,8 +511,26 @@
       flex: 0 0 14px;
       overflow: hidden;
     }
-    .ht { color: #f9b54a; }
-    .lt { color: #bac4d3; }
+    .tier-neutral {
+      background: #1b2637;
+      border-color: rgba(255,255,255,.06);
+      color: #cbd5e1;
+    }
+    .tier-bronze {
+      background: rgba(143,83,35,.22);
+      border-color: rgba(212,138,76,.28);
+      color: #d48a4c;
+    }
+    .tier-silver {
+      background: rgba(148,163,184,.18);
+      border-color: rgba(226,232,240,.22);
+      color: #e5e7eb;
+    }
+    .tier-gold {
+      background: rgba(245,196,81,.18);
+      border-color: rgba(245,196,81,.30);
+      color: #ffe082;
+    }
     .points-box {
       justify-self: end;
       display: flex;
@@ -937,6 +955,14 @@
       });
     }
 
+    function tierVariant(tierText) {
+      const tier = normalizeTierText(tierText);
+      if (tier === "HT1" || tier === "LT1") return "tier-gold";
+      if (tier === "HT2" || tier === "LT2") return "tier-silver";
+      if (tier === "HT3" || tier === "LT3") return "tier-bronze";
+      return "tier-neutral";
+    }
+
     function tierChipHtml(rawTier) {
       const parsed = parseTierEntry(rawTier);
       const tierValue = parsed.tier ? normalizeTierText(parsed.tier) : normalizeTierText(rawTier);
@@ -947,7 +973,7 @@
         ? imgOrFallback(icon.src, icon.alt, icon.emoji, "tier-chip-icon-img")
         : "";
 
-      const tierClass = tierValue.includes("HT") ? "ht" : "lt";
+      const tierClass = tierVariant(tierValue);
 
       return `
         <span class="tier ${tierClass}">
