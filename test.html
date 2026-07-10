@@ -292,6 +292,205 @@
       display: block;
     }
     .tier-item .tier {
+      min-width: auto;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+    .tier-name {
+      font-size: 12px;
+      color: #93a4ba;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .category-bar {
+      max-width: 1320px;
+      margin: 0 auto 18px auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 0 10px;
+    }
+    .category-btn {
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.05);
+      color: #dbe7f5;
+      font-weight: 900;
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: .2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .category-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+    }
+    .category-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: rgba(77,163,255,.45);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(30,64,175,.18);
+    }
+    .category-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-grid;
+      place-items: center;
+      overflow: hidden;
+      flex: 0 0 18px;
+    }
+
+    .section-title {
+      max-width: 1320px;
+      margin: 0 auto 10px auto;
+      padding: 0 10px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #cbd5e1;
+    }
+    .status {
+      max-width: 1320px;
+      margin: 0 auto 14px auto;
+      color: #93a4ba;
+      font-size: 14px;
+      padding: 0 10px;
+    }
+    .error { color: #fca5a5; }
+
+    .table-head {
+      max-width: 1320px;
+      margin: 0 auto 10px auto;
+      display: grid;
+      grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
+      gap: 14px;
+      color: #64748b;
+      font-weight: bold;
+      padding: 0 10px;
+    }
+    .ranking {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .player-card {
+      display: grid;
+      grid-template-columns: 110px 1.9fr 150px 1.2fr 210px;
+      gap: 14px;
+      align-items: center;
+      background: linear-gradient(180deg, var(--card1), var(--card2));
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 18px;
+      min-height: 92px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      transition: .2s ease;
+    }
+    .player-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.09);
+    }
+    .player-card.highlighted {
+      border-color: rgba(77,163,255,.8);
+      box-shadow: 0 0 0 3px rgba(77,163,255,.14), 0 14px 34px rgba(0,0,0,.28);
+    }
+    .player-card.rank-1 .player-name {
+      background: linear-gradient(135deg,#f5c451,#fff3b0,#b8861d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(245,196,81,.35);
+    }
+    .player-card.rank-2 .player-name {
+      background: linear-gradient(135deg,#e5e7eb,#9ca3af,#f3f4f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(156,163,175,.25);
+    }
+    .player-card.rank-3 .player-name {
+      background: linear-gradient(135deg,#d48a4c,#8f5323,#ffb36b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(212,138,76,.25);
+    }
+    .rank-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 68px;
+      border-radius: 14px;
+      overflow: hidden;
+      padding-left: 12px;
+      position: relative;
+      background: linear-gradient(135deg,#2d3748,#1f2937);
+    }
+    .rank-box.rank-1 { background: linear-gradient(135deg,#f5c451,#b8861d); }
+    .rank-box.rank-2 { background: linear-gradient(135deg,#d9e1e8,#8e9aa5); }
+    .rank-box.rank-3 { background: linear-gradient(135deg,#d48a4c,#8f5323); }
+    .rank-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: white;
+      min-width: 34px;
+      text-shadow: 0 2px 6px rgba(0,0,0,.35);
+    }
+    .mini-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .player-main { display: flex; flex-direction: column; gap: 6px; }
+    .player-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+    .player-sub {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #93a4ba;
+      font-size: 13px;
+    }
+    .title-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.06);
+      color: #f8d36a;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .region {
+      justify-self: center;
+      font-weight: 800;
+      font-size: 20px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      min-width: 60px;
+      text-align: center;
+    }
+    .region.eu { background: rgba(64,145,63,.28); color: #9df68b; }
+    .region.na { background: rgba(156,57,57,.28); color: #ff8b8b; }
+    .region.as { background: rgba(61,101,170,.28); color: #8fc2ff; }
+    .region.sa { background: rgba(152,98,39,.28); color: #ffc882; }
+    .tiers {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .tier {
       padding: 7px 10px;
       border-radius: 12px;
       font-size: 12px;
@@ -303,7 +502,6 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: #cbd5e1;
     }
     .tier-chip-icon {
       width: 14px;
@@ -845,7 +1043,7 @@
         .filter(cat => cat.key !== "overall")
         .map(cat => {
           const tier = getCategoryTier(player, cat.key) || "BRAK";
-          const tierClass = tierVariant(tier);
+          const tierClass = tier !== "BRAK" ? (String(tier).includes("HT") ? "ht" : "lt") : "lt";
           return `
             <div class="tier-item">
               <div class="tier-icon">${categoryIconHtml(cat.key)}</div>
