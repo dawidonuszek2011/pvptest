@@ -516,6 +516,12 @@
       border-color: rgba(255,255,255,.06);
       color: #cbd5e1;
     }
+    .tier-r {
+      background: rgba(175,111,235,.18);
+      border-color: rgba(175,111,235,.30);
+      color: #AF6FEB;
+      box-shadow: 0 0 0 1px rgba(175,111,235,.08) inset;
+    }
     .tier-bronze {
       background: rgba(143,83,35,.22);
       border-color: rgba(212,138,76,.28);
@@ -957,6 +963,7 @@
 
     function tierVariant(tierText) {
       const tier = normalizeTierText(tierText);
+      if (tier === "R") return "tier-r";
       if (tier === "HT1" || tier === "LT1") return "tier-gold";
       if (tier === "HT2" || tier === "LT2") return "tier-silver";
       if (tier === "HT3" || tier === "LT3") return "tier-bronze";
@@ -1043,11 +1050,10 @@
         .filter(cat => cat.key !== "overall")
         .map(cat => {
           const tier = getCategoryTier(player, cat.key) || "BRAK";
-          const tierClass = tier !== "BRAK" ? (String(tier).includes("HT") ? "ht" : "lt") : "lt";
           return `
             <div class="tier-item">
               <div class="tier-icon">${categoryIconHtml(cat.key)}</div>
-              <div class="tier ${tierClass}">${escapeHtml(tier)}</div>
+              <div class="tier ${tierVariant(tier)}">${escapeHtml(tier)}</div>
               <div class="tier-name">${escapeHtml(cat.label)}</div>
             </div>
           `;
