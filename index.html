@@ -537,6 +537,22 @@
       border-color: rgba(245,196,81,.30);
       color: #ffe082;
     }
+
+    .tier-banned {
+      background: rgba(255, 0, 0, .18) !important;
+      border-color: rgba(255, 70, 70, .55) !important;
+      color: #ff6b6b !important;
+      box-shadow: 0 0 0 1px rgba(255, 0, 0, .12) inset;
+    }
+
+    .banned-name {
+      background: none !important;
+      -webkit-background-clip: initial !important;
+      -webkit-text-fill-color: #ff4d4d !important;
+      color: #ff4d4d !important;
+      text-shadow: 0 0 10px rgba(255, 77, 77, .28) !important;
+    }
+
     .points-box {
       justify-self: end;
       display: flex;
@@ -808,11 +824,11 @@
       nethop:  { src: "nethop.png",  alt: "NethOP",  emoji: "◆" },
       cart:    { src: "cart.png",    alt: "Cart",    emoji: "⛏" },
       smp:     { src: "smp.png",     alt: "SMP",     emoji: "●" },
-      spearmace:   { src: "spearmace.png",   alt: "Spear Mace",   emoji: "↗" }
+      spearmace: { src: "spearmace.png", alt: "Spear Mace", emoji: "↗" }
     };
 
     const TIER_SCORE = {
-      HT5: 2, LT5: 1, HT4: 4, LT4: 3, HT3: 10, LT3: 6, HT2: 30, LT2: 20, HT1: 60, LT1: 45
+      HT5: 2, LT5: 1, HT4: 4, LT4: 3, HT3: 10, LT3: 6, HT2: 30, LT2: 20, HT1: 60, LT1: 45,RHT5: 2, RLT5: 1, RHT4: 4, RLT4: 3, RHT3: 10, RLT3: 6, RHT2: 30, RLT2: 20, RHT1: 60, RLT1: 45
     };
 
     const TIER_ICONS = {
@@ -882,10 +898,18 @@
       return TIER_SCORE[normalizeTierText(tierText)] || 0;
     }
 
+    function calculatePointsFromTiers(tiers) {
+      return (Array.isArray(tiers) ? tiers : []).reduce((sum, rawTier) => {
+        const parsed = parseTierEntry(rawTier);
+        const tierValue = parsed.tier ? normalizeTierText(parsed.tier) : "";
+        return sum + getTierScore(tierValue);
+      }, 0);
+    }
+
     function getCategoryData(player, categoryKey) {
       if (categoryKey === "overall") {
         return {
-          points: Number(player.points) || 0,
+          points: calculatePointsFromTiers(player.tiers),
           tier: "",
           tierScore: 0,
           tiers: Array.isArray(player.tiers) ? player.tiers : []
@@ -940,13 +964,6 @@
       return imgOrFallback(icon.src, icon.alt, icon.emoji, "icon-img");
     }
 
-    function tierIconHtml(tierText) {
-      const normalized = normalizeTierText(tierText);
-      const file = TIER_ICONS[normalized];
-      if (!file) return "";
-      return imgOrFallback(file, normalized, "", "icon-img");
-    }
-
     function buildCategoryBar() {
       const bar = document.getElementById("categoryBar");
       bar.innerHTML = categories.map(cat => `
@@ -961,7 +978,8 @@
       });
     }
 
-    function tierVariant(tierText) {
+    function tierVariant(tierText, banned = false) {
+      if (banned) return "tier-banned";
       const tier = normalizeTierText(tierText);
       if (tier.startsWith("R")) return "tier-r";
       if (tier === "HT1" || tier === "LT1") return "tier-gold";
@@ -970,7 +988,7 @@
       return "tier-neutral";
     }
 
-    function tierChipHtml(rawTier) {
+    function tierChipHtml(rawTier, banned = false) {
       const parsed = parseTierEntry(rawTier);
       const categoryKey = categoryKeyFromLabel(parsed.category);
       const tierValue = parsed.tier ? normalizeTierText(parsed.tier) : "";
@@ -979,16 +997,15 @@
         ? imgOrFallback(icon.src, icon.alt, icon.emoji, "tier-chip-icon-img")
         : "";
 
-      // Jeśli tier jest pusty, pokazujemy tylko ikonę
+      const tierClass = banned ? "tier-banned" : tierVariant(tierValue);
+
       if (!tierValue) {
         return `
-          <span class="tier tier-neutral">
+          <span class="tier ${tierClass}">
             ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
           </span>
         `;
       }
-
-      const tierClass = tierVariant(tierValue);
 
       return `
         <span class="tier ${tierClass}">
@@ -1010,11 +1027,13 @@
       sorted.forEach((p, index) => {
         const rank = index + 1;
         const data = getCategoryData(p, currentCategory);
+        const isBanned = !!p.banned;
+        const displayNick = isBanned ? `[BANNED] ${p.nick}` : p.nick;
         const displayValue = isOverall ? String(Number(data.points) || 0) : (data.tier || "BRAK");
         const displayBadge = isOverall ? getTitle(Number(data.points) || 0) : (data.tier || "BRAK");
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
 
-        const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => tierChipHtml(t)).join("");
+        const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => tierChipHtml(t, isBanned)).join("");
 
         rankingEl.innerHTML += `
           <div class="player-card ${isHighlighted ? "highlighted" : ""} ${rank <= 3 ? "rank-" + rank : ""}" id="player-${encodeURIComponent(p.nick || "")}">
@@ -1024,7 +1043,7 @@
             </div>
 
             <div class="player-main">
-              <div class="player-name">${escapeHtml(p.nick)}</div>
+              <div class="player-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</div>
               <div class="player-sub">
                 <span class="title-badge">✦ ${escapeHtml(displayBadge)}</span>
                 <span>${isOverall ? `(${displayValue} points)` : `(${escapeHtml(displayValue)})`}</span>
@@ -1033,7 +1052,7 @@
 
             <div class="region ${String(p.region || "EU").toLowerCase()}">${escapeHtml(p.region || "EU")}</div>
 
-            <div class="tiers">${tiersHTML || '<span class="tier lt">BRAK</span>'}</div>
+            <div class="tiers">${tiersHTML || '<span class="tier tier-neutral">BRAK</span>'}</div>
 
             <div class="points-box">
               <div class="points-value">${escapeHtml(displayValue)}</div>
@@ -1053,6 +1072,8 @@
       const overallRank = getPlayerRank(allPlayers, player.nick, "overall");
       const title = getTitle(Number(overallData.points) || 0);
       const region = String(player.region || "EU");
+      const isBanned = !!player.banned;
+      const displayNick = isBanned ? `[BANNED] ${player.nick}` : player.nick;
 
       const tierItems = categories
         .filter(cat => cat.key !== "overall")
@@ -1063,7 +1084,7 @@
             <div class="tier-item">
               <div class="tier-icon">${categoryIconHtml(cat.key)}</div>
               ${tier ? `
-                <div class="tier ${tierVariant(tier)}">${escapeHtml(tier)}</div>
+                <div class="tier ${tierVariant(tier, isBanned)}">${escapeHtml(tier)}</div>
                 <div class="tier-name">${escapeHtml(cat.label)}</div>
               ` : ``}
             </div>
@@ -1085,7 +1106,7 @@
               <img class="profile-avatar" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
             </div>
             <div>
-              <h3 class="profile-name">${escapeHtml(player.nick)}</h3>
+              <h3 class="profile-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</h3>
               <div class="profile-title">✦ ${escapeHtml(title)}</div>
               <div class="profile-region">${escapeHtml(region.replace(/_/g, " "))}</div>
             </div>
