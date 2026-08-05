@@ -15,58 +15,58 @@
   },
    {
     "nick": "xKapa__",
+    "banned": false,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/xKapa__",
-    "points": 60,
     "tiers": ["Mace: LT3", "Sword: LT2", "Axe: HT2", "Crystal:", "UHC: LT4", "Pot:", "NethOP: LT5", "Cart:", "SMP:", "SpearMace:"]
   },
    {
     "nick": "Just_Melon",
+    "banned": false,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/Just_Melon",
-    "points": 107,
     "tiers": ["Mace: LT1", "Sword: LT1", "Axe: HT3", "Crystal:", "UHC: LT4", "Pot:", "NethOP: LT5", "Cart:", "SMP: LT4", "SpearMace:"]
   },
    {
     "nick": "T1G3REK_",
+    "banned": false,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/T1G3REK_",
-    "points": 0,
     "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
   },
    {
     "nick": "cuvar2",
+    "banned": false,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/cuvar2",
-    "points": 5,
     "tiers": ["Mace: LT5", "Sword: LT4", "Axe:", "Crystal:", "UHC: LT5", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
   },
    {
     "nick": "miedziu_v2",
+    "banned": false,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/miedziu_v2",
-    "points": 6,
     "tiers": ["Mace:", "Sword:", "Axe: LT3", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
   },
   {
     "nick": "JaneqGG",
+    "banned": false,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/JaneqGG",
-    "points": 66,
     "tiers": ["Mace:", "Sword: RHT1", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP: RLT3", "Cart:", "SMP: RLT4", "SpearMace:"]
   },
   {
     "nick": "frozenshard_",
+    "banned": false,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/frozenshard_",
-    "points": 2,
     "tiers": ["Mace:", "Sword: HT5", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
   },
   {
     "nick": "Quertissek",
+    "banned": false,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/Quertissek",
-    "points": 0,
     "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
   }
 ]
