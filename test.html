@@ -304,72 +304,36 @@
       letter-spacing: .4px;
     }
 
-    
     .category-bar {
       max-width: 1320px;
       margin: 0 auto 18px auto;
-      padding: 0 10px;
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
-    .category-bar::-webkit-scrollbar {
-      height: 0;
-    }
-    .category-pillbar {
-      position: relative;
       display: flex;
-      width: max-content;
-      min-width: 100%;
-      padding: 4px;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 22px;
-      background: rgba(255,255,255,.05);
-      box-shadow: 0 10px 24px rgba(0,0,0,.18);
-      overflow: hidden;
-      isolation: isolate;
-    }
-    .category-indicator {
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      width: 0;
-      height: calc(100% - 8px);
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(77,163,255,.95), rgba(30,64,175,.95));
-      box-shadow: 0 10px 24px rgba(30,64,175,.22), 0 0 0 1px rgba(255,255,255,.08) inset;
-      transition: left .28s cubic-bezier(.22,1,.36,1), width .28s cubic-bezier(.22,1,.36,1);
-      z-index: 0;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 0 10px;
     }
     .category-btn {
-      border: none;
-      background: transparent;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.05);
       color: #dbe7f5;
       font-weight: 900;
-      padding: 12px 16px;
-      border-radius: 18px;
+      padding: 10px 14px;
+      border-radius: 14px;
       cursor: pointer;
-      transition: transform .2s ease, opacity .2s ease, color .2s ease;
+      transition: .2s ease;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 8px;
-      position: relative;
-      z-index: 1;
-      white-space: nowrap;
-      flex: 0 0 auto;
-      min-width: 120px;
-    }
-    .category-btn + .category-btn {
-      box-shadow: -1px 0 0 rgba(255,255,255,.06);
     }
     .category-btn:hover {
       transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
     }
     .category-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: rgba(77,163,255,.45);
       color: #fff;
-    }
-    .category-btn:not(.active) {
-      opacity: .86;
+      box-shadow: 0 10px 24px rgba(30,64,175,.18);
     }
     .category-icon {
       width: 18px;
@@ -624,6 +588,248 @@
       letter-spacing: 1px;
     }
 
+
+    .tier-board {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tier-section {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(12,24,43,.96), rgba(8,19,35,.96));
+      box-shadow: 0 12px 30px rgba(0,0,0,.24);
+    }
+
+    .tier-section.tier-1 {
+      border-color: rgba(245,196,81,.35);
+    }
+    .tier-section.tier-2 {
+      border-color: rgba(226,232,240,.28);
+    }
+    .tier-section.tier-3 {
+      border-color: rgba(212,138,76,.28);
+    }
+    .tier-section.tier-4 {
+      border-color: rgba(100,116,139,.28);
+    }
+    .tier-section.tier-5 {
+      border-color: rgba(71,85,105,.28);
+    }
+
+    .tier-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      color: #fff;
+      font-weight: 900;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    .tier-section.tier-1 .tier-section-header {
+      background: linear-gradient(135deg, #f5c451, #b8861d);
+    }
+    .tier-section.tier-2 .tier-section-header {
+      background: linear-gradient(135deg, #d9e1e8, #8e9aa5);
+      color: #0f172a;
+    }
+    .tier-section.tier-3 .tier-section-header {
+      background: linear-gradient(135deg, #a56a3a, #6f3f1d);
+    }
+    .tier-section.tier-4 .tier-section-header {
+      background: linear-gradient(135deg, #64748b, #334155);
+    }
+    .tier-section.tier-5 .tier-section-header {
+      background: linear-gradient(135deg, #475569, #1e293b);
+    }
+
+    .tier-section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+    }
+
+    .tier-section-count {
+      font-size: 13px;
+      font-weight: 800;
+      opacity: .9;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+    }
+
+    .tier-lane {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap;
+    }
+
+    .tier-lane.ht {
+      background: rgba(255,255,255,.035);
+    }
+
+    .tier-lane.lt {
+      background: rgba(0,0,0,.12);
+    }
+
+    .tier-lane-label {
+      min-width: 86px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 900;
+      text-align: center;
+      color: #fff;
+      flex: 0 0 auto;
+      letter-spacing: .4px;
+    }
+
+    .tier-lane-label.ht {
+      background: rgba(255,255,255,.12);
+    }
+
+    .tier-lane-label.lt {
+      background: rgba(0,0,0,.22);
+    }
+
+    .tier-player-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tier-player-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.06);
+      color: #f8fafc;
+      cursor: pointer;
+      transition: .2s ease;
+      text-align: left;
+      min-height: 46px;
+    }
+
+    .tier-player-chip:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(255,255,255,.09);
+    }
+
+    .tier-player-chip.ht {
+      background: rgba(255,255,255,.11);
+    }
+
+    .tier-player-chip.lt {
+      background: rgba(0,0,0,.18);
+    }
+
+    .tier-player-chip .mini-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .tier-player-chip-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .tier-player-chip-name {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .tier-player-chip-meta {
+      font-size: 12px;
+      color: #cbd5e1;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .tier-empty {
+      color: #94a3b8;
+      padding: 10px 2px;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    .tier-1 .tier-lane-label.ht {
+      background: rgba(245,196,81,.24);
+      color: #fff;
+    }
+
+    .tier-1 .tier-lane-label.lt {
+      background: rgba(181,130,25,.28);
+      color: #fff;
+    }
+
+    .tier-2 .tier-lane-label.ht {
+      background: rgba(226,232,240,.24);
+      color: #0f172a;
+    }
+
+    .tier-2 .tier-lane-label.lt {
+      background: rgba(143,154,165,.28);
+      color: #fff;
+    }
+
+    .tier-3 .tier-lane-label.ht {
+      background: rgba(212,138,76,.24);
+      color: #fff;
+    }
+
+    .tier-3 .tier-lane-label.lt {
+      background: rgba(143,83,35,.28);
+      color: #fff;
+    }
+
+    .tier-4 .tier-lane-label.ht {
+      background: rgba(148,163,184,.22);
+      color: #fff;
+    }
+
+    .tier-4 .tier-lane-label.lt {
+      background: rgba(71,85,105,.28);
+      color: #fff;
+    }
+
+    .tier-5 .tier-lane-label.ht {
+      background: rgba(100,116,139,.22);
+      color: #fff;
+    }
+
+    .tier-5 .tier-lane-label.lt {
+      background: rgba(30,41,59,.34);
+      color: #fff;
+    }
+
+    .tier-player-chip.highlighted {
+      box-shadow: 0 0 0 3px rgba(77,163,255,.16);
+      border-color: rgba(77,163,255,.72);
+    }
+
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
@@ -788,10 +994,10 @@
 
     <div class="table-head">
       <div>#</div>
-      <div>GRACZ</div>
-      <div>WOJEWÓDZTWO</div>
-      <div>TIERY</div>
-      <div style="text-align:right;">PUNKTY</div>
+      <div>PLAYER</div>
+      <div>REGION</div>
+      <div>TIERS</div>
+      <div style="text-align:right;">POINTS</div>
     </div>
 
     <div class="ranking" id="ranking"></div>
@@ -1016,38 +1222,18 @@
       return imgOrFallback(icon.src, icon.alt, icon.emoji, "icon-img");
     }
 
-    
-    function updateCategoryIndicator() {
-      const indicator = document.getElementById("categoryIndicator");
-      const activeBtn = document.querySelector(".category-btn.active");
-      if (!indicator || !activeBtn) return;
-
-      const left = activeBtn.offsetLeft;
-      const width = activeBtn.offsetWidth;
-
-      indicator.style.left = left + "px";
-      indicator.style.width = width + "px";
-    }
-
     function buildCategoryBar() {
       const bar = document.getElementById("categoryBar");
-      bar.innerHTML = `
-        <div class="category-pillbar" id="categoryPillbar">
-          <div class="category-indicator" id="categoryIndicator"></div>
-          ${categories.map(cat => `
-            <button class="category-btn ${cat.key === currentCategory ? "active" : ""}" data-category="${cat.key}">
-              <span class="category-icon">${categoryIconHtml(cat.key)}</span>
-              <span class="category-label">${escapeHtml(cat.label)}</span>
-            </button>
-          `).join("")}
-        </div>
-      `;
+      bar.innerHTML = categories.map(cat => `
+        <button class="category-btn ${cat.key === currentCategory ? "active" : ""}" data-category="${cat.key}">
+          <span class="category-icon">${categoryIconHtml(cat.key)}</span>
+          <span class="category-label">${escapeHtml(cat.label)}</span>
+        </button>
+      `).join("");
 
       bar.querySelectorAll(".category-btn").forEach(btn => {
         btn.addEventListener("click", () => setCategory(btn.dataset.category));
       });
-
-      requestAnimationFrame(updateCategoryIndicator);
     }
 
     function tierVariant(tierText, banned = false) {
@@ -1087,22 +1273,137 @@
       `;
     }
 
+    function getTierGroup(tierText) {
+      const tier = normalizeTierText(tierText);
+      const match = tier.match(/^(HT|LT)([1-5])$/);
+      if (!match) return null;
+      return { variant: match[1], number: Number(match[2]) };
+    }
+
+    function tierSectionLabel(number) {
+      return `TIER ${number}`;
+    }
+
+    function tierSectionClass(number) {
+      return `tier-${number}`;
+    }
+
+    function tierHeaderCount(players) {
+      const count = Array.isArray(players) ? players.length : 0;
+      return `${count} graczy`;
+    }
+
+    function sortForTierLane(players) {
+      return [...players].sort((a, b) => {
+        const aPoints = calculatePointsFromTiers(a.tiers);
+        const bPoints = calculatePointsFromTiers(b.tiers);
+        if (bPoints !== aPoints) return bPoints - aPoints;
+        return String(a.nick || "").localeCompare(String(b.nick || ""));
+      });
+    }
+
+    function playerChipHtml(player, variant, isHighlighted = false) {
+      const isBanned = !!player.banned;
+      const displayNick = isBanned ? `[BANNED] ${player.nick}` : player.nick;
+      const points = calculatePointsFromTiers(player.tiers);
+      const tier = getCategoryTier(player, currentCategory);
+      const id = `player-${encodeURIComponent(player.nick || "")}`;
+
+      return `
+        <button type="button" class="tier-player-chip ${variant === "HT" ? "ht" : "lt"} ${isHighlighted ? "highlighted" : ""}" data-player="${escapeHtml(player.nick || "")}" id="${id}">
+          <img class="mini-avatar" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
+          <span class="tier-player-chip-main">
+            <span class="tier-player-chip-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</span>
+            <span class="tier-player-chip-meta">${escapeHtml(variant)}${escapeHtml(tier.replace(/^(HT|LT)/, ""))} · ${points} pts</span>
+          </span>
+        </button>
+      `;
+    }
+
+    function buildTierBoard(players, highlightedNick = "") {
+      const groups = [1, 2, 3, 4, 5].map(number => ({
+        number,
+        HT: [],
+        LT: []
+      }));
+
+      players.forEach(player => {
+        const tier = getCategoryTier(player, currentCategory);
+        const group = getTierGroup(tier);
+        if (!group) return;
+        const bucket = groups.find(g => g.number === group.number);
+        if (bucket) bucket[group.variant].push(player);
+      });
+
+      return `
+        <div class="tier-board">
+          ${groups.map(group => {
+            const htPlayers = sortForTierLane(group.HT);
+            const ltPlayers = sortForTierLane(group.LT);
+            const allInSection = [...htPlayers, ...ltPlayers];
+            const isHighlightedInSection = highlightedNick && allInSection.some(p => String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase());
+            return `
+              <div class="tier-section ${tierSectionClass(group.number)} ${isHighlightedInSection ? "highlighted" : ""}" id="tier-section-${group.number}">
+                <div class="tier-section-header">
+                  <div class="tier-section-title">${tierSectionLabel(group.number)}</div>
+                  <div class="tier-section-count">${tierHeaderCount(allInSection)}</div>
+                </div>
+
+                <div class="tier-lane ht">
+                  <div class="tier-lane-label ht">HT${group.number}</div>
+                  <div class="tier-player-list">
+                    ${htPlayers.length
+                      ? htPlayers.map(p => playerChipHtml(p, "HT", String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase())).join("")
+                      : '<div class="tier-empty">Brak graczy</div>'}
+                  </div>
+                </div>
+
+                <div class="tier-lane lt">
+                  <div class="tier-lane-label lt">LT${group.number}</div>
+                  <div class="tier-player-list">
+                    ${ltPlayers.length
+                      ? ltPlayers.map(p => playerChipHtml(p, "LT", String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase())).join("")
+                      : '<div class="tier-empty">Brak graczy</div>'}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
     function renderRanking(players, highlightedNick = "") {
       const rankingEl = document.getElementById("ranking");
       rankingEl.innerHTML = "";
 
       const sorted = sortPlayers(players, currentCategory);
       const isOverall = currentCategory === "overall";
+      const tableHead = document.querySelector(".table-head");
       const pointsHeader = document.querySelector(".table-head div:last-child");
+
+      if (tableHead) tableHead.style.display = isOverall ? "grid" : "none";
       if (pointsHeader) pointsHeader.textContent = isOverall ? "POINTS" : "TIER";
+
+      if (!isOverall) {
+        rankingEl.innerHTML = buildTierBoard(players, highlightedNick);
+        document.getElementById("sectionTitle").textContent = `Ranking: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
+        document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
+        if (highlightedNick) {
+          const highlightedId = `player-${encodeURIComponent(highlightedNick || "")}`;
+          const chip = document.getElementById(highlightedId);
+          if (chip) chip.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        return;
+      }
 
       sorted.forEach((p, index) => {
         const rank = index + 1;
         const data = getCategoryData(p, currentCategory);
         const isBanned = !!p.banned;
         const displayNick = isBanned ? `[BANNED] ${p.nick}` : p.nick;
-        const displayValue = isOverall ? String(Number(data.points) || 0) : (data.tier || "BRAK");
-        const displayBadge = isOverall ? getTitle(Number(data.points) || 0) : (data.tier || "BRAK");
+        const displayValue = String(Number(data.points) || 0);
+        const displayBadge = getTitle(Number(data.points) || 0);
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
 
         const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => tierChipHtml(t, isBanned)).join("");
@@ -1118,17 +1419,17 @@
               <div class="player-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</div>
               <div class="player-sub">
                 <span class="title-badge">✦ ${escapeHtml(displayBadge)}</span>
-                <span>${isOverall ? `(${displayValue} points)` : `(${escapeHtml(displayValue)})`}</span>
+                <span>(${displayValue} points)</span>
               </div>
             </div>
 
-            <div class="region ${String(p.region || "EU").toLowerCase()}">${escapeHtml(p.region || "EU")}</div>
+            <div class="region ${String(p.region || "other").toLowerCase()}">${escapeHtml((p.region || "N/Z") === "OTHER" ? "N/Z" : (p.region || "N/Z"))}</div>
 
             <div class="tiers">${tiersHTML || '<span class="tier tier-neutral">BRAK</span>'}</div>
 
             <div class="points-box">
               <div class="points-value">${escapeHtml(displayValue)}</div>
-              <div class="points-label">${isOverall ? "Combat Points" : "Tier"}</div>
+              <div class="points-label">Combat Points</div>
             </div>
           </div>
         `;
@@ -1136,6 +1437,11 @@
 
       document.getElementById("sectionTitle").textContent = `Ranking: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
       document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
+
+      if (highlightedNick) {
+        const card = document.getElementById("player-" + encodeURIComponent(highlightedNick || ""));
+        if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     }
 
     function showSearchResult(player) {
@@ -1143,7 +1449,7 @@
       const overallData = getCategoryData(player, "overall");
       const overallRank = getPlayerRank(allPlayers, player.nick, "overall");
       const title = getTitle(Number(overallData.points) || 0);
-      const region = String(player.region || "EU");
+      const region = String(player.region || "N/Z");
       const isBanned = !!player.banned;
       const displayNick = isBanned ? `[BANNED] ${player.nick}` : player.nick;
 
@@ -1180,7 +1486,7 @@
             <div>
               <h3 class="profile-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</h3>
               <div class="profile-title">✦ ${escapeHtml(title)}</div>
-              <div class="profile-region">${escapeHtml(region.replace(/_/g, " "))}</div>
+              <div class="profile-region">${escapeHtml(region === "OTHER" ? "N/Z" : region.replace(/_/g, " "))}</div>
             </div>
           </div>
 
@@ -1251,7 +1557,6 @@
     function setCategory(categoryKey) {
       currentCategory = categoryKey;
       document.querySelectorAll(".category-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.category === categoryKey));
-      requestAnimationFrame(updateCategoryIndicator);
 
       const currentSearch = document.getElementById("searchInput").value.trim();
       if (currentSearch) {
@@ -1286,15 +1591,15 @@
     });
 
     document.getElementById("ranking").addEventListener("click", (e) => {
-      const card = e.target.closest(".player-card");
-      if (!card) return;
-      const nick = card.querySelector(".player-name")?.textContent?.trim();
-      const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === String(nick || "").toLowerCase());
+      const item = e.target.closest("[data-player]");
+      if (!item) return;
+      const nick = item.dataset.player || item.querySelector(".player-name")?.textContent?.trim() || item.querySelector(".tier-player-chip-name")?.textContent?.trim();
+      const cleanNick = String(nick || "").replace(/^\[BANNED\]\s*/i, "").trim();
+      const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === cleanNick.toLowerCase());
       if (found) showSearchResult(found);
     });
 
     loadPlayers();
-    window.addEventListener("resize", () => requestAnimationFrame(updateCategoryIndicator));
 
     const infoBtn = document.getElementById("infoBtn");
     const infoModal = document.getElementById("infoModal");
