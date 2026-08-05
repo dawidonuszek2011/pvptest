@@ -972,20 +972,28 @@
 
     function tierChipHtml(rawTier) {
       const parsed = parseTierEntry(rawTier);
-      const tierValue = parsed.tier ? normalizeTierText(parsed.tier) : normalizeTierText(rawTier);
       const categoryKey = categoryKeyFromLabel(parsed.category);
-
+      const tierValue = parsed.tier ? normalizeTierText(parsed.tier) : "";
       const icon = CATEGORY_ICON_DATA[categoryKey];
       const iconHtml = icon && icon.src
         ? imgOrFallback(icon.src, icon.alt, icon.emoji, "tier-chip-icon-img")
         : "";
+
+      // Jeśli tier jest pusty, pokazujemy tylko ikonę
+      if (!tierValue) {
+        return `
+          <span class="tier tier-neutral">
+            ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
+          </span>
+        `;
+      }
 
       const tierClass = tierVariant(tierValue);
 
       return `
         <span class="tier ${tierClass}">
           ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
-          <span>${escapeHtml(tierValue || rawTier || "BRAK")}</span>
+          <span>${escapeHtml(tierValue)}</span>
         </span>
       `;
     }
