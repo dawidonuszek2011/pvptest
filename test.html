@@ -963,7 +963,7 @@
 
     function tierVariant(tierText) {
       const tier = normalizeTierText(tierText);
-      if (tier.startsWith("R")) return "tier-r";
+      if (tier === "R") return "tier-r";
       if (tier === "HT1" || tier === "LT1") return "tier-gold";
       if (tier === "HT2" || tier === "LT2") return "tier-silver";
       if (tier === "HT3" || tier === "LT3") return "tier-bronze";
@@ -1049,12 +1049,19 @@
       const tierItems = categories
         .filter(cat => cat.key !== "overall")
         .map(cat => {
-          const tier = getCategoryTier(player, cat.key) || "BRAK";
+          const tier = getCategoryTier(player, cat.key);
+
           return `
             <div class="tier-item">
               <div class="tier-icon">${categoryIconHtml(cat.key)}</div>
-              <div class="tier ${tierVariant(tier)}">${escapeHtml(tier)}</div>
-              <div class="tier-name">${escapeHtml(cat.label)}</div>
+              ${
+                tier
+                  ? `
+                    <div class="tier ${tierVariant(tier)}">${escapeHtml(tier)}</div>
+                    <div class="tier-name">${escapeHtml(cat.label)}</div>
+                  `
+                  : ``
+              }
             </div>
           `;
         }).join("");
@@ -1211,4 +1218,4 @@
     });
   </script>
 </body>
-</html>
+</html>Fr
