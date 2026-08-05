@@ -473,33 +473,38 @@
     }
     .region {
       justify-self: center;
-      font-weight: 800;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      font-weight: 900;
       font-size: 20px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      min-width: 60px;
-      text-align: center;
+      letter-spacing: .5px;
+      color: #fff;
+      text-transform: uppercase;
     }
-.region.ds { background:#E53935; color:#fff; }
-.region.kp { background:#1E88E5; color:#fff; }
-.region.lb { background:#43A047; color:#fff; }
-.region.ls { background:#00ACC1; color:#fff; }
-.region.ld { background:#FB8C00; color:#fff; }
-.region.mp { background:#8E24AA; color:#fff; }
-.region.mz { background:#D81B60; color:#fff; }
-.region.op { background:#7CB342; color:#fff; }
-.region.pk { background:#6D4C41; color:#fff; }
-.region.pd { background:#3949AB; color:#fff; }
-.region.pm { background:#26C6DA; color:#fff; }
-.region.sl { background:#546E7A; color:#fff; }
-.region.sk { background:#C0CA33; color:#000; }
-.region.wm { background:#00897B; color:#fff; }
-.region.wp { background:#FDD835; color:#000; }
-.region.zp { background:#5E35B1; color:#fff; }
-.region.other{
-    background:#444;
-    color:#fff;
-}
+    .region.ds { background:#E53935; color:#fff; }
+    .region.kp { background:#1E88E5; color:#fff; }
+    .region.lb { background:#43A047; color:#fff; }
+    .region.ls { background:#00ACC1; color:#fff; }
+    .region.ld { background:#FB8C00; color:#fff; }
+    .region.mp { background:#8E24AA; color:#fff; }
+    .region.mz { background:#D81B60; color:#fff; }
+    .region.op { background:#7CB342; color:#fff; }
+    .region.pk { background:#6D4C41; color:#fff; }
+    .region.pd { background:#3949AB; color:#fff; }
+    .region.pm { background:#26C6DA; color:#fff; }
+    .region.sl { background:#546E7A; color:#fff; }
+    .region.sk { background:#C0CA33; color:#000; }
+    .region.wm { background:#00897B; color:#fff; }
+    .region.wp { background:#FDD835; color:#000; }
+    .region.zp { background:#5E35B1; color:#fff; }
+    .region.other{
+        background:#444;
+        color:#fff;
+    }
     .tiers {
       display: flex;
       gap: 8px;
@@ -753,7 +758,7 @@
     <div class="table-head">
       <div>#</div>
       <div>PLAYER</div>
-      <div>REGION</div>
+      <div>WOJEWÓDZTWO</div>
       <div>TIERS</div>
       <div style="text-align:right;">POINTS</div>
     </div>
@@ -894,6 +899,19 @@
         category: raw.slice(0, idx).trim(),
         tier: raw.slice(idx + 1).trim()
       };
+    }
+
+    const VALID_REGION_CODES = new Set([
+      "DS","KP","LB","LS","LD","MP","MZ","OP","PK","PD","PM","SL","SK","WM","WP","ZP"
+    ]);
+
+    function normalizeRegionCode(region) {
+      const raw = String(region ?? "").trim().toUpperCase().replace(/\s+/g, "");
+      return VALID_REGION_CODES.has(raw) ? raw : "OTHER";
+    }
+
+    function formatRegionCode(region) {
+      return normalizeRegionCode(region) === "OTHER" ? "N/Z" : normalizeRegionCode(region);
     }
 
     function categoryKeyFromLabel(label) {
@@ -1066,7 +1084,7 @@
               </div>
             </div>
 
-            <div class="region ${String(p.region || "EU").toLowerCase()}">${escapeHtml(p.region || "EU")}</div>
+            <div class="region ${normalizeRegionCode(p.region).toLowerCase()}">${escapeHtml(formatRegionCode(p.region))}</div>
 
             <div class="tiers">${tiersHTML || '<span class="tier tier-neutral">BRAK</span>'}</div>
 
@@ -1087,7 +1105,7 @@
       const overallData = getCategoryData(player, "overall");
       const overallRank = getPlayerRank(allPlayers, player.nick, "overall");
       const title = getTitle(Number(overallData.points) || 0);
-      const region = String(player.region || "EU");
+      const region = formatRegionCode(player.region);
       const isBanned = !!player.banned;
       const displayNick = isBanned ? `[BANNED] ${player.nick}` : player.nick;
 
@@ -1124,7 +1142,7 @@
             <div>
               <h3 class="profile-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</h3>
               <div class="profile-title">✦ ${escapeHtml(title)}</div>
-              <div class="profile-region">${escapeHtml(region.replace(/_/g, " "))}</div>
+              <div class="profile-region">${escapeHtml(region)}</div>
             </div>
           </div>
 
