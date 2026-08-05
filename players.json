@@ -15,7 +15,7 @@
   },
    {
     "nick": "xKapa__",
-    "banned": false,
+    "banned": true,
     "region": "EU",
     "avatar": "https://render.crafty.gg/3d/bust/xKapa__",
     "tiers": ["Mace: LT3", "Sword: LT2", "Axe: HT2", "Crystal:", "UHC: LT4", "Pot:", "NethOP: LT5", "Cart:", "SMP:", "SpearMace:"]
