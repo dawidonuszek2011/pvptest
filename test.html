@@ -200,10 +200,19 @@
     }
     .profile-region {
       margin-top: 12px;
-      font-size: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-size: 18px;
       font-weight: 900;
-      color: #1f2937;
-      text-transform: capitalize;
+      letter-spacing: .4px;
+      color: #e5e7eb;
+      background: #334155;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      text-transform: uppercase;
     }
 
     .section-block {
@@ -473,39 +482,44 @@
     }
 
 .region {
-  justify-self: center;
-  width: 54px;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-  font-weight: 900;
-  font-size: 20px;
-  letter-spacing: .5px;
-  color: #fff;
-  background: #334155;
-}
-.region.ds { background:#b91c1c; }
-.region.kp { background:#1d4ed8; }
-.region.lb { background:#166534; }
-.region.ls { background:#0f766e; }
-.region.ld { background:#c2410c; }
-.region.mp { background:#7e22ce; }
-.region.mz { background:#be185d; }
-.region.op { background:#4d7c0f; }
-.region.pk { background:#5b3a29; }
-.region.pd { background:#3730a3; }
-.region.pm { background:#0e7490; }
-.region.sl { background:#475569; }
-.region.sk { background:#a16207; color:#fff; }
-.region.wm { background:#115e59; }
-.region.wp { background:#b45309; }
-.region.zp { background:#4338ca; }
-.region.other {
-  background:#374151;
-  color:#fff;
-}
+      justify-self: center;
+      width: 54px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: .5px;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      text-shadow: 0 1px 0 rgba(0,0,0,.18);
+      color: #fff;
+      background: #334155;
+    }
+
+    .region.ds { background:#6d2323; color:#ffd9d9; border-color: rgba(255,128,128,.22); }
+    .region.kp { background:#214e8e; color:#dceaff; border-color: rgba(123,174,255,.22); }
+    .region.lb { background:#245f2c; color:#ddf8df; border-color: rgba(127,216,136,.22); }
+    .region.ls { background:#17646f; color:#dcfbff; border-color: rgba(112,226,238,.22); }
+    .region.ld { background:#9e5b12; color:#fff0d7; border-color: rgba(255,186,95,.22); }
+    .region.mp { background:#6f2d89; color:#f0ddff; border-color: rgba(209,146,255,.22); }
+    .region.mz { background:#8b2450; color:#ffe0ee; border-color: rgba(255,130,181,.22); }
+    .region.op { background:#58762b; color:#eef8d9; border-color: rgba(188,226,117,.22); }
+    .region.pk { background:#534038; color:#f2e4db; border-color: rgba(195,165,148,.20); }
+    .region.pd { background:#394694; color:#dce2ff; border-color: rgba(130,146,255,.22); }
+    .region.pm { background:#197c8a; color:#ddfbff; border-color: rgba(110,231,255,.22); }
+    .region.sl { background:#55606b; color:#edf2f7; border-color: rgba(200,214,226,.20); }
+    .region.sk { background:#9a9727; color:#fff8c9; border-color: rgba(255,241,125,.22); }
+    .region.wm { background:#156e67; color:#defbf8; border-color: rgba(120,232,223,.22); }
+    .region.wp { background:#9c7b16; color:#fff3c8; border-color: rgba(255,214,104,.22); }
+    .region.zp { background:#5b46a8; color:#ebe4ff; border-color: rgba(183,160,255,.22); }
+    .region.other {
+      background:#3b4250;
+      color:#edf2f7;
+      border-color: rgba(255,255,255,.10);
+    }
 
     .tiers {
       display: flex;
@@ -759,10 +773,10 @@
 
     <div class="table-head">
       <div>#</div>
-      <div>Gracz</div>
-      <div>Województwo</div>
-      <div>Tiery</div>
-      <div style="text-align:right;">Punkty</div>
+      <div>GRACZ</div>
+      <div>WOJEWÓDZTWO</div>
+      <div>TIERY</div>
+      <div style="text-align:right;">PUNKTY</div>
     </div>
 
     <div class="ranking" id="ranking"></div>
