@@ -972,11 +972,16 @@
       </div>
 
       <div class="tab-panel" id="tiersTab">
-        <div class="info-row"><span>TIER 1</span><span>najwyższy poziom</span></div>
-        <div class="info-row"><span>TIER 2</span><span>bardzo wysoki poziom</span></div>
-        <div class="info-row"><span>TIER 3</span><span>wysoki poziom</span></div>
-        <div class="info-row"><span>TIER 4</span><span>średni poziom</span></div>
-        <div class="info-row"><span>TIER 5</span><span>niższy poziom</span></div>
+        <div class="info-row"><span>HT1</span><span>najwyższy poziom</span></div>
+        <div class="info-row"><span>LT1</span><span>bardzo wysoki poziom</span></div>
+        <div class="info-row"><span>HT2</span><span>wysoki poziom</span></div>
+        <div class="info-row"><span>LT2</span><span>średni poziom</span></div>
+        <div class="info-row"><span>HT3</span><span>niższy poziom</span></div>
+        <div class="info-row"><span>LT3</span><span>niższy poziom</span></div>
+        <div class="info-row"><span>HT4</span><span>bardzo niski poziom</span></div>
+        <div class="info-row"><span>LT4</span><span>bardzo niski poziom</span></div>
+        <div class="info-row"><span>HT5</span><span>najniższy poziom</span></div>
+        <div class="info-row"><span>LT5</span><span>najniższy poziom</span></div>
       </div>
 
       <button class="close-btn" id="closeInfo">Zamknij</button>
@@ -1214,8 +1219,8 @@
     }
 
     function getTierDisplayLabel(tierText) {
-      const num = getTierNumber(tierText);
-      return num ? `TIER ${num}` : "";
+      const tier = normalizeTierText(tierText).replace(/^R/, "");
+      return tier || "";
     }
 
     function tierVariant(tierText, banned = false) {
@@ -1556,7 +1561,7 @@
     const tabPanels = document.querySelectorAll(".tab-panel");
 
     infoBtn.addEventListener("click", () => { infoModal.classList.add("show"); });
-    closeInfo.addEventListener("click", () => { infoModal.classList.remove("show"); });
+    closeInfo.addEventListener("click", () => { infoModal.classList.remove("show"); });F
     infoModal.addEventListener("click", (e) => { if (e.target === infoModal) infoModal.classList.remove("show"); });
 
     tabButtons.forEach(btn => {
