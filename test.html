@@ -1203,7 +1203,9 @@
     }
 
     function getTierTone(tierText) {
-      const tier = normalizeTierText(tierText).replace(/^R/, "");
+      const tier = normalizeTierText(tierText);
+      if (tier.startsWith("RH")) return "high";
+      if (tier.startsWith("RL")) return "low";
       if (tier.startsWith("H")) return "high";
       if (tier.startsWith("L")) return "low";
       return "neutral";
@@ -1261,7 +1263,9 @@
 
     function tierVariant(tierText, banned = false) {
       if (banned) return "tier-banned";
-      const num = getTierNumber(tierText);
+      const tier = normalizeTierText(tierText);
+      if (tier.startsWith("R")) return "tier-r";
+      const num = getTierNumber(tier);
       if (num === 1) return "tier-gold";
       if (num === 2) return "tier-silver";
       if (num === 3) return "tier-bronze";
@@ -1409,7 +1413,7 @@
         return `
           <section class="tier-section tier-section-${num}" id="tier-section-${num}">
             <div class="tier-section-header">
-              <span>HT${num} / LT${num}</span>
+              <span>TIER ${num}</span>
               <span class="count">${group.length} graczy</span>
             </div>
             <div class="tier-section-list">
