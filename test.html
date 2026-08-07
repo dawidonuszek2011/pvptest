@@ -972,16 +972,7 @@
       </div>
 
       <div class="tab-panel" id="tiersTab">
-        <div class="info-row"><span>HT1</span><span>najwyższy poziom</span></div>
-        <div class="info-row"><span>LT1</span><span>bardzo wysoki poziom</span></div>
-        <div class="info-row"><span>HT2</span><span>wysoki poziom</span></div>
-        <div class="info-row"><span>LT2</span><span>średni poziom</span></div>
-        <div class="info-row"><span>HT3</span><span>niższy poziom</span></div>
-        <div class="info-row"><span>LT3</span><span>niższy poziom</span></div>
-        <div class="info-row"><span>HT4</span><span>bardzo niski poziom</span></div>
-        <div class="info-row"><span>LT4</span><span>bardzo niski poziom</span></div>
-        <div class="info-row"><span>HT5</span><span>najniższy poziom</span></div>
-        <div class="info-row"><span>LT5</span><span>najniższy poziom</span></div>
+        <div class="info-row"><span>Ładowanie tierów...</span><span>z players.json</span></div>
       </div>
 
       <button class="close-btn" id="closeInfo">Zamknij</button>
@@ -1219,8 +1210,53 @@
     }
 
     function getTierDisplayLabel(tierText) {
-      const tier = normalizeTierText(tierText).replace(/^R/, "");
+      const tier = normalizeTierText(tierText);
       return tier || "";
+    }
+
+    const TIER_INFO_DESCRIPTIONS = {
+      1: "najwyższy poziom",
+      2: "bardzo wysoki poziom",
+      3: "wysoki poziom",
+      4: "średni poziom",
+      5: "niższy poziom"
+    };
+
+    function getTierSortWeight(tierText) {
+      const tier = normalizeTierText(tierText).replace(/^R/, "");
+      const num = getTierNumber(tier);
+      const tone = tier.startsWith("H") ? 0 : tier.startsWith("L") ? 1 : 2;
+      return { num, tone };
+    }
+
+    function buildTierInfo() {
+      const panel = document.getElementById("tiersTab");
+      if (!panel) return;
+
+      const rawTiers = (Array.isArray(allPlayers) ? allPlayers : [])
+        .flatMap(p => Array.isArray(p?.tiers) ? p.tiers : [])
+        .map(entry => parseTierEntry(entry).tier)
+        .filter(Boolean)
+        .map(normalizeTierText);
+
+      const uniqueTiers = [...new Set(rawTiers)].sort((a, b) => {
+        const aw = getTierSortWeight(a);
+        const bw = getTierSortWeight(b);
+        if (bw.num !== aw.num) return bw.num - aw.num;
+        if (aw.tone !== bw.tone) return aw.tone - bw.tone;
+        return a.localeCompare(b);
+      });
+
+      if (!uniqueTiers.length) {
+        panel.innerHTML = '<div class="info-row"><span>Brak tierów</span><span>players.json nie zawiera danych</span></div>';
+        return;
+      }
+
+      panel.innerHTML = uniqueTiers.map(tier => {
+        const num = getTierNumber(tier);
+        const desc = TIER_INFO_DESCRIPTIONS[num] || "poziom";
+        return `<div class="info-row"><span>${escapeHtml(tier)}</span><span>${escapeHtml(desc)}</span></div>`;
+      }).join("");
     }
 
     function tierVariant(tierText, banned = false) {
@@ -1373,7 +1409,7 @@
         return `
           <section class="tier-section tier-section-${num}" id="tier-section-${num}">
             <div class="tier-section-header">
-              <span>TIER ${num}</span>
+              <span>HT${num} / LT${num}</span>
               <span class="count">${group.length} graczy</span>
             </div>
             <div class="tier-section-list">
@@ -1527,6 +1563,7 @@
         const players = await response.json();
         allPlayers = players;
         buildCategoryBar();
+        buildTierInfo();
         renderRanking(players);
         status.textContent = `Załadowano ${players.length} graczy.`;
       } catch (err) {
@@ -1560,8 +1597,11 @@
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabPanels = document.querySelectorAll(".tab-panel");
 
-    infoBtn.addEventListener("click", () => { infoModal.classList.add("show"); });
-    closeInfo.addEventListener("click", () => { infoModal.classList.remove("show"); });F
+    infoBtn.addEventListener("click", () => {
+      buildTierInfo();
+      infoModal.classList.add("show");
+    });
+    closeInfo.addEventListener("click", () => { infoModal.classList.remove("show"); });
     infoModal.addEventListener("click", (e) => { if (e.target === infoModal) infoModal.classList.remove("show"); });
 
     tabButtons.forEach(btn => {
