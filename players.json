@@ -30,7 +30,7 @@
    {
     "nick": "T1G3REK_",
     "banned": false,
-    "region": "EU",
+    "region": "OTHER",
     "avatar": "https://render.crafty.gg/3d/bust/T1G3REK_",
     "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
   },
@@ -56,16 +56,9 @@
     "tiers": ["Mace:", "Sword: RHT1", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP: RLT3", "Cart:", "SMP: RLT4", "SpearMace:"]
   },
   {
-    "nick": "frozenshard_",
-    "banned": false,
-    "region": "EU",
-    "avatar": "https://render.crafty.gg/3d/bust/frozenshard_",
-    "tiers": ["Mace:", "Sword: HT5", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
-  },
-  {
     "nick": "Quertissek",
     "banned": false,
-    "region": "EU",
+    "region": "OTHER",
     "avatar": "https://render.crafty.gg/3d/bust/Quertissek",
     "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
   }
