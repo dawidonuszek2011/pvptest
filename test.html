@@ -1367,6 +1367,39 @@ function updateCategoryIndicator() {
         || "";
     }
 
+    function getBestTierTone(tiers) {
+      const parsedTiers = (Array.isArray(tiers) ? tiers : [])
+        .map(entry => parseTierEntry(entry).tier)
+        .filter(Boolean);
+
+      if (!parsedTiers.length) return "neutral";
+
+      let bestTier = "";
+      let bestScore = -1;
+      for (const tier of parsedTiers) {
+        const score = getTierScore(tier);
+        if (score > bestScore) {
+          bestScore = score;
+          bestTier = tier;
+        }
+      }
+      return getTierTone(bestTier);
+    }
+
+    function getDisplayTierTone(player, categoryKey = currentCategory) {
+      if (!player) return "neutral";
+      if (categoryKey && categoryKey !== "overall") {
+        return getTierTone(getCategoryTier(player, categoryKey));
+      }
+      return getBestTierTone(player.tiers);
+    }
+
+    function toneBadgeHtml(tone) {
+      if (tone === "high") return '<span class="tier-tone-badge high">HT</span>';
+      if (tone === "low") return '<span class="tier-tone-badge low">LT</span>';
+      return "";
+    }
+
     function getTierIconHtml(tierText) {
       const tier = normalizeTierText(tierText);
       const baseTier = tier.replace(/^R/, "");
