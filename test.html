@@ -657,7 +657,7 @@
     .title-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.06);
       color: #f8d36a;
@@ -665,6 +665,30 @@
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
+    }
+    .tier-tone-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .8px;
+      line-height: 1;
+      border: 1px solid transparent;
+    }
+    .tier-tone-badge.high {
+      background: rgba(245,196,81,.22);
+      border-color: rgba(245,196,81,.35);
+      color: #ffe082;
+      box-shadow: 0 0 0 1px rgba(245,196,81,.08) inset;
+    }
+    .tier-tone-badge.low {
+      background: rgba(148,163,184,.12);
+      border-color: rgba(148,163,184,.22);
+      color: #cbd5e1;
     }
     .region {
       justify-self: center;
@@ -1270,7 +1294,7 @@
     function imgOrFallback(src, alt, fallbackEmoji, className = "") {
       const safeSrc = escapeHtml(src);
       const safeAlt = escapeHtml(alt || "");
-      const fallback = escapeHtml(fallbackEmoji || "★");
+      const fallback = escapeHtml(fallbackEmoji || "•");
       return `
         <img
           src="${safeSrc}"
@@ -1494,7 +1518,7 @@ function renderTierPlayerCard(player, highlightedNick = "") {
             <div class="player-main">
               <div class="player-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</div>
               <div class="player-sub">
-                <span class="title-badge">✦ ${escapeHtml(displayBadge)}</span>
+                <span class="title-badge">${toneBadgeHtml(getDisplayTierTone(p, currentCategory))}${escapeHtml(displayBadge)}</span>
                 <span>(${escapeHtml(displayValue)} points)</span>
               </div>
             </div>
@@ -1617,7 +1641,7 @@ function renderTierPlayerCard(player, highlightedNick = "") {
             </div>
             <div>
               <h3 class="profile-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</h3>
-              <div class="profile-title">✦ ${escapeHtml(title)}</div>
+              <div class="profile-title">${toneBadgeHtml(getDisplayTierTone(player, currentCategory))}${escapeHtml(title)}</div>
               <div class="profile-region">${escapeHtml(region.toUpperCase() === "OTHER" ? "N/Z" : region.replace(/_/g, " "))}</div>
             </div>
           </div>
