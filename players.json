@@ -1,9 +1,9 @@
 [
   {
-    "nick": "Miauek_",
+    "nick": "xKapa__",
     "banned": false,
-    "region": "OTHER",
-    "avatar": "https://render.crafty.gg/3d/bust/Miauek_",
+    "region": "PM",
+    "avatar": "https://render.crafty.gg/3d/bust/xKapa__",
     "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
   },
    {
@@ -11,55 +11,13 @@
     "banned": false,
     "region": "PM",
     "avatar": "https://render.crafty.gg/3d/bust/Invite__",
-    "tiers": ["Mace: RHT4", "Sword: RHT5", "Axe: LT3", "Crystal:", "UHC: RHT5", "Pot:", "NethOP: RHT4", "Cart:", "SMP: RLT5", "SpearMace:"]
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
   },
    {
-    "nick": "xKapa__",
+    "nick": "GresikPL",
     "banned": false,
-    "region": "PM",
-    "avatar": "https://render.crafty.gg/3d/bust/xKapa__",
-    "tiers": ["Mace: RLT3", "Sword: RLT2", "Axe: HT2", "Crystal:", "UHC: RLT4", "Pot:", "NethOP: RLT5", "Cart:", "SMP:", "SpearMace:"]
-  },
-   {
-    "nick": "Just_Melon",
-    "banned": false,
-    "region": "PM",
-    "avatar": "https://render.crafty.gg/3d/bust/Just_Melon",
-    "tiers": ["Mace: RLT1", "Sword: RLT1", "Axe: RHT3", "Crystal:", "UHC: RLT4", "Pot:", "NethOP: RLT5", "Cart:", "SMP: RLT4", "SpearMace:"]
-  },
-   {
-    "nick": "T1G3REK_",
-    "banned": true,
-    "region": "OTHER",
-    "avatar": "https://render.crafty.gg/3d/bust/T1G3REK_",
-    "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
-  },
-   {
-    "nick": "cuvar2",
-    "banned": false,
-    "region": "LB",
-    "avatar": "https://render.crafty.gg/3d/bust/cuvar2",
-    "tiers": ["Mace: RLT5", "Sword: RLT4", "Axe:", "Crystal:", "UHC: RLT5", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
-  },
-   {
-    "nick": "miedziu_v2",
-    "banned": false,
-    "region": "MP",
-    "avatar": "https://render.crafty.gg/3d/bust/miedziu_v2",
-    "tiers": ["Mace:", "Sword:", "Axe: LT3", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
-  },
-  {
-    "nick": "JaneqGG",
-    "banned": false,
-    "region": "WP",
-    "avatar": "https://render.crafty.gg/3d/bust/JaneqGG",
-    "tiers": ["Mace:", "Sword: RHT1", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP: RLT3", "Cart:", "SMP: RLT4", "SpearMace:"]
-  },
-  {
-    "nick": "Quertissek",
-    "banned": false,
-    "region": "OTHER",
-    "avatar": "https://render.crafty.gg/3d/bust/Quertissek",
-    "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
-  }
-]
+    "region": "PD",
+    "avatar": "https://render.crafty.gg/3d/bust/GresikPL",
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
+    }
+  ]
