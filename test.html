@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <title>Fox Tier | Invite Tier Test</title>
+  <title>PvP Ranking | Invite Tier Test</title>
   <style>
     * { box-sizing: border-box; }
     :root {
@@ -373,10 +373,17 @@
       box-shadow: 0 0 0 3px rgba(77,163,255,.12), inset 0 0 0 1px rgba(255,255,255,.03);
     }
     .tier-player-card.high {
-      background: rgba(255,255,255,.06);
+      background: rgba(245,196,81,.06);
+      border-color: rgba(245,196,81,.18);
     }
     .tier-player-card.low {
-      background: rgba(0,0,0,.20);
+      background: rgba(148,163,184,.06);
+      border-color: rgba(148,163,184,.14);
+      opacity: .88;
+      box-shadow: none;
+    }
+    .tier-player-card.low:hover {
+      border-color: rgba(148,163,184,.20);
     }
     .tier-avatar {
       width: 48px;
@@ -388,8 +395,9 @@
     }
     .tier-player-main {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
       min-width: 0;
       flex: 1;
     }
@@ -402,30 +410,17 @@
       text-overflow: ellipsis;
     }
     .tier-player-sub {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      color: #cbd5e1;
-      font-size: 13px;
+      display: none;
     }
     .tier-player-region {
-      margin-left: auto;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      white-space: nowrap;
+      display: none;
     }
 
     .tier-section-1 .tier-section-header { background: linear-gradient(135deg, rgba(245,196,81,.22), rgba(184,134,29,.18)); color: #ffe9a6; }
     .tier-section-2 .tier-section-header { background: linear-gradient(135deg, rgba(229,231,235,.18), rgba(142,154,165,.16)); color: #f3f4f6; }
     .tier-section-3 .tier-section-header { background: linear-gradient(135deg, rgba(212,138,76,.18), rgba(143,83,35,.18)); color: #ffd0a3; }
-    .tier-section-4 .tier-section-header { background: linear-gradient(135deg, rgba(100,116,139,.18), rgba(51,65,85,.18)); color: #dbe7f5; }
-    .tier-section-5 .tier-section-header { background: linear-gradient(135deg, rgba(51,65,85,.18), rgba(15,23,42,.24)); color: #cbd5e1; }
+    .tier-section-4 .tier-section-header { background: linear-gradient(135deg, rgba(100,116,139,.10), rgba(51,65,85,.10)); color: #cbd5e1; }
+    .tier-section-5 .tier-section-header { background: linear-gradient(135deg, rgba(51,65,85,.10), rgba(15,23,42,.18)); color: #cbd5e1; }
 
     .tier-gold {
       background: rgba(245,196,81,.18);
@@ -817,18 +812,21 @@
       letter-spacing: .4px;
       text-transform: uppercase;
       white-space: nowrap;
+      flex: 0 0 auto;
     }
 
     .tier-tone-badge.high {
       background: rgba(245, 196, 81, .16);
       border: 1px solid rgba(245, 196, 81, .28);
       color: #ffe9a6;
+      box-shadow: 0 0 0 1px rgba(245,196,81,.08) inset;
     }
 
     .tier-tone-badge.low {
-      background: rgba(148, 163, 184, .10);
-      border: 1px solid rgba(148, 163, 184, .16);
+      background: rgba(148, 163, 184, .08);
+      border: 1px solid rgba(148, 163, 184, .12);
       color: #cbd5e1;
+      opacity: .82;
     }
 
     .points-box {
@@ -1386,29 +1384,19 @@
     function renderTierPlayerCard(player, highlightedNick = "") {
       const isBanned = !!player.banned;
       const displayNick = player.nick;
-      const overallPoints = calculatePointsFromTiers(player.tiers);
-      const title = getTitle(Number(overallPoints) || 0);
       const isHighlighted = String(player.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
       const tierTone = player.__tierTone === "high" ? "high" : "low";
       const tierToneLabel = tierTone === "high" ? "HT" : "LT";
       const tierToneArrow = tierTone === "high" ? "⇈" : "↑";
       const modeTier = player.__tier || "";
-      const regionRaw = String(player.region || "OTHER");
-      const regionKey = regionRaw.toLowerCase();
-      const regionLabel = regionRaw.toUpperCase() === "OTHER" ? "N/Z" : regionRaw.toUpperCase();
 
       return `
         <div class="tier-player-card ${tierTone} ${isBanned ? "banned" : ""} ${isHighlighted ? "highlighted" : ""}" id="player-${encodeURIComponent(player.nick || "")}">
           <img class="tier-avatar ${isBanned ? "banned-avatar" : ""}" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
           <div class="tier-player-main">
             <div class="tier-player-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</div>
-            <div class="tier-player-sub">
-              <span class="title-badge">✦ ${escapeHtml(title)}</span>
-              <span>${escapeHtml(String(overallPoints || 0))} points</span>
-              ${modeTier ? `<span class="tier-tone-badge ${tierTone}">${escapeHtml(tierToneArrow)} ${escapeHtml(tierToneLabel)} ${escapeHtml(modeTier)}</span>` : ""}
-            </div>
           </div>
-          <div class="tier-player-region ${escapeHtml(regionKey)}">${escapeHtml(regionLabel)}</div>
+          ${modeTier ? `<span class="tier-tone-badge ${tierTone}">${escapeHtml(tierToneArrow)} ${escapeHtml(tierToneLabel)} ${escapeHtml(modeTier)}</span>` : ""}
         </div>
       `;
     }
