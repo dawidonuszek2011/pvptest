@@ -1294,7 +1294,7 @@
     function imgOrFallback(src, alt, fallbackEmoji, className = "") {
       const safeSrc = escapeHtml(src);
       const safeAlt = escapeHtml(alt || "");
-      const fallback = escapeHtml(fallbackEmoji || "•");
+      const fallback = escapeHtml(fallbackEmoji || "");
       return `
         <img
           src="${safeSrc}"
