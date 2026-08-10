@@ -19,5 +19,12 @@
     "region": "PD",
     "avatar": "https://render.crafty.gg/3d/bust/GresikPL",
     "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
-    }
+    },
+    {
+    "nick": "cuvar2",
+    "banned": false,
+    "region": "LB",
+    "avatar": "https://render.crafty.gg/3d/bust/cuvar2",
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
+   }
   ]
