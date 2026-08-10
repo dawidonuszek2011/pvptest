@@ -15,7 +15,7 @@
   },
    {
     "nick": "xKapa__",
-    "banned": true,
+    "banned": false,
     "region": "PM",
     "avatar": "https://render.crafty.gg/3d/bust/xKapa__",
     "tiers": ["Mace: RLT3", "Sword: RLT2", "Axe: HT2", "Crystal:", "UHC: RLT4", "Pot:", "NethOP: RLT5", "Cart:", "SMP:", "SpearMace:"]
@@ -29,7 +29,7 @@
   },
    {
     "nick": "T1G3REK_",
-    "banned": false,
+    "banned": true,
     "region": "OTHER",
     "avatar": "https://render.crafty.gg/3d/bust/T1G3REK_",
     "tiers": ["Mace:", "Sword:", "Axe:", "Crystal:", "UHC:", "Pot:", "NethOP:", "Cart:", "SMP:", "SpearMace:"]
