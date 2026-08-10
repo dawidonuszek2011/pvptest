@@ -305,10 +305,10 @@
     }
 
     .tier-groups {
-      max-width: 1320px;
+      max-width: 1600px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 14px;
       padding: 0 10px;
       align-items: start;
@@ -323,19 +323,17 @@
     .tier-section-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      justify-content: center;
+      gap: 10px;
       padding: 14px 16px;
       font-size: 18px;
       font-weight: 900;
       letter-spacing: .8px;
       text-transform: uppercase;
+      text-align: center;
     }
     .tier-section-header .count {
-      font-size: 13px;
-      font-weight: 800;
-      opacity: .9;
-      text-transform: none;
+      display: none;
     }
     .tier-section-list {
       display: flex;
@@ -1018,11 +1016,12 @@
       .table-head { display: none; }
       .player-card { grid-template-columns: 1fr; gap: 10px; }
       .region, .points-box { justify-self: start; align-items: flex-start; }
-      .tier-groups { grid-template-columns: 1fr; }
+      .tier-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .main { height: auto; overflow: visible; }
       body { overflow: auto; }
     }
     @media (max-width: 700px) {
+      .tier-groups { grid-template-columns: 1fr; }
       .search-bar { flex-direction: column; }
       .search-bar button, .search-bar input, .discord-btn { width: 100%; }
     }
@@ -1339,8 +1338,9 @@ function updateCategoryIndicator() {
     }
 
     function getTierDisplayLabel(tierText) {
-      const tier = normalizeTierText(tierText);
-      return tier || "";
+      return normalizeTierText(tierText)
+        .replace(/^R?(?:H|L)?T?/i, "")
+        || "";
     }
 
     function getTierIconHtml(tierText) {
@@ -1348,7 +1348,7 @@ function updateCategoryIndicator() {
       const baseTier = tier.replace(/^R/, "");
       const iconSrc = TIER_ICONS[tier] || TIER_ICONS[baseTier];
       const tone = getTierTone(tier);
-      const fallback = tone === "high" ? "H" : tone === "low" ? "L" : "•";
+      const fallback = "";
       return iconSrc
         ? imgOrFallback(iconSrc, tier, fallback, "tier-chip-icon-img")
         : `<span class="tier-chip-icon-text">${escapeHtml(fallback)}</span>`;
@@ -1546,20 +1546,21 @@ function renderTierPlayerCard(player, highlightedNick = "") {
 
       prepared.forEach(p => groups[p.__tierNum].push(p));
 
-      rankingEl.innerHTML = [1, 2, 3, 4, 5].map(num => {
-        const group = groups[num];
-        return `
-          <section class="tier-section tier-section-${num}" id="tier-section-${num}">
-            <div class="tier-section-header">
-              <span>🏆 Tier ${num}</span>
-              <span class="count">${group.length} graczy</span>
-            </div>
-            <div class="tier-section-list">
-              ${group.length ? group.map(p => renderTierPlayerCard(p, highlightedNick)).join("") : '<div class="tier-empty">Brak graczy</div>'}
-            </div>
-          </section>
-        `;
-      }).join("");
+      rankingEl.innerHTML = `
+        <div class="tier-groups">
+          ${[1, 2, 3, 4, 5].map(num => {
+            const group = groups[num];
+            return `
+              <section class="tier-section tier-section-${num}" id="tier-section-${num}">
+                <div class="tier-section-header">🏆 Tier ${num}</div>
+                <div class="tier-section-list">
+                  ${group.length ? group.map(p => renderTierPlayerCard(p, highlightedNick)).join("") : '<div class="tier-empty">Brak graczy</div>'}
+                </div>
+              </section>
+            `;
+          }).join("")}
+        </div>
+      `;
 
       document.getElementById("sectionTitle").textContent = `Ranking: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
       document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
