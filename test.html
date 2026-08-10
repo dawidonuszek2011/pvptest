@@ -1228,6 +1228,52 @@
       };
     }
 
+    function normalizeTierCode(tierText) {
+      return normalizeTierText(tierText).replace(/\s+/g, "");
+    }
+
+    function isTierCode(tierText) {
+      return /^R?[HL]?T?[1-5]$/i.test(normalizeTierCode(tierText));
+    }
+
+    function getTierCodeFromRaw(rawTier) {
+      const parsed = parseTierEntry(rawTier);
+      const parsedTier = normalizeTierCode(parsed.tier);
+      if (parsedTier && isTierCode(parsedTier)) return parsedTier;
+
+      const rawNorm = normalizeTierCode(rawTier);
+      if (isTierCode(rawNorm)) return rawNorm;
+
+      return "";
+    }
+
+    function parsePlayerTiers(tiers) {
+      const result = [];
+      const list = Array.isArray(tiers) ? tiers : [];
+      let pendingCategory = "";
+
+      for (const raw of list) {
+        const parsed = parseTierEntry(raw);
+        const categoryKey = categoryKeyFromLabel(parsed.category);
+
+        if (parsed.category && !parsed.tier) {
+          pendingCategory = categoryKey;
+          continue;
+        }
+
+        const tierCode = getTierCodeFromRaw(raw);
+        if (tierCode) {
+          result.push({
+            category: categoryKey || pendingCategory || "",
+            tier: tierCode
+          });
+          pendingCategory = "";
+        }
+      }
+
+      return result;
+    }
+
     function categoryKeyFromLabel(label) {
       const lower = String(label || "").trim().toLowerCase();
       const found = Object.keys(CATEGORY_LABELS).find(k => CATEGORY_LABELS[k].toLowerCase() === lower);
@@ -1235,32 +1281,31 @@
     }
 
     function getCategoryTier(player, categoryKey) {
-      const wanted = CATEGORY_LABELS[categoryKey] || categoryKey;
-      const tiers = Array.isArray(player?.tiers) ? player.tiers : [];
-      const match = tiers.find(item => String(item || "").toLowerCase().startsWith(String(wanted).toLowerCase() + ":"));
-      const parsed = parseTierEntry(match || "");
-      return parsed.tier ? normalizeTierText(parsed.tier) : "";
+      const wanted = categoryKeyFromLabel(CATEGORY_LABELS[categoryKey] || categoryKey);
+      const parsedTiers = parsePlayerTiers(player?.tiers);
+      const match = parsedTiers.find(item => item.category === wanted);
+      return match ? normalizeTierCode(match.tier) : "";
     }
 
     function getTierScore(tierText) {
-      return TIER_SCORE[normalizeTierText(tierText)] || 0;
+      return TIER_SCORE[normalizeTierCode(tierText)] || 0;
     }
 
     function calculatePointsFromTiers(tiers) {
-      return (Array.isArray(tiers) ? tiers : []).reduce((sum, rawTier) => {
-        const parsed = parseTierEntry(rawTier);
-        const tierValue = parsed.tier ? normalizeTierText(parsed.tier) : "";
-        return sum + getTierScore(tierValue);
+      return parsePlayerTiers(tiers).reduce((sum, item) => {
+        return sum + getTierScore(item.tier);
       }, 0);
     }
 
     function getCategoryData(player, categoryKey) {
+      const parsedTiers = parsePlayerTiers(player?.tiers);
+
       if (categoryKey === "overall") {
         return {
           points: calculatePointsFromTiers(player.tiers),
           tier: "",
           tierScore: 0,
-          tiers: Array.isArray(player.tiers) ? player.tiers : []
+          tierEntries: parsedTiers
         };
       }
       const tier = getCategoryTier(player, categoryKey);
@@ -1268,7 +1313,7 @@
         points: 0,
         tier,
         tierScore: getTierScore(tier),
-        tiers: Array.isArray(player.tiers) ? player.tiers : []
+        tierEntries: parsedTiers
       };
     }
 
@@ -1348,14 +1393,13 @@ function updateCategoryIndicator() {
     }
 
     function getTierNumber(tierText) {
-
-      const tier = normalizeTierText(tierText).replace(/^R/, "");
+      const tier = normalizeTierCode(tierText).replace(/^R/, "");
       const match = tier.match(/([1-5])$/);
       return match ? Number(match[1]) : 0;
     }
 
     function getTierTone(tierText) {
-      const tier = normalizeTierText(tierText);
+      const tier = normalizeTierCode(tierText);
       if (tier.startsWith("RH")) return "high";
       if (tier.startsWith("RL")) return "low";
       if (tier.startsWith("H")) return "high";
@@ -1364,13 +1408,11 @@ function updateCategoryIndicator() {
     }
 
     function getTierDisplayLabel(tierText) {
-      return normalizeTierText(tierText).replace(/^R/i, "") || "";
+      return normalizeTierCode(tierText).replace(/^R/i, "") || "";
     }
 
     function getBestTierTone(tiers) {
-      const parsedTiers = (Array.isArray(tiers) ? tiers : [])
-        .map(entry => parseTierEntry(entry).tier)
-        .filter(Boolean);
+      const parsedTiers = parsePlayerTiers(tiers).map(item => item.tier).filter(Boolean);
 
       if (!parsedTiers.length) return "neutral";
 
@@ -1399,7 +1441,7 @@ function updateCategoryIndicator() {
     }
 
     function getTierIconHtml(tierText) {
-      const tier = normalizeTierText(tierText);
+      const tier = normalizeTierCode(tierText);
       const baseTier = tier.replace(/^R/, "");
       const iconSrc = TIER_ICONS[tier] || TIER_ICONS[baseTier];
       const fallback = "";
@@ -1417,7 +1459,7 @@ function updateCategoryIndicator() {
     };
 
     function getTierSortWeight(tierText) {
-      const tier = normalizeTierText(tierText).replace(/^R/, "");
+      const tier = normalizeTierCode(tierText).replace(/^R/, "");
       const num = getTierNumber(tier);
       const tone = tier.startsWith("H") ? 0 : tier.startsWith("L") ? 1 : 2;
       return { num, tone };
@@ -1428,10 +1470,9 @@ function updateCategoryIndicator() {
       if (!panel) return;
 
       const rawTiers = (Array.isArray(allPlayers) ? allPlayers : [])
-        .flatMap(p => Array.isArray(p?.tiers) ? p.tiers : [])
-        .map(entry => parseTierEntry(entry).tier)
-        .filter(Boolean)
-        .map(tier => normalizeTierText(tier).replace(/^R/i, ""));
+        .flatMap(p => parsePlayerTiers(p?.tiers))
+        .map(entry => entry.tier)
+        .filter(Boolean);
 
       const uniqueTiers = [...new Set(rawTiers)].sort((a, b) => {
         const aw = getTierSortWeight(a);
@@ -1467,16 +1508,21 @@ function updateCategoryIndicator() {
     }
 
     function tierChipHtml(rawTier, banned = false) {
-      const parsed = parseTierEntry(rawTier);
+      const parsed = typeof rawTier === "object" && rawTier
+        ? rawTier
+        : parseTierEntry(rawTier);
+
       const categoryKey = categoryKeyFromLabel(parsed.category);
-      const normalizedTier = normalizeTierText(parsed.tier || rawTier);
-      const tierValue = getTierDisplayLabel(normalizedTier) || normalizedTier || "BRAK";
+      const normalizedTier = normalizeTierCode(parsed.tier || rawTier);
+      if (!normalizedTier || !isTierCode(normalizedTier)) return "";
+
+      const tierValue = getTierDisplayLabel(normalizedTier);
       const icon = CATEGORY_ICON_DATA[categoryKey];
       const iconHtml = icon && icon.src
         ? imgOrFallback(icon.src, icon.alt, icon.emoji, "tier-chip-icon-img")
         : "";
       const tierTone = getTierTone(normalizedTier);
-      const tierIconHtml = normalizedTier ? getTierIconHtml(normalizedTier) : "";
+      const tierIconHtml = getTierIconHtml(normalizedTier);
       const tierClass = `${banned ? "tier-banned" : tierVariant(normalizedTier)} ${tierTone ? `tier-${tierTone}` : ""}`.trim();
 
       return `
@@ -1528,7 +1574,7 @@ function renderTierPlayerCard(player, highlightedNick = "") {
         const displayBadge = getTitle(Number(data.points) || 0);
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
 
-        const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => tierChipHtml(t, isBanned)).join("");
+        const tiersHTML = (Array.isArray(data.tierEntries) ? data.tierEntries : []).map(t => tierChipHtml(t, isBanned)).join("");
 
         rankingEl.innerHTML += `
           <div class="player-card ${isBanned ? "banned" : ""} ${isHighlighted ? "highlighted" : ""} ${rank <= 3 ? "rank-" + rank : ""}" id="player-${encodeURIComponent(p.nick || "")}">
