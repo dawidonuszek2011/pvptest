@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <title>PvP Ranking | Invite Tier Test</title>
+  <title>Fox Tier | Invite Tier Test</title>
   <style>
     * { box-sizing: border-box; }
     :root {
@@ -710,12 +710,43 @@
       gap: 6px;
     }
     .tier-chip-icon {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       display: inline-grid;
       place-items: center;
-      flex: 0 0 14px;
+      flex: 0 0 16px;
       overflow: hidden;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .tier-chip-icon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .tier-chip-icon-text {
+      display: inline-block;
+      transform: translateY(-1px);
+      font-weight: 900;
+    }
+
+    .tier-high {
+      background: rgba(245, 196, 81, .16);
+      border-color: rgba(245, 196, 81, .32);
+      color: #ffe9a6;
+      box-shadow: 0 0 0 1px rgba(245, 196, 81, .06) inset, 0 8px 20px rgba(245, 196, 81, .08) !important;
+    }
+
+    .tier-low {
+      background: rgba(148, 163, 184, .10);
+      border-color: rgba(148, 163, 184, .18);
+      color: #cbd5e1;
+      box-shadow: none !important;
+      opacity: .82;
+      filter: saturate(.88);
     }
     .tier-neutral {
       background: #1b2637;
@@ -757,6 +788,47 @@
       -webkit-text-fill-color: #ff4d4d !important;
       color: #ff4d4d !important;
       text-shadow: 0 0 10px rgba(255, 77, 77, .28) !important;
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: rgba(255,255,255,.75);
+    }
+
+    .player-card.banned,
+    .tier-player-card.banned {
+      opacity: .62;
+      filter: grayscale(1) saturate(.25);
+    }
+
+    .player-card.banned img,
+    .tier-player-card.banned img,
+    .profile-avatar.banned-avatar {
+      filter: grayscale(1) brightness(.78);
+      opacity: .82;
+    }
+
+    .tier-tone-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tier-tone-badge.high {
+      background: rgba(245, 196, 81, .16);
+      border: 1px solid rgba(245, 196, 81, .28);
+      color: #ffe9a6;
+    }
+
+    .tier-tone-badge.low {
+      background: rgba(148, 163, 184, .10);
+      border: 1px solid rgba(148, 163, 184, .16);
+      color: #cbd5e1;
     }
 
     .points-box {
@@ -1212,6 +1284,17 @@
       return tier || "";
     }
 
+    function getTierIconHtml(tierText) {
+      const tier = normalizeTierText(tierText);
+      const baseTier = tier.replace(/^R/, "");
+      const iconSrc = TIER_ICONS[tier] || TIER_ICONS[baseTier];
+      const tone = getTierTone(tier);
+      const fallback = tone === "high" ? "⇈" : tone === "low" ? "↑" : "•";
+      return iconSrc
+        ? imgOrFallback(iconSrc, tier, fallback, "tier-chip-icon-img")
+        : `<span class="tier-chip-icon-text">${escapeHtml(fallback)}</span>`;
+    }
+
     const TIER_INFO_DESCRIPTIONS = {
       1: "",
       2: "",
@@ -1278,13 +1361,15 @@
       const iconHtml = icon && icon.src
         ? imgOrFallback(icon.src, icon.alt, icon.emoji, "tier-chip-icon-img")
         : "";
-
-      const tierClass = banned ? "tier-banned" : tierVariant(parsed.tier);
+      const tierTone = getTierTone(parsed.tier);
+      const tierIconHtml = parsed.tier ? getTierIconHtml(parsed.tier) : "";
+      const tierClass = `${banned ? "tier-banned" : tierVariant(parsed.tier)} ${tierTone ? `tier-${tierTone}` : ""}`.trim();
 
       if (!tierValue) {
         return `
           <span class="tier ${tierClass}">
             ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
+            ${tierIconHtml ? `<span class="tier-chip-icon">${tierIconHtml}</span>` : ""}
           </span>
         `;
       }
@@ -1292,6 +1377,7 @@
       return `
         <span class="tier ${tierClass}">
           ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
+          ${tierIconHtml ? `<span class="tier-chip-icon">${tierIconHtml}</span>` : ""}
           <span>${escapeHtml(tierValue)}</span>
         </span>
       `;
@@ -1299,23 +1385,27 @@
 
     function renderTierPlayerCard(player, highlightedNick = "") {
       const isBanned = !!player.banned;
-      const displayNick = isBanned ? `[BANNED] ${player.nick}` : player.nick;
+      const displayNick = player.nick;
       const overallPoints = calculatePointsFromTiers(player.tiers);
       const title = getTitle(Number(overallPoints) || 0);
       const isHighlighted = String(player.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
       const tierTone = player.__tierTone === "high" ? "high" : "low";
+      const tierToneLabel = tierTone === "high" ? "HT" : "LT";
+      const tierToneArrow = tierTone === "high" ? "⇈" : "↑";
+      const modeTier = player.__tier || "";
       const regionRaw = String(player.region || "OTHER");
       const regionKey = regionRaw.toLowerCase();
       const regionLabel = regionRaw.toUpperCase() === "OTHER" ? "N/Z" : regionRaw.toUpperCase();
 
       return `
-        <div class="tier-player-card ${tierTone} ${isHighlighted ? "highlighted" : ""}" id="player-${encodeURIComponent(player.nick || "")}">
-          <img class="tier-avatar" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
+        <div class="tier-player-card ${tierTone} ${isBanned ? "banned" : ""} ${isHighlighted ? "highlighted" : ""}" id="player-${encodeURIComponent(player.nick || "")}">
+          <img class="tier-avatar ${isBanned ? "banned-avatar" : ""}" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
           <div class="tier-player-main">
             <div class="tier-player-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</div>
             <div class="tier-player-sub">
               <span class="title-badge">✦ ${escapeHtml(title)}</span>
               <span>${escapeHtml(String(overallPoints || 0))} points</span>
+              ${modeTier ? `<span class="tier-tone-badge ${tierTone}">${escapeHtml(tierToneArrow)} ${escapeHtml(tierToneLabel)} ${escapeHtml(modeTier)}</span>` : ""}
             </div>
           </div>
           <div class="tier-player-region ${escapeHtml(regionKey)}">${escapeHtml(regionLabel)}</div>
@@ -1335,7 +1425,7 @@
         const rank = index + 1;
         const data = getCategoryData(p, currentCategory);
         const isBanned = !!p.banned;
-        const displayNick = isBanned ? `[BANNED] ${p.nick}` : p.nick;
+        const displayNick = p.nick;
         const displayValue = String(Number(data.points) || 0);
         const displayBadge = getTitle(Number(data.points) || 0);
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
@@ -1343,7 +1433,7 @@
         const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => tierChipHtml(t, isBanned)).join("");
 
         rankingEl.innerHTML += `
-          <div class="player-card ${isHighlighted ? "highlighted" : ""} ${rank <= 3 ? "rank-" + rank : ""}" id="player-${encodeURIComponent(p.nick || "")}">
+          <div class="player-card ${isBanned ? "banned" : ""} ${isHighlighted ? "highlighted" : ""} ${rank <= 3 ? "rank-" + rank : ""}" id="player-${encodeURIComponent(p.nick || "")}">
             <div class="rank-box ${rank <= 3 ? "rank-" + rank : ""}">
               <div class="rank-num">${rank}.</div>
               <img class="mini-avatar" src="${escapeHtml(p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick || "")}`)}" alt="${escapeHtml(p.nick)}">
@@ -1437,19 +1527,24 @@
       const title = getTitle(Number(overallData.points) || 0);
       const region = String(player.region || "EU");
       const isBanned = !!player.banned;
-      const displayNick = isBanned ? `[BANNED] ${player.nick}` : player.nick;
+      const displayNick = player.nick;
 
       const tierItems = categories
         .filter(cat => cat.key !== "overall")
         .map(cat => {
           const tier = getCategoryTier(player, cat.key);
           const tierLabel = tier ? getTierDisplayLabel(tier) : "";
+          const tierTone = getTierTone(tier);
+          const tierArrow = tierTone === "high" ? "⇈" : tierTone === "low" ? "↑" : "•";
 
           return `
             <div class="tier-item">
               <div class="tier-icon">${categoryIconHtml(cat.key)}</div>
               ${tierLabel ? `
-                <div class="tier ${tierVariant(tier, isBanned)}">${escapeHtml(tierLabel)}</div>
+                <div class="tier ${tierVariant(tier, isBanned)} tier-${tierTone}">
+                  <span class="tier-chip-icon"><span class="tier-chip-icon-text">${escapeHtml(tierArrow)}</span></span>
+                  <span>${escapeHtml(tierLabel)}</span>
+                </div>
                 <div class="tier-name">${escapeHtml(cat.label)}</div>
               ` : ``}
             </div>
@@ -1468,7 +1563,7 @@
 
           <div class="profile-block">
             <div class="profile-avatar-wrap">
-              <img class="profile-avatar" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
+              <img class="profile-avatar ${isBanned ? "banned-avatar" : ""}" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
             </div>
             <div>
               <h3 class="profile-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</h3>
