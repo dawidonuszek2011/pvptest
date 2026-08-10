@@ -26,5 +26,26 @@
     "region": "LB",
     "avatar": "https://render.crafty.gg/3d/bust/cuvar2",
     "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
+   },
+  {
+    "nick": "T1G3REK_",
+    "banned": false,
+    "region": "MZ",
+    "avatar": "https://render.crafty.gg/3d/bust/T1G3REK_",
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
+  },
+   {
+    "nick": "Just_Melom",
+    "banned": false,
+    "region": "PM",
+    "avatar": "https://render.crafty.gg/3d/bust/Just_Melon",
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
+    },
+    {
+    "nick": "miedziu_v2",
+    "banned": false,
+    "region": "SL",
+    "avatar": "https://render.crafty.gg/3d/bust/miedziu_v2",
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
    }
   ]
