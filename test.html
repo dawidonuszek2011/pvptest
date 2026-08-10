@@ -1201,7 +1201,9 @@
     }
 
     function normalizeTierText(text) {
-      return String(text || "").trim().replace(/\s+/g, " ").toUpperCase();
+      // Tier codes from players.json may contain spaces like "R HT1".
+      // Remove all whitespace so matching and display stay consistent.
+      return String(text || "").trim().replace(/\s+/g, "").toUpperCase();
     }
 
     function escapeHtml(text) {
@@ -1362,9 +1364,7 @@ function updateCategoryIndicator() {
     }
 
     function getTierDisplayLabel(tierText) {
-      return normalizeTierText(tierText)
-        .replace(/^R/i, "")
-        || "";
+      return normalizeTierText(tierText).replace(/^R/i, "") || "";
     }
 
     function getBestTierTone(tiers) {
@@ -1402,7 +1402,6 @@ function updateCategoryIndicator() {
       const tier = normalizeTierText(tierText);
       const baseTier = tier.replace(/^R/, "");
       const iconSrc = TIER_ICONS[tier] || TIER_ICONS[baseTier];
-      const tone = getTierTone(tier);
       const fallback = "";
       return iconSrc
         ? imgOrFallback(iconSrc, tier, fallback, "tier-chip-icon-img")
@@ -1470,29 +1469,21 @@ function updateCategoryIndicator() {
     function tierChipHtml(rawTier, banned = false) {
       const parsed = parseTierEntry(rawTier);
       const categoryKey = categoryKeyFromLabel(parsed.category);
-      const tierValue = parsed.tier ? getTierDisplayLabel(parsed.tier) : "";
+      const normalizedTier = normalizeTierText(parsed.tier || rawTier);
+      const tierValue = getTierDisplayLabel(normalizedTier) || normalizedTier || "BRAK";
       const icon = CATEGORY_ICON_DATA[categoryKey];
       const iconHtml = icon && icon.src
         ? imgOrFallback(icon.src, icon.alt, icon.emoji, "tier-chip-icon-img")
         : "";
-      const tierTone = getTierTone(parsed.tier);
-      const tierIconHtml = parsed.tier ? getTierIconHtml(parsed.tier) : "";
-      const tierClass = `${banned ? "tier-banned" : tierVariant(parsed.tier)} ${tierTone ? `tier-${tierTone}` : ""}`.trim();
-
-      if (!tierValue) {
-        return `
-          <span class="tier ${tierClass}">
-            ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
-            ${tierIconHtml ? `<span class="tier-chip-icon">${tierIconHtml}</span>` : ""}
-          </span>
-        `;
-      }
+      const tierTone = getTierTone(normalizedTier);
+      const tierIconHtml = normalizedTier ? getTierIconHtml(normalizedTier) : "";
+      const tierClass = `${banned ? "tier-banned" : tierVariant(normalizedTier)} ${tierTone ? `tier-${tierTone}` : ""}`.trim();
 
       return `
         <span class="tier ${tierClass}">
           ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
           ${tierIconHtml ? `<span class="tier-chip-icon">${tierIconHtml}</span>` : ""}
-          <span>${escapeHtml(tierValue)}</span>
+          ${tierValue ? `<span>${escapeHtml(tierValue)}</span>` : ""}
         </span>
       `;
     }
