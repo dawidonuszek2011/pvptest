@@ -449,6 +449,14 @@
       border-color: rgba(71,85,105,.28);
       color: #94a3b8;
     }
+
+    /* HT5 bez koloru */
+    .tier.tier-ht5 {
+      background: transparent !important;
+      border-color: rgba(100,116,139,.25) !important;
+      color: inherit !important;
+      box-shadow: none !important;
+    }
     .tier-neutral {
       background: #1b2637;
       border-color: rgba(255,255,255,.06);
@@ -1523,7 +1531,8 @@ function updateCategoryIndicator() {
         : "";
       const tierTone = getTierTone(normalizedTier);
       const tierIconHtml = getTierIconHtml(normalizedTier);
-      const tierClass = `${banned ? "tier-banned" : tierVariant(normalizedTier)} ${tierTone ? `tier-${tierTone}` : ""}`.trim();
+      const ht5Class = normalizedTier === "HT5" ? "tier-ht5" : "";
+      const tierClass = `${banned ? "tier-banned" : tierVariant(normalizedTier)} ${tierTone ? `tier-${tierTone}` : ""} ${ht5Class}`.trim();
 
       return `
         <span class="tier ${tierClass}">
