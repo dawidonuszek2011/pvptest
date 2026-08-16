@@ -206,6 +206,83 @@
       text-transform: capitalize;
     }
 
+    .search-status-section {
+      margin-top: 24px;
+    }
+
+    .search-status-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .search-status-item {
+      position: relative;
+      width: 64px;
+      min-height: 78px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      cursor: help;
+    }
+
+    .search-status-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      overflow: hidden;
+    }
+
+    .search-status-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .search-status-tier {
+      min-width: 48px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .search-status-item::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 8px);
+      transform: translateX(-50%) translateY(4px);
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      padding: 7px 10px;
+      border-radius: 8px;
+      background: #020617;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 24px rgba(0,0,0,.35);
+      font-size: 12px;
+      font-weight: 800;
+      z-index: 20;
+      transition: opacity .15s ease, transform .15s ease;
+    }
+
+    .search-status-item:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     .section-block {
       padding-top: 4px;
     }
@@ -450,12 +527,11 @@
       color: #94a3b8;
     }
 
-    /* HT5 bez koloru */
+    /* HT5 = dokładnie taki sam styl jak LT4 */
     .tier.tier-ht5 {
-      background: transparent !important;
+      background: rgba(100,116,139,.18) !important;
       border-color: rgba(100,116,139,.25) !important;
-      color: inherit !important;
-      box-shadow: none !important;
+      color: #cbd5e1 !important;
     }
     .tier-neutral {
       background: #1b2637;
@@ -1677,30 +1753,33 @@ function renderTierPlayerCard(player, highlightedNick = "") {
     function showSearchResult(player) {
       const result = document.getElementById("searchResult");
       const overallData = getCategoryData(player, "overall");
-      const overallRank = getPlayerRank(allPlayers, player.nick, "overall");
       const title = getTitle(Number(overallData.points) || 0);
-      const region = String(player.region || "EU");
       const isBanned = !!player.banned;
       const displayNick = player.nick;
 
-      const tierItems = categories
+      const statusItems = categories
         .filter(cat => cat.key !== "overall")
         .map(cat => {
           const tier = getCategoryTier(player, cat.key);
-          const tierLabel = tier ? getTierDisplayLabel(tier) : "";
-          const tierTone = getTierTone(tier);
+          if (!tier) return "";
+
+          const tierLabel = getTierDisplayLabel(tier);
+          const tierPoints = getTierScore(tier);
+          const icon = CATEGORY_ICON_DATA[cat.key];
+          const iconHtml = icon
+            ? imgOrFallback(icon.src, icon.alt, icon.emoji, "search-status-icon-img")
+            : "";
+          const tierClass = `${tierVariant(tier, isBanned)} ${getTierTone(tier) ? `tier-${getTierTone(tier)}` : ""}`.trim();
+
           return `
-            <div class="tier-item">
-              <div class="tier-icon">${categoryIconHtml(cat.key)}</div>
-              ${tierLabel ? `
-                <div class="tier ${tierVariant(tier, isBanned)} tier-${tierTone}">
-                                    <span>${escapeHtml(tierLabel)}</span>
-                </div>
-                <div class="tier-name">${escapeHtml(cat.label)}</div>
-              ` : ``}
+            <div class="search-status-item" data-tooltip="${escapeHtml(tierLabel)} • ${tierPoints} pkt">
+              <div class="search-status-icon">${iconHtml}</div>
+              <div class="search-status-tier ${tierClass}">${escapeHtml(tierLabel)}</div>
             </div>
           `;
-        }).join("");
+        })
+        .filter(Boolean)
+        .join("");
 
       result.className = "search-result show";
       result.innerHTML = `
@@ -1708,7 +1787,7 @@ function renderTierPlayerCard(player, highlightedNick = "") {
           <div class="search-header">
             <div class="search-header-text">
               <div class="search-label">Searching Player..</div>
-              <div class="search-subtitle">Searching for ${escapeHtml(player.nick)}</div>
+              <div class="search-subtitle">${escapeHtml(player.nick)}</div>
             </div>
           </div>
 
@@ -1718,23 +1797,14 @@ function renderTierPlayerCard(player, highlightedNick = "") {
             </div>
             <div>
               <h3 class="profile-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</h3>
-              <div class="profile-title">${toneBadgeHtml(getDisplayTierTone(player, currentCategory))}${escapeHtml(title)}</div>
-              <div class="profile-region">${escapeHtml(region.toUpperCase() === "OTHER" ? "N/Z" : region.replace(/_/g, " "))}</div>
+              <div class="profile-title">${escapeHtml(title)}</div>
             </div>
           </div>
 
-          <div class="section-block">
-            <div class="section-heading">Position</div>
-            <div class="position-box">
-              <div class="position-rank">${overallRank || "-"}</div>
-              <div class="position-text">🏆 OVERALL <span class="muted">(${Number(overallData.points) || 0} points)</span></div>
-            </div>
-          </div>
-
-          <div class="section-block">
-            <div class="section-heading">Tiers</div>
-            <div class="tier-grid">
-              ${tierItems}
+          <div class="section-block search-status-section">
+            <div class="section-heading">Status rankingowy</div>
+            <div class="search-status-grid">
+              ${statusItems || '<div class="tier-empty">Brak tierów w players.json</div>'}
             </div>
           </div>
         </div>
@@ -1831,7 +1901,10 @@ function renderTierPlayerCard(player, highlightedNick = "") {
       const nick = card.querySelector(".player-name, .tier-player-name")?.textContent?.trim();
       const cleanNick = String(nick || "").replace(/^\[BANNED\]\s*/i, "");
       const found = allPlayers.find(p => String(p.nick || "").toLowerCase() === cleanNick.toLowerCase());
-      if (found) showSearchResult(found);
+      if (!found) return;
+
+      document.getElementById("searchInput").value = found.nick;
+      showSearchResult(found);
     });
 
     loadPlayers();
