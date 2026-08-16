@@ -113,18 +113,69 @@
 
     .search-result {
       display: none;
-      background: linear-gradient(180deg, rgba(10,22,39,.96), rgba(7,18,33,.96));
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(560px, calc(100vw - 28px));
+      max-height: min(86vh, 820px);
+      overflow-y: auto;
+      z-index: 10000;
+      background: linear-gradient(180deg, rgba(10,22,39,.985), rgba(7,18,33,.985));
       border: 1px solid rgba(77,163,255,.22);
-      border-radius: 18px;
-      padding: 18px;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.62), 0 0 0 100vmax rgba(0,0,0,.58);
     }
-    .search-result.show { display: block; animation: fadeIn .25s ease; }
+    .search-result.show {
+      display: block;
+      animation: searchPopupIn .22s ease;
+    }
     .search-result.not-found { border-color: rgba(252,165,165,.22); }
+
+    .search-result::-webkit-scrollbar { width: 7px; }
+    .search-result::-webkit-scrollbar-track { background: transparent; }
+    .search-result::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,.28);
+      border-radius: 999px;
+    }
 
     .player-search-card {
       display: grid;
       grid-template-columns: 1fr;
       gap: 18px;
+    }
+
+    .search-result .search-header {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .search-result .search-header-text {
+      align-items: center;
+    }
+
+    .search-result .profile-block {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      text-align: center;
+      padding-top: 2px;
+    }
+
+    .search-result .profile-avatar-wrap {
+      width: 126px;
+      height: 126px;
+      margin: 0 auto;
+    }
+
+    .search-result .profile-title {
+      margin-top: 10px;
+      padding: 9px 15px;
+      font-size: 16px;
+    }
+
+    .search-result .profile-name {
+      font-size: clamp(32px, 6vw, 48px);
     }
     .search-header {
       display: flex;
@@ -1016,6 +1067,11 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes searchPopupIn {
+      from { opacity: 0; transform: translate(-50%, calc(-50% + 10px)) scale(.985); }
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
 
     .info-modal {
