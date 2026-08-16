@@ -305,10 +305,10 @@
     }
 
     .tier-groups {
-      max-width: 1320px;
+      max-width: 1600px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 14px;
       padding: 0 10px;
       align-items: start;
@@ -323,19 +323,17 @@
     .tier-section-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      justify-content: center;
+      gap: 10px;
       padding: 14px 16px;
       font-size: 18px;
       font-weight: 900;
       letter-spacing: .8px;
       text-transform: uppercase;
+      text-align: center;
     }
     .tier-section-header .count {
-      font-size: 13px;
-      font-weight: 800;
-      opacity: .9;
-      text-transform: none;
+      display: none;
     }
     .tier-section-list {
       display: flex;
@@ -360,23 +358,34 @@
       padding: 12px 14px;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.04);
+      background: linear-gradient(180deg, rgba(10,19,33,.95), rgba(7,14,25,.95));
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
       transition: .18s ease;
+      position: relative;
+      overflow: hidden;
     }
     .tier-player-card:hover {
       transform: translateY(-1px);
-      border-color: rgba(255,255,255,.12);
+      border-color: rgba(77,163,255,.18);
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
     }
     .tier-player-card.highlighted {
       border-color: rgba(77,163,255,.8);
       box-shadow: 0 0 0 3px rgba(77,163,255,.12), inset 0 0 0 1px rgba(255,255,255,.03);
     }
     .tier-player-card.high {
-      background: rgba(255,255,255,.06);
+      background: linear-gradient(180deg, rgba(24,35,58,.98), rgba(11,20,34,.98));
+      border-color: rgba(245,196,81,.24);
+      box-shadow: 0 0 0 1px rgba(245,196,81,.06) inset;
     }
     .tier-player-card.low {
-      background: rgba(0,0,0,.20);
+      background: linear-gradient(180deg, rgba(10,18,31,.98), rgba(6,12,22,.98));
+      border-color: rgba(148,163,184,.12);
+      opacity: .92;
+      box-shadow: none;
+    }
+    .tier-player-card.low:hover {
+      border-color: rgba(148,163,184,.20);
     }
     .tier-avatar {
       width: 48px;
@@ -388,8 +397,9 @@
     }
     .tier-player-main {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
       min-width: 0;
       flex: 1;
     }
@@ -402,30 +412,17 @@
       text-overflow: ellipsis;
     }
     .tier-player-sub {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      color: #cbd5e1;
-      font-size: 13px;
+      display: none;
     }
     .tier-player-region {
-      margin-left: auto;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      white-space: nowrap;
+      display: none;
     }
 
     .tier-section-1 .tier-section-header { background: linear-gradient(135deg, rgba(245,196,81,.22), rgba(184,134,29,.18)); color: #ffe9a6; }
     .tier-section-2 .tier-section-header { background: linear-gradient(135deg, rgba(229,231,235,.18), rgba(142,154,165,.16)); color: #f3f4f6; }
     .tier-section-3 .tier-section-header { background: linear-gradient(135deg, rgba(212,138,76,.18), rgba(143,83,35,.18)); color: #ffd0a3; }
-    .tier-section-4 .tier-section-header { background: linear-gradient(135deg, rgba(100,116,139,.18), rgba(51,65,85,.18)); color: #dbe7f5; }
-    .tier-section-5 .tier-section-header { background: linear-gradient(135deg, rgba(51,65,85,.18), rgba(15,23,42,.24)); color: #cbd5e1; }
+    .tier-section-4 .tier-section-header { background: linear-gradient(135deg, rgba(100,116,139,.08), rgba(51,65,85,.08)); color: #cbd5e1; }
+    .tier-section-5 .tier-section-header { background: linear-gradient(135deg, rgba(51,65,85,.08), rgba(15,23,42,.14)); color: #cbd5e1; }
 
     .tier-gold {
       background: rgba(245,196,81,.18);
@@ -457,8 +454,6 @@
       border-color: rgba(255,255,255,.06);
       color: #cbd5e1;
     }
-
-    
     .category-bar {
       max-width: 1320px;
       margin: 0 auto 18px auto;
@@ -466,9 +461,11 @@
       overflow-x: auto;
       overflow-y: hidden;
     }
+
     .category-bar::-webkit-scrollbar {
       height: 0;
     }
+
     .category-pillbar {
       position: relative;
       display: flex;
@@ -482,6 +479,7 @@
       overflow: hidden;
       isolation: isolate;
     }
+
     .category-indicator {
       position: absolute;
       top: 4px;
@@ -494,6 +492,7 @@
       transition: left .28s cubic-bezier(.22,1,.36,1), width .28s cubic-bezier(.22,1,.36,1);
       z-index: 0;
     }
+
     .category-btn {
       border: none;
       background: transparent;
@@ -513,18 +512,23 @@
       flex: 0 0 auto;
       min-width: 120px;
     }
+
     .category-btn + .category-btn {
       box-shadow: -1px 0 0 rgba(255,255,255,.06);
     }
+
     .category-btn:hover {
       transform: translateY(-1px);
     }
+
     .category-btn.active {
       color: #fff;
     }
+
     .category-btn:not(.active) {
       opacity: .86;
     }
+
     .category-icon {
       width: 18px;
       height: 18px;
@@ -535,6 +539,7 @@
     }
 
     .section-title {
+
       max-width: 1320px;
       margin: 0 auto 10px auto;
       padding: 0 10px;
@@ -652,7 +657,7 @@
     .title-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.06);
       color: #f8d36a;
@@ -660,6 +665,30 @@
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
+    }
+    .tier-tone-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .8px;
+      line-height: 1;
+      border: 1px solid transparent;
+    }
+    .tier-tone-badge.high {
+      background: rgba(245,196,81,.22);
+      border-color: rgba(245,196,81,.35);
+      color: #ffe082;
+      box-shadow: 0 0 0 1px rgba(245,196,81,.08) inset;
+    }
+    .tier-tone-badge.low {
+      background: rgba(148,163,184,.12);
+      border-color: rgba(148,163,184,.22);
+      color: #cbd5e1;
     }
     .region {
       justify-self: center;
@@ -710,12 +739,43 @@
       gap: 6px;
     }
     .tier-chip-icon {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       display: inline-grid;
       place-items: center;
-      flex: 0 0 14px;
+      flex: 0 0 16px;
       overflow: hidden;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .tier-chip-icon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .tier-chip-icon-text {
+      display: inline-block;
+      transform: translateY(-1px);
+      font-weight: 900;
+    }
+
+    .tier-high {
+      background: rgba(245, 196, 81, .16);
+      border-color: rgba(245, 196, 81, .32);
+      color: #ffe9a6;
+      box-shadow: 0 0 0 1px rgba(245, 196, 81, .06) inset, 0 8px 20px rgba(245, 196, 81, .08) !important;
+    }
+
+    .tier-low {
+      background: rgba(148, 163, 184, .10);
+      border-color: rgba(148, 163, 184, .18);
+      color: #cbd5e1;
+      box-shadow: none !important;
+      opacity: .82;
+      filter: saturate(.88);
     }
     .tier-neutral {
       background: #1b2637;
@@ -757,6 +817,97 @@
       -webkit-text-fill-color: #ff4d4d !important;
       color: #ff4d4d !important;
       text-shadow: 0 0 10px rgba(255, 77, 77, .28) !important;
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: rgba(255,255,255,.75);
+    }
+
+    .player-card.banned,
+    .tier-player-card.banned {
+      opacity: .58;
+      filter: grayscale(1) saturate(.1) brightness(.92);
+    }
+
+    .player-card.banned img,
+    .tier-player-card.banned img,
+    .profile-avatar.banned-avatar {
+      filter: grayscale(1) brightness(.78);
+      opacity: .82;
+    }
+
+    .tier-player-card.high {
+      border-color: rgba(245,196,81,.38);
+      background: linear-gradient(180deg, rgba(18,34,62,.98), rgba(10,22,41,.98));
+      box-shadow: 0 0 0 1px rgba(245,196,81,.08) inset, 0 10px 28px rgba(0,0,0,.24);
+    }
+
+    .tier-player-card.low {
+      border-color: rgba(148,163,184,.12);
+      background: linear-gradient(180deg, rgba(10,18,33,.98), rgba(7,14,25,.98));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), 0 10px 28px rgba(0,0,0,.18);
+      opacity: .95;
+    }
+
+    .tier-arrow-badge {
+      margin-left: auto;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 34px;
+      border: 1px solid transparent;
+    }
+
+    .tier-arrow-badge.high {
+      background: linear-gradient(135deg, rgba(245,196,81,.24), rgba(184,134,29,.18));
+      border-color: rgba(245,196,81,.28);
+      color: #fff3bf;
+      box-shadow: 0 0 0 1px rgba(245,196,81,.08) inset, 0 8px 20px rgba(245,196,81,.08);
+    }
+
+    .tier-arrow-badge.low {
+      background: rgba(148,163,184,.08);
+      border-color: rgba(148,163,184,.16);
+      color: #cbd5e1;
+      opacity: .86;
+    }
+
+    .tier-arrow-badge svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+
+    .tier-tone-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex: 0 0 auto;
+      margin-left: auto;
+      line-height: 1;
+    }
+
+    .tier-tone-badge.high {
+      background: linear-gradient(135deg, rgba(245,196,81,.24), rgba(184,134,29,.20));
+      border: 1px solid rgba(245,196,81,.34);
+      color: #fff1b8;
+      box-shadow: 0 0 0 1px rgba(245,196,81,.08) inset, 0 10px 24px rgba(245,196,81,.08);
+    }
+
+    .tier-tone-badge.low {
+      background: rgba(148, 163, 184, .06);
+      border: 1px solid rgba(148, 163, 184, .10);
+      color: #cbd5e1;
+      opacity: .78;
+      box-shadow: none;
     }
 
     .points-box {
@@ -889,11 +1040,12 @@
       .table-head { display: none; }
       .player-card { grid-template-columns: 1fr; gap: 10px; }
       .region, .points-box { justify-self: start; align-items: flex-start; }
-      .tier-groups { grid-template-columns: 1fr; }
+      .tier-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .main { height: auto; overflow: visible; }
       body { overflow: auto; }
     }
     @media (max-width: 700px) {
+      .tier-groups { grid-template-columns: 1fr; }
       .search-bar { flex-direction: column; }
       .search-bar button, .search-bar input, .discord-btn { width: 100%; }
     }
@@ -902,10 +1054,6 @@
 <body>
   <div class="topbar">
     <h1>Fox Tiers</h1>
-
-    <button id="infoBtn" style="padding:10px 14px;border-radius:12px;border:none;font-weight:800;cursor:pointer;background:#4da3ff;color:#fff;">
-      Informacje
-    </button>
 
     <a class="discord-btn" href="https://discord.gg/VGusdEPJuz" target="_blank" rel="noopener noreferrer" aria-label="Discord">
       <svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1053,7 +1201,9 @@
     }
 
     function normalizeTierText(text) {
-      return String(text || "").trim().replace(/\s+/g, " ").toUpperCase();
+      // Tier codes from players.json may contain spaces like "R HT1".
+      // Remove all whitespace so matching and display stay consistent.
+      return String(text || "").trim().replace(/\s+/g, "").toUpperCase();
     }
 
     function escapeHtml(text) {
@@ -1078,6 +1228,52 @@
       };
     }
 
+    function normalizeTierCode(tierText) {
+      return normalizeTierText(tierText).replace(/\s+/g, "");
+    }
+
+    function isTierCode(tierText) {
+      return /^R?[HL]?T?[1-5]$/i.test(normalizeTierCode(tierText));
+    }
+
+    function getTierCodeFromRaw(rawTier) {
+      const parsed = parseTierEntry(rawTier);
+      const parsedTier = normalizeTierCode(parsed.tier);
+      if (parsedTier && isTierCode(parsedTier)) return parsedTier;
+
+      const rawNorm = normalizeTierCode(rawTier);
+      if (isTierCode(rawNorm)) return rawNorm;
+
+      return "";
+    }
+
+    function parsePlayerTiers(tiers) {
+      const result = [];
+      const list = Array.isArray(tiers) ? tiers : [];
+      let pendingCategory = "";
+
+      for (const raw of list) {
+        const parsed = parseTierEntry(raw);
+        const categoryKey = categoryKeyFromLabel(parsed.category);
+
+        if (parsed.category && !parsed.tier) {
+          pendingCategory = categoryKey;
+          continue;
+        }
+
+        const tierCode = getTierCodeFromRaw(raw);
+        if (tierCode) {
+          result.push({
+            category: categoryKey || pendingCategory || "",
+            tier: tierCode
+          });
+          pendingCategory = "";
+        }
+      }
+
+      return result;
+    }
+
     function categoryKeyFromLabel(label) {
       const lower = String(label || "").trim().toLowerCase();
       const found = Object.keys(CATEGORY_LABELS).find(k => CATEGORY_LABELS[k].toLowerCase() === lower);
@@ -1085,32 +1281,31 @@
     }
 
     function getCategoryTier(player, categoryKey) {
-      const wanted = CATEGORY_LABELS[categoryKey] || categoryKey;
-      const tiers = Array.isArray(player?.tiers) ? player.tiers : [];
-      const match = tiers.find(item => String(item || "").toLowerCase().startsWith(String(wanted).toLowerCase() + ":"));
-      const parsed = parseTierEntry(match || "");
-      return parsed.tier ? normalizeTierText(parsed.tier) : "";
+      const wanted = categoryKeyFromLabel(CATEGORY_LABELS[categoryKey] || categoryKey);
+      const parsedTiers = parsePlayerTiers(player?.tiers);
+      const match = parsedTiers.find(item => item.category === wanted);
+      return match ? normalizeTierCode(match.tier) : "";
     }
 
     function getTierScore(tierText) {
-      return TIER_SCORE[normalizeTierText(tierText)] || 0;
+      return TIER_SCORE[normalizeTierCode(tierText)] || 0;
     }
 
     function calculatePointsFromTiers(tiers) {
-      return (Array.isArray(tiers) ? tiers : []).reduce((sum, rawTier) => {
-        const parsed = parseTierEntry(rawTier);
-        const tierValue = parsed.tier ? normalizeTierText(parsed.tier) : "";
-        return sum + getTierScore(tierValue);
+      return parsePlayerTiers(tiers).reduce((sum, item) => {
+        return sum + getTierScore(item.tier);
       }, 0);
     }
 
     function getCategoryData(player, categoryKey) {
+      const parsedTiers = parsePlayerTiers(player?.tiers);
+
       if (categoryKey === "overall") {
         return {
           points: calculatePointsFromTiers(player.tiers),
           tier: "",
           tierScore: 0,
-          tiers: Array.isArray(player.tiers) ? player.tiers : []
+          tierEntries: parsedTiers
         };
       }
       const tier = getCategoryTier(player, categoryKey);
@@ -1118,7 +1313,7 @@
         points: 0,
         tier,
         tierScore: getTierScore(tier),
-        tiers: Array.isArray(player.tiers) ? player.tiers : []
+        tierEntries: parsedTiers
       };
     }
 
@@ -1146,7 +1341,7 @@
     function imgOrFallback(src, alt, fallbackEmoji, className = "") {
       const safeSrc = escapeHtml(src);
       const safeAlt = escapeHtml(alt || "");
-      const fallback = escapeHtml(fallbackEmoji || "★");
+      const fallback = escapeHtml(fallbackEmoji || "");
       return `
         <img
           src="${safeSrc}"
@@ -1163,7 +1358,8 @@
     }
 
     
-    function updateCategoryIndicator() {
+    
+function updateCategoryIndicator() {
       const indicator = document.getElementById("categoryIndicator");
       const activeBtn = document.querySelector(".category-btn.active");
       if (!indicator || !activeBtn) return;
@@ -1197,13 +1393,13 @@
     }
 
     function getTierNumber(tierText) {
-      const tier = normalizeTierText(tierText).replace(/^R/, "");
+      const tier = normalizeTierCode(tierText).replace(/^R/, "");
       const match = tier.match(/([1-5])$/);
       return match ? Number(match[1]) : 0;
     }
 
     function getTierTone(tierText) {
-      const tier = normalizeTierText(tierText);
+      const tier = normalizeTierCode(tierText);
       if (tier.startsWith("RH")) return "high";
       if (tier.startsWith("RL")) return "low";
       if (tier.startsWith("H")) return "high";
@@ -1212,8 +1408,46 @@
     }
 
     function getTierDisplayLabel(tierText) {
-      const tier = normalizeTierText(tierText);
-      return tier || "";
+      return normalizeTierCode(tierText).replace(/^R/i, "") || "";
+    }
+
+    function getBestTierTone(tiers) {
+      const parsedTiers = parsePlayerTiers(tiers).map(item => item.tier).filter(Boolean);
+
+      if (!parsedTiers.length) return "neutral";
+
+      let bestTier = "";
+      let bestScore = -1;
+      for (const tier of parsedTiers) {
+        const score = getTierScore(tier);
+        if (score > bestScore) {
+          bestScore = score;
+          bestTier = tier;
+        }
+      }
+      return getTierTone(bestTier);
+    }
+
+    function getDisplayTierTone(player, categoryKey = currentCategory) {
+      if (!player) return "neutral";
+      if (categoryKey && categoryKey !== "overall") {
+        return getTierTone(getCategoryTier(player, categoryKey));
+      }
+      return getBestTierTone(player.tiers);
+    }
+
+    function toneBadgeHtml(tone) {
+      return "";
+    }
+
+    function getTierIconHtml(tierText) {
+      const tier = normalizeTierCode(tierText);
+      const baseTier = tier.replace(/^R/, "");
+      const iconSrc = TIER_ICONS[tier] || TIER_ICONS[baseTier];
+      const fallback = "";
+      return iconSrc
+        ? imgOrFallback(iconSrc, tier, fallback, "tier-chip-icon-img")
+        : `<span class="tier-chip-icon-text">${escapeHtml(fallback)}</span>`;
     }
 
     const TIER_INFO_DESCRIPTIONS = {
@@ -1225,7 +1459,7 @@
     };
 
     function getTierSortWeight(tierText) {
-      const tier = normalizeTierText(tierText).replace(/^R/, "");
+      const tier = normalizeTierCode(tierText).replace(/^R/, "");
       const num = getTierNumber(tier);
       const tone = tier.startsWith("H") ? 0 : tier.startsWith("L") ? 1 : 2;
       return { num, tone };
@@ -1236,10 +1470,9 @@
       if (!panel) return;
 
       const rawTiers = (Array.isArray(allPlayers) ? allPlayers : [])
-        .flatMap(p => Array.isArray(p?.tiers) ? p.tiers : [])
-        .map(entry => parseTierEntry(entry).tier)
-        .filter(Boolean)
-        .map(normalizeTierText);
+        .flatMap(p => parsePlayerTiers(p?.tiers))
+        .map(entry => entry.tier)
+        .filter(Boolean);
 
       const uniqueTiers = [...new Set(rawTiers)].sort((a, b) => {
         const aw = getTierSortWeight(a);
@@ -1275,57 +1508,54 @@
     }
 
     function tierChipHtml(rawTier, banned = false) {
-      const parsed = parseTierEntry(rawTier);
+      const parsed = typeof rawTier === "object" && rawTier
+        ? rawTier
+        : parseTierEntry(rawTier);
+
       const categoryKey = categoryKeyFromLabel(parsed.category);
-      const tierValue = parsed.tier ? getTierDisplayLabel(parsed.tier) : "";
+      const normalizedTier = normalizeTierCode(parsed.tier || rawTier);
+      if (!normalizedTier || !isTierCode(normalizedTier)) return "";
+
+      const tierValue = getTierDisplayLabel(normalizedTier);
       const icon = CATEGORY_ICON_DATA[categoryKey];
       const iconHtml = icon && icon.src
         ? imgOrFallback(icon.src, icon.alt, icon.emoji, "tier-chip-icon-img")
         : "";
-
-      const tierClass = banned ? "tier-banned" : tierVariant(parsed.tier);
-
-      if (!tierValue) {
-        return `
-          <span class="tier ${tierClass}">
-            ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
-          </span>
-        `;
-      }
+      const tierTone = getTierTone(normalizedTier);
+      const tierIconHtml = getTierIconHtml(normalizedTier);
+      const tierClass = `${banned ? "tier-banned" : tierVariant(normalizedTier)} ${tierTone ? `tier-${tierTone}` : ""}`.trim();
 
       return `
         <span class="tier ${tierClass}">
           ${iconHtml ? `<span class="tier-chip-icon">${iconHtml}</span>` : ""}
-          <span>${escapeHtml(tierValue)}</span>
+          ${tierIconHtml ? `<span class="tier-chip-icon">${tierIconHtml}</span>` : ""}
+          ${tierValue ? `<span>${escapeHtml(tierValue)}</span>` : ""}
         </span>
       `;
     }
 
-    function renderTierPlayerCard(player, highlightedNick = "") {
+    
+function renderTierPlayerCard(player, highlightedNick = "") {
       const isBanned = !!player.banned;
-      const displayNick = isBanned ? `[BANNED] ${player.nick}` : player.nick;
-      const overallPoints = calculatePointsFromTiers(player.tiers);
-      const title = getTitle(Number(overallPoints) || 0);
+      const displayNick = player.nick;
       const isHighlighted = String(player.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
-      const tierTone = player.__tierTone === "high" ? "high" : "low";
-      const regionRaw = String(player.region || "OTHER");
-      const regionKey = regionRaw.toLowerCase();
-      const regionLabel = regionRaw.toUpperCase() === "OTHER" ? "N/Z" : regionRaw.toUpperCase();
+      const tierTone = player.__tierTone === "high" ? "high" : player.__tierTone === "low" ? "low" : "neutral";
+      const modeTier = player.__tier || "";
+      const arrowHtml = tierTone === "high"
+        ? `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 14l5-5 5 5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 19l5-5 5 5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+        : `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 14l5-5 5 5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
       return `
-        <div class="tier-player-card ${tierTone} ${isHighlighted ? "highlighted" : ""}" id="player-${encodeURIComponent(player.nick || "")}">
-          <img class="tier-avatar" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
+        <div class="tier-player-card ${tierTone} ${isBanned ? "banned" : ""} ${isHighlighted ? "highlighted" : ""}" id="player-${encodeURIComponent(player.nick || "")}">
+          <img class="tier-avatar ${isBanned ? "banned-avatar" : ""}" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
           <div class="tier-player-main">
             <div class="tier-player-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</div>
-            <div class="tier-player-sub">
-              <span class="title-badge">✦ ${escapeHtml(title)}</span>
-              <span>${escapeHtml(String(overallPoints || 0))} points</span>
-            </div>
           </div>
-          <div class="tier-player-region ${escapeHtml(regionKey)}">${escapeHtml(regionLabel)}</div>
+          ${modeTier ? `<span class="tier-arrow-badge ${tierTone}">${arrowHtml}</span>` : ""}
         </div>
       `;
     }
+
 
     function renderOverallRanking(players, highlightedNick = "") {
       const rankingEl = document.getElementById("ranking");
@@ -1339,15 +1569,15 @@
         const rank = index + 1;
         const data = getCategoryData(p, currentCategory);
         const isBanned = !!p.banned;
-        const displayNick = isBanned ? `[BANNED] ${p.nick}` : p.nick;
+        const displayNick = p.nick;
         const displayValue = String(Number(data.points) || 0);
         const displayBadge = getTitle(Number(data.points) || 0);
         const isHighlighted = String(p.nick || "").toLowerCase() === String(highlightedNick || "").toLowerCase();
 
-        const tiersHTML = (Array.isArray(data.tiers) ? data.tiers : []).map(t => tierChipHtml(t, isBanned)).join("");
+        const tiersHTML = (Array.isArray(data.tierEntries) ? data.tierEntries : []).map(t => tierChipHtml(t, isBanned)).join("");
 
         rankingEl.innerHTML += `
-          <div class="player-card ${isHighlighted ? "highlighted" : ""} ${rank <= 3 ? "rank-" + rank : ""}" id="player-${encodeURIComponent(p.nick || "")}">
+          <div class="player-card ${isBanned ? "banned" : ""} ${isHighlighted ? "highlighted" : ""} ${rank <= 3 ? "rank-" + rank : ""}" id="player-${encodeURIComponent(p.nick || "")}">
             <div class="rank-box ${rank <= 3 ? "rank-" + rank : ""}">
               <div class="rank-num">${rank}.</div>
               <img class="mini-avatar" src="${escapeHtml(p.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(p.nick || "")}`)}" alt="${escapeHtml(p.nick)}">
@@ -1356,7 +1586,7 @@
             <div class="player-main">
               <div class="player-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</div>
               <div class="player-sub">
-                <span class="title-badge">✦ ${escapeHtml(displayBadge)}</span>
+                <span class="title-badge">${toneBadgeHtml(getDisplayTierTone(p, currentCategory))}${escapeHtml(displayBadge)}</span>
                 <span>(${escapeHtml(displayValue)} points)</span>
               </div>
             </div>
@@ -1408,20 +1638,21 @@
 
       prepared.forEach(p => groups[p.__tierNum].push(p));
 
-      rankingEl.innerHTML = [1, 2, 3, 4, 5].map(num => {
-        const group = groups[num];
-        return `
-          <section class="tier-section tier-section-${num}" id="tier-section-${num}">
-            <div class="tier-section-header">
-              <span>TIER ${num}</span>
-              <span class="count">${group.length} graczy</span>
-            </div>
-            <div class="tier-section-list">
-              ${group.length ? group.map(p => renderTierPlayerCard(p, highlightedNick)).join("") : '<div class="tier-empty">Brak graczy</div>'}
-            </div>
-          </section>
-        `;
-      }).join("");
+      rankingEl.innerHTML = `
+        <div class="tier-groups">
+          ${[1, 2, 3, 4, 5].map(num => {
+            const group = groups[num];
+            return `
+              <section class="tier-section tier-section-${num}" id="tier-section-${num}">
+                <div class="tier-section-header">🏆 Tier ${num}</div>
+                <div class="tier-section-list">
+                  ${group.length ? group.map(p => renderTierPlayerCard(p, highlightedNick)).join("") : '<div class="tier-empty">Brak graczy</div>'}
+                </div>
+              </section>
+            `;
+          }).join("")}
+        </div>
+      `;
 
       document.getElementById("sectionTitle").textContent = `Ranking: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
       document.getElementById("status").textContent = `Załadowano ${players.length} graczy · Widok: ${CATEGORY_LABELS[currentCategory] || currentCategory}`;
@@ -1441,19 +1672,21 @@
       const title = getTitle(Number(overallData.points) || 0);
       const region = String(player.region || "EU");
       const isBanned = !!player.banned;
-      const displayNick = isBanned ? `[BANNED] ${player.nick}` : player.nick;
+      const displayNick = player.nick;
 
       const tierItems = categories
         .filter(cat => cat.key !== "overall")
         .map(cat => {
           const tier = getCategoryTier(player, cat.key);
           const tierLabel = tier ? getTierDisplayLabel(tier) : "";
-
+          const tierTone = getTierTone(tier);
           return `
             <div class="tier-item">
               <div class="tier-icon">${categoryIconHtml(cat.key)}</div>
               ${tierLabel ? `
-                <div class="tier ${tierVariant(tier, isBanned)}">${escapeHtml(tierLabel)}</div>
+                <div class="tier ${tierVariant(tier, isBanned)} tier-${tierTone}">
+                                    <span>${escapeHtml(tierLabel)}</span>
+                </div>
                 <div class="tier-name">${escapeHtml(cat.label)}</div>
               ` : ``}
             </div>
@@ -1472,11 +1705,11 @@
 
           <div class="profile-block">
             <div class="profile-avatar-wrap">
-              <img class="profile-avatar" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
+              <img class="profile-avatar ${isBanned ? "banned-avatar" : ""}" src="${escapeHtml(player.avatar || `https://mc-heads.net/avatar/${encodeURIComponent(player.nick || "")}`)}" alt="${escapeHtml(player.nick)}">
             </div>
             <div>
               <h3 class="profile-name ${isBanned ? "banned-name" : ""}">${escapeHtml(displayNick)}</h3>
-              <div class="profile-title">✦ ${escapeHtml(title)}</div>
+              <div class="profile-title">${toneBadgeHtml(getDisplayTierTone(player, currentCategory))}${escapeHtml(title)}</div>
               <div class="profile-region">${escapeHtml(region.toUpperCase() === "OTHER" ? "N/Z" : region.replace(/_/g, " "))}</div>
             </div>
           </div>
@@ -1601,12 +1834,14 @@
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabPanels = document.querySelectorAll(".tab-panel");
 
-    infoBtn.addEventListener("click", () => {
-      buildTierInfo();
-      infoModal.classList.add("show");
-    });
-    closeInfo.addEventListener("click", () => { infoModal.classList.remove("show"); });
-    infoModal.addEventListener("click", (e) => { if (e.target === infoModal) infoModal.classList.remove("show"); });
+    if (infoBtn && infoModal) {
+      infoBtn.addEventListener("click", () => {
+        buildTierInfo();
+        infoModal.classList.add("show");
+      });
+    }
+    if (closeInfo && infoModal) closeInfo.addEventListener("click", () => { infoModal.classList.remove("show"); });
+    if (infoModal) infoModal.addEventListener("click", (e) => { if (e.target === infoModal) infoModal.classList.remove("show"); });
 
     tabButtons.forEach(btn => {
       btn.addEventListener("click", () => {
