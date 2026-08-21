@@ -54,5 +54,12 @@
     "region": "LB",
     "avatar": "https://render.crafty.gg/3d/bust/tymekzadymek22",
     "tiers": ["Mace: ", "Sword: HT5", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
+   },
+    {
+    "nick": "Miauek_",
+    "banned": false,
+    "region": "BL",
+    "avatar": "https://render.crafty.gg/3d/bust/Miauek_",
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
    }
   ]
