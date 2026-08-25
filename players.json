@@ -64,7 +64,7 @@
    },
     { 
      "nick": "JaneqGG",
-    "banned": false",
+    "banned": "false",
     "region": "WP",
     "avatar": "https://render.crafty.gg/3d/bust/JaneqGG"
     "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal: ", "UHC: ", "Pot: ", NethOP: ", "Cart: ", "SMP: ", "SpearMace: "]
