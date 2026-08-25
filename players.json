@@ -62,11 +62,11 @@
     "avatar": "https://render.crafty.gg/3d/bust/Miauek_",
     "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
    },
-    { 
+    {
     "nick": "JaneqGG",
-    "banned": "false",
-    "region": "WP",
-    "avatar": "https://render.crafty.gg/3d/bust/JaneqGG"
-    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal: ", "UHC: ", "Pot: ", NethOP: ", "Cart: ", "SMP: ", "SpearMace: "]
-    }
+    "banned": false,
+    "region": "LD",
+    "avatar": "https://render.crafty.gg/3d/bust/JaneqGG",
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
+   }
   ]
