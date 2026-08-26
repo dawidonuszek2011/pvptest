@@ -68,5 +68,12 @@
     "region": "WP",
     "avatar": "https://render.crafty.gg/3d/bust/JaneqGG",
     "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
+   },
+  {
+    "nick": "_PolskiRusek_",
+    "banned": false,
+    "region": "LS",
+    "avatar": "https://render.crafty.gg/3d/bust/_PolskiRusek_",
+    "tiers": ["Mace: ", "Sword: ", "Axe: ", "Crystal:", "UHC: ", "Pot:", "NethOP: ", "Cart:", "SMP: ", "SpearMace:"]
    }
   ]
